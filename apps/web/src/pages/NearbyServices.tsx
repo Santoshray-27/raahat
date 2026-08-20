@@ -53,9 +53,23 @@ export const NearbyServices: React.FC = () => {
         </span>
       );
     }
+    if (s === 'GEOAPIFY') {
+      return (
+        <span style={{ backgroundColor: 'rgba(16, 185, 129, 0.2)', color: '#34d399', border: '1px solid rgba(16, 185, 129, 0.4)', padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 700 }}>
+          🟢 LIVE · GEOAPIFY {timestamp ? `· ${timestamp.substring(11, 19)}Z` : ''}
+        </span>
+      );
+    }
+    if (s === 'OSM_OVERPASS' || s === 'OSRM') {
+      return (
+        <span style={{ backgroundColor: 'rgba(245, 158, 11, 0.2)', color: '#fcd34d', border: '1px solid rgba(245, 158, 11, 0.4)', padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 700 }}>
+          🟡 Fallback · OSM_OVERPASS {timestamp ? `· ${timestamp.substring(11, 19)}Z` : ''}
+        </span>
+      );
+    }
     return (
       <span style={{ backgroundColor: 'rgba(245, 158, 11, 0.2)', color: '#fcd34d', border: '1px solid rgba(245, 158, 11, 0.4)', padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 700 }}>
-        🟡 Fallback · OSM_OVERPASS {timestamp ? `· ${timestamp.substring(11, 19)}Z` : ''}
+        🟡 Data · {s} {timestamp ? `· ${timestamp.substring(11, 19)}Z` : ''}
       </span>
     );
   };

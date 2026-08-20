@@ -1,9 +1,38 @@
+import httpx
+import time
 from fastapi import APIRouter
 from app.core.config import settings
 from app.core.response import success_response
 from app.core.telemetry import get_logs
 
 router = APIRouter()
+
+_geoapify_cache = {"status": "NOT_CONFIGURED", "timestamp": 0}
+
+async def _check_geoapify_status():
+    if not settings.GEOAPIFY_API_KEY:
+        return "NOT_CONFIGURED"
+        
+    now = time.time()
+    if now - _geoapify_cache["timestamp"] < 60:
+        return _geoapify_cache["status"]
+        
+    try:
+        url = "https://api.geoapify.com/v2/places"
+        params = {"categories": "healthcare.hospital", "filter": "circle:0,0,100", "limit": 1, "apiKey": settings.GEOAPIFY_API_KEY}
+        async with httpx.AsyncClient(timeout=5.0) as client:
+            res = await client.get(url, params=params)
+            if res.status_code == 200:
+                _geoapify_cache["status"] = "OPERATIONAL"
+            elif res.status_code in [401, 403, 429]:
+                _geoapify_cache["status"] = f"ERROR_{res.status_code}"
+            else:
+                _geoapify_cache["status"] = "ERROR"
+    except Exception:
+        _geoapify_cache["status"] = "ERROR"
+        
+    _geoapify_cache["timestamp"] = now
+    return _geoapify_cache["status"]
 
 @router.get("/health")
 async def get_health():
@@ -29,6 +58,10 @@ async def get_providers_status():
             "google_routes": {
                 "configured": bool(settings.GOOGLE_ROUTES_API_KEY),
                 "status": "OPERATIONAL" if settings.GOOGLE_ROUTES_API_KEY else "DISABLED"
+            },
+            "geoapify": {
+                "configured": bool(settings.GEOAPIFY_API_KEY),
+                "status": await _check_geoapify_status()
             },
             "fallback_providers": ["OSM_OVERPASS", "OSRM"],
             "gemini_ai": {

@@ -8,6 +8,7 @@ from app.providers.google_places import GooglePlacesProvider
 from app.providers.google_routes import GoogleRoutesProvider
 from app.providers.osm_overpass import OSMOverpassProvider
 from app.providers.osrm import OSRMRoutingProvider
+from app.providers.geoapify import GeoapifyPlacesProvider, GeoapifyRoutingProvider, GeoapifyProviderError
 from app.providers.mock_provider import MockPlacesProvider, MockRoutingProvider
 from app.schemas.common import GeoPoint, ServiceProvider
 from app.schemas.enums import ServiceType
@@ -20,6 +21,8 @@ class ProviderManager:
     def __init__(self):
         self.google_places = GooglePlacesProvider()
         self.google_routes = GoogleRoutesProvider()
+        self.geoapify_places = GeoapifyPlacesProvider()
+        self.geoapify_routing = GeoapifyRoutingProvider()
         self.osm_overpass = OSMOverpassProvider()
         self.osrm_routing = OSRMRoutingProvider()
         self.mock_places = MockPlacesProvider()
@@ -55,9 +58,24 @@ class ProviderManager:
                         p.retrieved_at = datetime.now(timezone.utc).isoformat()
                     return res[:limit], "GOOGLE_PLACES"
             except Exception as e:
-                logger.warning(f"Google Places API call failed: {e}. Falling back to OpenStreetMap Overpass...")
+                logger.warning(f"Google Places API call failed: {e}. Falling back to Geoapify...")
 
-        # 3. Live Chain 2: Fallback to OpenStreetMap Overpass API
+        # 3. Live Chain 2: Fallback to Geoapify API
+        if settings.GEOAPIFY_API_KEY:
+            try:
+                logger.info("ProviderManager: Querying LIVE Geoapify Places API...")
+                res = await self.geoapify_places.search_nearby(location, service_types, radius_km, limit)
+                if res:
+                    for p in res:
+                        p.source = "GEOAPIFY"
+                        p.retrieved_at = datetime.now(timezone.utc).isoformat()
+                    return res[:limit], "GEOAPIFY"
+            except GeoapifyProviderError as e:
+                logger.warning(f"Geoapify API failed/unauthorized: {e}. Falling back to OpenStreetMap Overpass...")
+            except Exception as e:
+                logger.warning(f"Geoapify Places API call failed: {e}. Falling back to OpenStreetMap Overpass...")
+
+        # 4. Live Chain 3: Fallback to OpenStreetMap Overpass API
         try:
             logger.info("ProviderManager: Querying LIVE OSM Overpass API...")
             res = await self.osm_overpass.search_nearby(location, service_types, radius_km, limit)
@@ -95,9 +113,21 @@ class ProviderManager:
                 res.provider_source = "GOOGLE_ROUTES"
                 return res
             except Exception as e:
-                logger.warning(f"Google Routes API failed: {e}. Falling back to OSRM...")
+                logger.warning(f"Google Routes API failed: {e}. Falling back to Geoapify...")
 
-        # 3. Fallback to OSRM
+        # 3. Fallback to Geoapify Routing
+        if settings.GEOAPIFY_API_KEY:
+            try:
+                logger.info("ProviderManager: Querying LIVE Geoapify Routing API...")
+                res = await self.geoapify_routing.plan_route(origin, destination, avoid_highways, avoid_tolls)
+                res.provider_source = "GEOAPIFY"
+                return res
+            except GeoapifyProviderError as e:
+                logger.warning(f"Geoapify Routing API failed/unauthorized: {e}. Falling back to OSRM...")
+            except Exception as e:
+                logger.warning(f"Geoapify Routing failed: {e}. Falling back to OSRM...")
+
+        # 4. Fallback to OSRM
         try:
             logger.info("ProviderManager: Querying LIVE OSRM Routing API...")
             res = await self.osrm_routing.plan_route(origin, destination, avoid_highways, avoid_tolls)
