@@ -23,6 +23,13 @@ async def test_emergency_puncture():
         assert len(data["guidance"]["steps"]) > 0
         assert len(data["services"]) > 0
         assert data["services"][0]["availability_status"] == "UNKNOWN"
+        assert data["services"][0]["source"] in ["GOOGLE_PLACES", "OSM_OVERPASS"]
+        assert data["services"][0]["source"] != "MOCK"
+        
+        # Extra Check: Ensure relevant categories for Puncture (Not Hospital first)
+        first_service_types = data["services"][0]["service_types"]
+        assert "HOSPITAL" not in first_service_types, "Hospital should not be the top service for a puncture"
+        assert any(t in first_service_types for t in ["PUNCTURE_REPAIR", "MECHANIC", "TOWING"])
 
 @pytest.mark.asyncio
 async def test_emergency_accident_critical():

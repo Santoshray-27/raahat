@@ -12,10 +12,7 @@ export const OfflinePack: React.FC = () => {
     try {
       const data = await requestApi<any>('/offline-packs', 'POST', {
         region_name: region,
-        bounding_box: [
-          { latitude: 22.70, longitude: 75.80 },
-          { latitude: 22.80, longitude: 75.90 }
-        ],
+        route_id: "demo_route_123",
         include_categories: ['AMBULANCE', 'POLICE', 'MECHANIC', 'PUNCTURE_REPAIR', 'HOSPITAL']
       });
       setPack(data);

@@ -1,4 +1,5 @@
 import httpx, uuid
+from datetime import datetime, timezone
 from typing import List
 from app.core.logging import logger
 from app.providers.base import BasePlacesProvider
@@ -59,7 +60,10 @@ class OSMOverpassProvider(BasePlacesProvider):
                             availability_status="UNKNOWN",  # NON-NEGOTIABLE RULE
                             verification_status="UNVERIFIED",
                             recommendation_score=0.85,
-                            recommendation_reason="OpenStreetMap Community Provider"
+                            recommendation_reason="OpenStreetMap Community Provider",
+                            source="OSM_OVERPASS",
+                            is_cached=False,
+                            retrieved_at=datetime.now(timezone.utc).isoformat()
                         )
                     )
                 return providers

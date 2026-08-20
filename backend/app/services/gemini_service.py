@@ -13,7 +13,11 @@ def init_gemini():
     if settings.GEMINI_API_KEY:
         try:
             genai.configure(api_key=settings.GEMINI_API_KEY)
-            _gemini_model = genai.GenerativeModel("gemini-1.5-flash")
+            # Try gemini-1.5-flash, fallback to gemini-pro
+            try:
+                _gemini_model = genai.GenerativeModel("gemini-1.5-flash")
+            except Exception:
+                _gemini_model = genai.GenerativeModel("gemini-pro")
             logger.info("Server-side Gemini AI model initialized successfully.")
         except Exception as e:
             logger.warning(f"Failed to initialize Gemini AI model: {e}")
@@ -47,7 +51,7 @@ class GeminiEnhancer:
                 gem_sev = SeverityLevel(data.get("severity", det_severity.value))
                 gem_conf = float(data.get("confidence", 0.90))
                 req_services = fallback_classifier._map_category_to_services(gem_cat, gem_sev)
-                return gem_cat, gem_sev, gem_conf, req_services, "gemini_1.5_flash"
+                return gem_cat, gem_sev, gem_conf, req_services, _gemini_model.model_name
         except Exception as e:
             logger.warning(f"Gemini API analysis failed: {e}. Falling back to deterministic classifier.")
 

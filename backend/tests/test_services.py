@@ -29,3 +29,12 @@ async def test_services_search_post():
         res = response.json()
         assert res["success"] is True
         assert res["data"]["total_found"] > 0
+
+@pytest.mark.asyncio
+async def test_services_nearby_limit():
+    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://test") as client:
+        response = await client.get("/api/v1/services/nearby?lat=22.7196&lng=75.8577&limit=3")
+        assert response.status_code == 200
+        res = response.json()
+        assert res["success"] is True
+        assert len(res["data"]["services"]) <= 3

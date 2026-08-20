@@ -18,12 +18,15 @@ export interface ServiceProvider {
   availability_status: string;
   recommendation_score: number;
   recommendation_reason: string;
+  source: string;
+  is_cached: boolean;
+  retrieved_at?: string;
 }
 
 export interface GuidanceStep {
   step_number: number;
-  title: str;
-  instruction: str;
+  title: string;
+  instruction: string;
   caution?: string;
   is_critical: boolean;
 }
@@ -47,7 +50,28 @@ export interface EmergencyResponse {
     label: string;
     target_contact?: string;
   }[];
+  ai: {
+    classifier_used: string;
+    confidence_score: number;
+  };
   limitations?: string[];
+}
+
+export interface ProviderStatus {
+  active_mode: string;
+  google_places: { configured: boolean; status: string };
+  google_routes: { configured: boolean; status: string };
+  fallback_providers: string[];
+  gemini_ai: { configured: boolean; model: string };
+}
+
+export interface DiagnosticEntry {
+  timestamp: string;
+  category: string;
+  provider_source: string;
+  latency_ms: number;
+  results_count: number;
+  mode: string;
 }
 
 export async function requestApi<T>(endpoint: string, method: string = 'GET', body?: any): Promise<T> {
@@ -68,7 +92,7 @@ export async function requestApi<T>(endpoint: string, method: string = 'GET', bo
 
   const json = await response.json();
   if (!response.ok || !json.success) {
-    throw new Error(json.error?.message || 'API request failed');
+    throw new Error(json.error?.message || json.detail || 'API request failed');
   }
 
   return json.data as T;

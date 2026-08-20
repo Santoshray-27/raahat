@@ -1,6 +1,6 @@
 import uuid
 from typing import List
-from app.services.classifier import classifier
+from app.services.gemini_service import gemini_enhancer
 from app.services.guidance import guidance_engine
 from app.services.ranking import service_ranker
 from app.providers.manager import provider_manager
@@ -11,8 +11,8 @@ from app.schemas.emergency import (
 
 class EmergencyOrchestrator:
     async def process_emergency(self, req: EmergencyRequest) -> EmergencyResponseData:
-        # 1. Classify Query
-        category, severity, confidence, req_services = classifier.classify(req.user_query)
+        # 1. Classify Query (Primary Gemini 1.5 Flash server-side with rule fallback)
+        category, severity, confidence, req_services, classifier_model = await gemini_enhancer.analyze_emergency(req.user_query)
         
         # 2. Get Structured Guidance
         guidance = guidance_engine.get_guidance(category, severity)
@@ -79,7 +79,7 @@ class EmergencyOrchestrator:
         )
         
         ai_meta = AIAnalysisMeta(
-            classifier_used="deterministic_keyword",
+            classifier_used=classifier_model,
             confidence_score=confidence,
             model_version="v1.0"
         )

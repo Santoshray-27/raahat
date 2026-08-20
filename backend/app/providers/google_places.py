@@ -1,4 +1,5 @@
 import httpx, uuid
+from datetime import datetime, timezone
 from typing import List
 from app.core.config import settings
 from app.core.logging import logger
@@ -24,8 +25,19 @@ class GooglePlacesProvider(BasePlacesProvider):
             "X-Goog-FieldMask": "places.id,places.displayName,places.formattedAddress,places.location,places.nationalPhoneNumber,places.rating,places.userRatingCount"
         }
         
+        mapped_types = []
+        for st in service_types:
+            if st in (ServiceType.HOSPITAL, ServiceType.AMBULANCE):
+                mapped_types.append("hospital")
+            elif st == ServiceType.POLICE:
+                mapped_types.append("police")
+            elif st in (ServiceType.MECHANIC, ServiceType.PUNCTURE_REPAIR, ServiceType.TOWING):
+                mapped_types.extend(["car_repair", "gas_station"])
+        
+        mapped_types = list(set(mapped_types)) or ["car_repair", "gas_station", "hospital"]
+
         payload = {
-            "includedTypes": ["car_repair", "gas_station", "hospital"],
+            "includedTypes": mapped_types,
             "maxResultCount": limit,
             "locationRestriction": {
                 "circle": {
@@ -68,7 +80,10 @@ class GooglePlacesProvider(BasePlacesProvider):
                         availability_status="UNKNOWN",  # NON-NEGOTIABLE RULE
                         verification_status="VERIFIED",
                         recommendation_score=0.95,
-                        recommendation_reason="Google Places Verified Vendor"
+                        recommendation_reason="Google Places Verified Vendor",
+                        source="GOOGLE_PLACES",
+                        is_cached=False,
+                        retrieved_at=datetime.now(timezone.utc).isoformat()
                     )
                 )
             return providers

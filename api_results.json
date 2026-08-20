@@ -1,0 +1,1407 @@
+{
+  "puncture": {
+    "success": true,
+    "data": {
+      "incident": {
+        "incident_id": "inc_eecdfc76",
+        "category": "PUNCTURE",
+        "severity": "LOW",
+        "confidence": 0.95,
+        "description_summary": "Detected puncture emergency (LOW severity)",
+        "requires_immediate_services": [
+          "PUNCTURE_REPAIR",
+          "MECHANIC",
+          "TOWING"
+        ],
+        "is_life_threatening": false
+      },
+      "guidance": {
+        "summary": "Park safely on the road shoulder, turn on hazard lights, and secure the vehicle before attempting tire replacement or contacting roadside puncture repair.",
+        "immediate_do_not_do": [
+          "Do NOT stop abruptly in the middle of active traffic lanes.",
+          "Do NOT attempt to change the tire if parked on an incline without wheel chocks."
+        ],
+        "steps": [
+          {
+            "step_number": 1,
+            "title": "Safety Positioning",
+            "instruction": "Pull over safely to the far left shoulder. Turn on hazard warning lights immediately.",
+            "caution": "Stay inside the vehicle if on a high-speed express highway until safe.",
+            "is_critical": true
+          },
+          {
+            "step_number": 2,
+            "title": "Secure Vehicle",
+            "instruction": "Engage the handbrake firmly and place the vehicle in 1st gear (or Park for automatics).",
+            "caution": null,
+            "is_critical": false
+          },
+          {
+            "step_number": 3,
+            "title": "Request Assistance",
+            "instruction": "Contact nearby mobile puncture repair vendor or deploy spare wheel if equipped with jack and lug wrench.",
+            "caution": null,
+            "is_critical": false
+          }
+        ],
+        "first_aid_included": false
+      },
+      "services": [
+        {
+          "provider_id": "gplace_ChIJn6JqDb0DYzkR_wIyr9BpsBc",
+          "name": "Apollo Hospitals | Best Hospital in Indore",
+          "service_types": [
+            "PUNCTURE_REPAIR",
+            "MECHANIC",
+            "TOWING"
+          ],
+          "location": {
+            "latitude": 22.757501899999998,
+            "longitude": 75.8851377,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "Sector-D, Vijay Nagar, Scheme No 74C, Indore, Madhya Pradesh 452010, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": "080 6904 9755",
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 5.07,
+          "eta_minutes": 17,
+          "rating": 4.8,
+          "review_count": 25409,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.89,
+          "recommendation_reason": "Top-rated service provider (4.8\u2b50) with verified response team",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:17.474006+00:00"
+        },
+        {
+          "provider_id": "gplace_ChIJp9otUigdYzkR1PazPzPLrII",
+          "name": "Vishesh Jupiter Hospital",
+          "service_types": [
+            "PUNCTURE_REPAIR",
+            "MECHANIC",
+            "TOWING"
+          ],
+          "location": {
+            "latitude": 22.6838092,
+            "longitude": 75.88167229999999,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "Scheme No 94, Ring Road, near Teen Imli Chauraha, Sector 1, Radha Swami Nagar, Indore, Madhya Pradesh 452001, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": "0731 471 8111",
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 4.68,
+          "eta_minutes": 16,
+          "rating": 4.7,
+          "review_count": 16466,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.89,
+          "recommendation_reason": "Top-rated service provider (4.7\u2b50) with verified response team",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:17.474015+00:00"
+        },
+        {
+          "provider_id": "gplace_ChIJg3fFLwf9YjkRhNvi_VB8zYc",
+          "name": "Choithram Hospital & Research Centre",
+          "service_types": [
+            "PUNCTURE_REPAIR",
+            "MECHANIC",
+            "TOWING"
+          ],
+          "location": {
+            "latitude": 22.687557800000004,
+            "longitude": 75.8542563,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "14, Manik Bagh Rd, Choithram Mandi, Indore, Madhya Pradesh 452014, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": "0731 236 2491",
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 3.58,
+          "eta_minutes": 12,
+          "rating": 4.2,
+          "review_count": 2434,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.88,
+          "recommendation_reason": "Verified roadside service suited for puncture",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:17.474012+00:00"
+        },
+        {
+          "provider_id": "gplace_ChIJEZRiXG39YjkROWMWP9E7IgQ",
+          "name": "Maharaja Yeshwantrao ( M. Y) Hospital",
+          "service_types": [
+            "PUNCTURE_REPAIR",
+            "MECHANIC",
+            "TOWING"
+          ],
+          "location": {
+            "latitude": 22.7134701,
+            "longitude": 75.8803582,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "AB Rd, CRP Line, Indore, Madhya Pradesh 452001, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": null,
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 2.42,
+          "eta_minutes": 9,
+          "rating": 3.2,
+          "review_count": 606,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.84,
+          "recommendation_reason": "Verified roadside service suited for puncture",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:17.474009+00:00"
+        },
+        {
+          "provider_id": "gplace_ChIJNReMvQv9YjkR0W9Ee-ytEEA",
+          "name": "Aurobindo Hospital",
+          "service_types": [
+            "PUNCTURE_REPAIR",
+            "MECHANIC",
+            "TOWING"
+          ],
+          "location": {
+            "latitude": 22.7978798,
+            "longitude": 75.8453796,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "Ujjain Rd, Bhawrasla, Indore, Madhya Pradesh 453555, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": "0731 423 1000",
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 8.8,
+          "eta_minutes": 28,
+          "rating": 4.1,
+          "review_count": 2056,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.77,
+          "recommendation_reason": "Verified roadside service suited for puncture",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:17.473995+00:00"
+        },
+        {
+          "provider_id": "gplace_ChIJ0yE_UFQdYzkRhDWxeZZiFME",
+          "name": "Bombay Hospital",
+          "service_types": [
+            "PUNCTURE_REPAIR",
+            "MECHANIC",
+            "TOWING"
+          ],
+          "location": {
+            "latitude": 22.754344500000002,
+            "longitude": 75.9033461,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "No.94, IDA Scheme 95, Eastern Ring Rd, Opp.Prestige CollegeNear Bombay Hospital, Vijay Nagar, Tulsi Nagar, Scheme No 94 Sector WA, Indore, Madhya Pradesh 452010, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": "091113 33606",
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 6.07,
+          "eta_minutes": 20,
+          "rating": 3.1,
+          "review_count": 1662,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.76,
+          "recommendation_reason": "Verified roadside service suited for puncture",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:17.474003+00:00"
+        }
+      ],
+      "recommended_actions": [
+        {
+          "action_id": "act_call_vendor",
+          "action_type": "CALL_TOWING",
+          "label": "Call Apollo Hospitals | Best Hospital in Indore",
+          "target_contact": "080 6904 9755",
+          "target_payload": null,
+          "priority": 2
+        },
+        {
+          "action_id": "act_nav_vendor",
+          "action_type": "NAVIGATE",
+          "label": "Navigate to Apollo Hospitals | Best Hospital in Indore",
+          "target_contact": null,
+          "target_payload": {
+            "latitude": 22.757501899999998,
+            "longitude": 75.8851377,
+            "name": "Apollo Hospitals | Best Hospital in Indore"
+          },
+          "priority": 3
+        }
+      ],
+      "ai": {
+        "classifier_used": "deterministic_keyword_fallback",
+        "confidence_score": 0.95,
+        "model_version": "v1.0"
+      },
+      "limitations": [
+        "Service directory served via GOOGLE_PLACES fallback.",
+        "Vendor availability status is UNKNOWN \u2014 please call to confirm opening hours."
+      ]
+    },
+    "meta": {},
+    "error": null,
+    "request_id": "30e1a2cb-3138-4780-826a-d380e68c4828"
+  },
+  "accident": {
+    "success": true,
+    "data": {
+      "incident": {
+        "incident_id": "inc_1ecda3b9",
+        "category": "ACCIDENT",
+        "severity": "CRITICAL",
+        "confidence": 0.95,
+        "description_summary": "Detected accident emergency (CRITICAL severity)",
+        "requires_immediate_services": [
+          "AMBULANCE",
+          "HOSPITAL",
+          "POLICE"
+        ],
+        "is_life_threatening": true
+      },
+      "guidance": {
+        "summary": "Assess casualties immediately, secure the crash zone, call 112 emergency services, and provide first-aid while awaiting ambulance arrival.",
+        "immediate_do_not_do": [
+          "Do NOT move severely injured victims unless there is immediate fire/explosion danger.",
+          "Do NOT remove helmets of unconscious motorbystanders."
+        ],
+        "steps": [
+          {
+            "step_number": 1,
+            "title": "Call Emergency Services (112)",
+            "instruction": "Immediately dial 112 for Police and Ambulance. Provide exact GPS location coordinates.",
+            "caution": "Keep phone line open for dispatch instructions.",
+            "is_critical": true
+          },
+          {
+            "step_number": 2,
+            "title": "Check Airway & Bleeding",
+            "instruction": "Apply direct firm pressure with clean cloth over bleeding wounds.",
+            "caution": "Do not apply tight tourniquets unless trained.",
+            "is_critical": true
+          },
+          {
+            "step_number": 3,
+            "title": "Warn Oncoming Traffic",
+            "instruction": "Place reflective hazard triangles 50 meters behind the crash scene.",
+            "caution": "Watch out for passing vehicles.",
+            "is_critical": false
+          }
+        ],
+        "first_aid_included": true
+      },
+      "services": [
+        {
+          "provider_id": "gplace_ChIJn6JqDb0DYzkR_wIyr9BpsBc",
+          "name": "Apollo Hospitals | Best Hospital in Indore",
+          "service_types": [
+            "AMBULANCE",
+            "HOSPITAL",
+            "POLICE"
+          ],
+          "location": {
+            "latitude": 22.757501899999998,
+            "longitude": 75.8851377,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "Sector-D, Vijay Nagar, Scheme No 74C, Indore, Madhya Pradesh 452010, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": "080 6904 9755",
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 5.07,
+          "eta_minutes": 17,
+          "rating": 4.8,
+          "review_count": 25409,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.89,
+          "recommendation_reason": "Top-rated service provider (4.8\u2b50) with verified response team",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:19.053690+00:00"
+        },
+        {
+          "provider_id": "gplace_ChIJp9otUigdYzkR1PazPzPLrII",
+          "name": "Vishesh Jupiter Hospital",
+          "service_types": [
+            "AMBULANCE",
+            "HOSPITAL",
+            "POLICE"
+          ],
+          "location": {
+            "latitude": 22.6838092,
+            "longitude": 75.88167229999999,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "Scheme No 94, Ring Road, near Teen Imli Chauraha, Sector 1, Radha Swami Nagar, Indore, Madhya Pradesh 452001, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": "0731 471 8111",
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 4.68,
+          "eta_minutes": 16,
+          "rating": 4.7,
+          "review_count": 16466,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.89,
+          "recommendation_reason": "Top-rated service provider (4.7\u2b50) with verified response team",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:19.053708+00:00"
+        },
+        {
+          "provider_id": "gplace_ChIJg3fFLwf9YjkRhNvi_VB8zYc",
+          "name": "Choithram Hospital & Research Centre",
+          "service_types": [
+            "AMBULANCE",
+            "HOSPITAL",
+            "POLICE"
+          ],
+          "location": {
+            "latitude": 22.687557800000004,
+            "longitude": 75.8542563,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "14, Manik Bagh Rd, Choithram Mandi, Indore, Madhya Pradesh 452014, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": "0731 236 2491",
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 3.58,
+          "eta_minutes": 12,
+          "rating": 4.2,
+          "review_count": 2434,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.88,
+          "recommendation_reason": "Verified roadside service suited for accident",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:19.053702+00:00"
+        },
+        {
+          "provider_id": "gplace_ChIJEZRiXG39YjkROWMWP9E7IgQ",
+          "name": "Maharaja Yeshwantrao ( M. Y) Hospital",
+          "service_types": [
+            "AMBULANCE",
+            "HOSPITAL",
+            "POLICE"
+          ],
+          "location": {
+            "latitude": 22.7134701,
+            "longitude": 75.8803582,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "AB Rd, CRP Line, Indore, Madhya Pradesh 452001, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": null,
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 2.42,
+          "eta_minutes": 9,
+          "rating": 3.2,
+          "review_count": 606,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.84,
+          "recommendation_reason": "Verified roadside service suited for accident",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:19.053696+00:00"
+        },
+        {
+          "provider_id": "gplace_ChIJNReMvQv9YjkR0W9Ee-ytEEA",
+          "name": "Aurobindo Hospital",
+          "service_types": [
+            "AMBULANCE",
+            "HOSPITAL",
+            "POLICE"
+          ],
+          "location": {
+            "latitude": 22.7978798,
+            "longitude": 75.8453796,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "Ujjain Rd, Bhawrasla, Indore, Madhya Pradesh 453555, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": "0731 423 1000",
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 8.8,
+          "eta_minutes": 28,
+          "rating": 4.1,
+          "review_count": 2056,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.77,
+          "recommendation_reason": "Verified roadside service suited for accident",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:19.053666+00:00"
+        },
+        {
+          "provider_id": "gplace_ChIJ0yE_UFQdYzkRhDWxeZZiFME",
+          "name": "Bombay Hospital",
+          "service_types": [
+            "AMBULANCE",
+            "HOSPITAL",
+            "POLICE"
+          ],
+          "location": {
+            "latitude": 22.754344500000002,
+            "longitude": 75.9033461,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "No.94, IDA Scheme 95, Eastern Ring Rd, Opp.Prestige CollegeNear Bombay Hospital, Vijay Nagar, Tulsi Nagar, Scheme No 94 Sector WA, Indore, Madhya Pradesh 452010, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": "091113 33606",
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 6.07,
+          "eta_minutes": 20,
+          "rating": 3.1,
+          "review_count": 1662,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.76,
+          "recommendation_reason": "Verified roadside service suited for accident",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:19.053683+00:00"
+        }
+      ],
+      "recommended_actions": [
+        {
+          "action_id": "act_call_112",
+          "action_type": "CALL_POLICE",
+          "label": "Emergency Services (112)",
+          "target_contact": "112",
+          "target_payload": null,
+          "priority": 1
+        },
+        {
+          "action_id": "act_call_vendor",
+          "action_type": "CALL_MECHANIC",
+          "label": "Call Apollo Hospitals | Best Hospital in Indore",
+          "target_contact": "080 6904 9755",
+          "target_payload": null,
+          "priority": 2
+        },
+        {
+          "action_id": "act_nav_vendor",
+          "action_type": "NAVIGATE",
+          "label": "Navigate to Apollo Hospitals | Best Hospital in Indore",
+          "target_contact": null,
+          "target_payload": {
+            "latitude": 22.757501899999998,
+            "longitude": 75.8851377,
+            "name": "Apollo Hospitals | Best Hospital in Indore"
+          },
+          "priority": 3
+        }
+      ],
+      "ai": {
+        "classifier_used": "deterministic_keyword_fallback",
+        "confidence_score": 0.95,
+        "model_version": "v1.0"
+      },
+      "limitations": [
+        "Service directory served via GOOGLE_PLACES fallback.",
+        "Vendor availability status is UNKNOWN \u2014 please call to confirm opening hours."
+      ]
+    },
+    "meta": {},
+    "error": null,
+    "request_id": "55406d57-b577-44ac-81bf-d2e2d00d93a4"
+  },
+  "nearby": {
+    "success": true,
+    "data": {
+      "center_location": {
+        "latitude": 22.7196,
+        "longitude": 75.8577,
+        "accuracy_meters": null,
+        "altitude_meters": null,
+        "heading_degrees": null,
+        "speed_mps": null
+      },
+      "radius_km": 10.0,
+      "total_found": 10,
+      "services": [
+        {
+          "provider_id": "gplace_ChIJNReMvQv9YjkR0W9Ee-ytEEA",
+          "name": "Aurobindo Hospital",
+          "service_types": [
+            "HOSPITAL"
+          ],
+          "location": {
+            "latitude": 22.7978798,
+            "longitude": 75.8453796,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "Ujjain Rd, Bhawrasla, Indore, Madhya Pradesh 453555, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": "0731 423 1000",
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 1.5,
+          "eta_minutes": 5,
+          "rating": 4.1,
+          "review_count": 2056,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.95,
+          "recommendation_reason": "Google Places Verified Vendor",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:20.464213+00:00"
+        },
+        {
+          "provider_id": "gplace_ChIJ0yE_UFQdYzkRhDWxeZZiFME",
+          "name": "Bombay Hospital",
+          "service_types": [
+            "HOSPITAL"
+          ],
+          "location": {
+            "latitude": 22.754344500000002,
+            "longitude": 75.9033461,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "No.94, IDA Scheme 95, Eastern Ring Rd, Opp.Prestige CollegeNear Bombay Hospital, Vijay Nagar, Tulsi Nagar, Scheme No 94 Sector WA, Indore, Madhya Pradesh 452010, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": "091113 33606",
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 1.5,
+          "eta_minutes": 5,
+          "rating": 3.1,
+          "review_count": 1662,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.95,
+          "recommendation_reason": "Google Places Verified Vendor",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:20.464231+00:00"
+        },
+        {
+          "provider_id": "gplace_ChIJn6JqDb0DYzkR_wIyr9BpsBc",
+          "name": "Apollo Hospitals | Best Hospital in Indore",
+          "service_types": [
+            "HOSPITAL"
+          ],
+          "location": {
+            "latitude": 22.757501899999998,
+            "longitude": 75.8851377,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "Sector-D, Vijay Nagar, Scheme No 74C, Indore, Madhya Pradesh 452010, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": "080 6904 9755",
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 1.5,
+          "eta_minutes": 5,
+          "rating": 4.8,
+          "review_count": 25409,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.95,
+          "recommendation_reason": "Google Places Verified Vendor",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:20.464238+00:00"
+        },
+        {
+          "provider_id": "gplace_ChIJEZRiXG39YjkROWMWP9E7IgQ",
+          "name": "Maharaja Yeshwantrao ( M. Y) Hospital",
+          "service_types": [
+            "HOSPITAL"
+          ],
+          "location": {
+            "latitude": 22.7134701,
+            "longitude": 75.8803582,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "AB Rd, CRP Line, Indore, Madhya Pradesh 452001, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": null,
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 1.5,
+          "eta_minutes": 5,
+          "rating": 3.2,
+          "review_count": 606,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.95,
+          "recommendation_reason": "Google Places Verified Vendor",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:20.464244+00:00"
+        },
+        {
+          "provider_id": "gplace_ChIJg3fFLwf9YjkRhNvi_VB8zYc",
+          "name": "Choithram Hospital & Research Centre",
+          "service_types": [
+            "HOSPITAL"
+          ],
+          "location": {
+            "latitude": 22.687557800000004,
+            "longitude": 75.8542563,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "14, Manik Bagh Rd, Choithram Mandi, Indore, Madhya Pradesh 452014, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": "0731 236 2491",
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 1.5,
+          "eta_minutes": 5,
+          "rating": 4.2,
+          "review_count": 2434,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.95,
+          "recommendation_reason": "Google Places Verified Vendor",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:20.464250+00:00"
+        },
+        {
+          "provider_id": "gplace_ChIJp9otUigdYzkR1PazPzPLrII",
+          "name": "Vishesh Jupiter Hospital",
+          "service_types": [
+            "HOSPITAL"
+          ],
+          "location": {
+            "latitude": 22.6838092,
+            "longitude": 75.88167229999999,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "Scheme No 94, Ring Road, near Teen Imli Chauraha, Sector 1, Radha Swami Nagar, Indore, Madhya Pradesh 452001, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": "0731 471 8111",
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 1.5,
+          "eta_minutes": 5,
+          "rating": 4.7,
+          "review_count": 16466,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.95,
+          "recommendation_reason": "Google Places Verified Vendor",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:20.464259+00:00"
+        },
+        {
+          "provider_id": "gplace_ChIJtzsUllX9YjkRX93ApmY2BaA",
+          "name": "Medanta Super Specialty Hospital | Best Hospital in Indore",
+          "service_types": [
+            "HOSPITAL"
+          ],
+          "location": {
+            "latitude": 22.7489813,
+            "longitude": 75.8958731,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "Plot No. 8, PU04, Commercial Scheme 54, Rasoma Square, Vijaynagar, AB Road, Ratna Lok Colony, Indore, Madhya Pradesh 452010, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": "0731 474 7185",
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 1.5,
+          "eta_minutes": 5,
+          "rating": 4.7,
+          "review_count": 10025,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.95,
+          "recommendation_reason": "Google Places Verified Vendor",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:20.464269+00:00"
+        },
+        {
+          "provider_id": "gplace_ChIJKU0apUH9YjkRyxCUmkWyOg0",
+          "name": "Shalby Multi-Specialty Hospital, Indore",
+          "service_types": [
+            "HOSPITAL"
+          ],
+          "location": {
+            "latitude": 22.729188999999998,
+            "longitude": 75.8791901,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "Part 5 & 6 R S bhandari Marg, Janjeerwala Square, Doctor Roshan Singh Bhandari Marg, Indore, Madhya Pradesh 452003, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": "070499 18800",
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 1.5,
+          "eta_minutes": 5,
+          "rating": 4.7,
+          "review_count": 13066,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.95,
+          "recommendation_reason": "Google Places Verified Vendor",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:20.464370+00:00"
+        },
+        {
+          "provider_id": "gplace_ChIJdxfKTU_9YjkR2ItaFYuPvGI",
+          "name": "CARE CHL Hospital",
+          "service_types": [
+            "HOSPITAL"
+          ],
+          "location": {
+            "latitude": 22.7322578,
+            "longitude": 75.8893409,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "Agra Bombay Road, near L.I.G Square, Rss Nagar, Indore, Madhya Pradesh 452008, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": "040 6810 6589",
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 1.5,
+          "eta_minutes": 5,
+          "rating": 4.7,
+          "review_count": 10350,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.95,
+          "recommendation_reason": "Google Places Verified Vendor",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:20.464378+00:00"
+        },
+        {
+          "provider_id": "gplace_ChIJW11hBHrjYjkRivhgnWlY64g",
+          "name": "Aavantika Gas Limited CNG Station",
+          "service_types": [
+            "HOSPITAL"
+          ],
+          "location": {
+            "latitude": 22.7486225,
+            "longitude": 75.9044998,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "Eastern Ring Rd, Tapeshwari Bagh Colony, Indore, Madhya Pradesh 452016, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": null,
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 1.5,
+          "eta_minutes": 5,
+          "rating": 3.9,
+          "review_count": 311,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.95,
+          "recommendation_reason": "Google Places Verified Vendor",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:20.464384+00:00"
+        }
+      ],
+      "provider_source": "GOOGLE_PLACES"
+    },
+    "meta": {},
+    "error": null,
+    "request_id": "21d32b57-b5f5-4358-8a16-587c6ff97bc8"
+  },
+  "route": {
+    "success": true,
+    "data": {
+      "route_id": "groute_5c3c10d5",
+      "origin": {
+        "latitude": 22.7196,
+        "longitude": 75.8577,
+        "accuracy_meters": null,
+        "altitude_meters": null,
+        "heading_degrees": null,
+        "speed_mps": null
+      },
+      "destination": {
+        "latitude": 23.2599,
+        "longitude": 77.4126,
+        "accuracy_meters": null,
+        "altitude_meters": null,
+        "heading_degrees": null,
+        "speed_mps": null
+      },
+      "total_distance_km": 192.98,
+      "total_duration_minutes": 235.4,
+      "safety_tier": "RECOMMENDED_SAFE",
+      "polyline_encoded": "kltiCu}~mM}@iDCmACyEYwEGsA\\aFJeEP}FRsCByCEgFaAaPIuAMMG[@WBGScAe@gF?k@k@}EK}@e@cDyA}HeBgKk@{CyBcNgEcV_@mC@uAzBoFDQEk@a@uAUgAEc@BgNA}BLsA@MHKRe@Pq@FwBB_EBWxFCJcCJq@P[HKFUDIRQHWJsAFkC\\eGdB}Sl@wG\\{EbA}GVkB~AoJVwABm@]gBgCsLwD}Ky@oB_CkGkBqF_AcDs@aBc@m@_C}CwDmGq@_BaDqLiE}PGyA[aOIkDCw@Kq@iE_LqD[gOaB{CSuHKoXi@uDCgf@}@cXs@y\\aAwA_@gz@aCkd@mA_Re@gAC{G@ax@r@{HQsLu@uDMyq@aBs[u@eTWoGGmHM{B?s]y@q\\aAoFMmDQyZu@sHg@{BWuHk@gEEsA@iBJcBNyFv@{AH_A@iAGyAU}@YmAg@o[}RaLkHOMcJyFmJ{FmMgImYqQoVqO}O_KqYsQmImFwXyPuD_CuCkBkDuBcFmCwDmByAm@{DgBiDmBqB_AqGaDgE{BaDwAqA]kEm@iCq@s@UkImE_E{BsD{Be_@iScBm@_Ck@uCa@uCKoA?uDLsOv@yHZ{BJ{BDsACcBO}Bc@_Be@kAi@eAo@oA{@iBsBwAwBw@aBs@yB[mAQ_AWoCQaEu@gL[aDk@oIKmAUuAm@cCi@uA_@s@cAwAoAwAaLcKkIqH}BuBcAu@e@a@iAoAyXuV}BiC{FoHoBoCmFiHkD{E}AuBiNuQwCaE]OmBkBq@w@sAiBgCkDyD}Fi@q@q@oABu@H{@DULSLOzBoI`GeWdAmEdDiNdBiH\\wBNwANmE\\cIFuDp@cURcH@aBM}AQgAo@cCKY}DmIwEiJuLcWiL_VwC_Hq@}A_AoBgBkDsJ}S_JmRm@eAi@u@u@}@aAy@kKgIsLyJwD{CgAaA}AyByBcE{A{C_CoEmD_H{FcK_DcGwZam@}HeOwAiCk@y@s@u@iAcA_L_IwByAs@_@aAc@u@U}Be@oBSaIo@uDS}Pg@[FsDBgTa@OCGB_@?SGI]B[LQB}@CeCIyCk@_KGcAEaBScE}@sX_@qNIuBMuF}@_YE{@EsCq@cSi@cI[cC}AqUWgDyBm\\c@cH]qEa@aIMsAsBc\\GeACaEBiBPgEZoEHgBF_C?oCDmNJuM?mAHwCRsv@BwIGeDYmEoCsZOaAa@sBaCiIm@gCa@aCeE_ZYqAa@mA}@sBuAgCuBmFwGwQm@uAmGaQkAiDgCuGk@cB[sAQgAMqACeA@cAJsBPkA|@iDlJq[\\cAtBgHr@yCZ_CVsBZ_JZ_Kt@kS^oKB{AXqHJuDd@uMXoCRsGTuFbAgZViIf@wO`@mJZeGRsIp@uRL_Cl@sPr@wO`@uLC_AU_BSw@GWy@_BwKwReSu^oE}HwHmNgA_Dy@wDwBkL{BmMy@kEiAmGgG_]qAeH}@wFs@uEaFsXeCoMmAsGQ{AEqAHuAJo@Vy@Vk@hAiBPSl@cAjFqGn@aAx@{BZyAb@eDl@oKn@cGdAkOLsCBgC?yODwKVsN`BesAr@gn@NoDN}AxF__@|CsTjBsLpAyGpCqLNu@PoAFcAEyBOiBk@}F[}De@gI?gIDcCf@oKdBuTf@}I~AqUZwCb@mGFOV_DbAyJp@mEzAmHnCgKVs@`AkBf@w@rA{AjGoGfBqBjAaB\\s@`@oAZwAHc@NaBNiDrAwa@~@aUf@gJR_CnAmKhBmNpAyKtAaKxBmQ~@{HzByPpAqKrF{a@fA_JjBsNn@kFNcDpC}gAJqGMyDW{Ca@uB{EcSeFmSwDuOWwAs@_GoIkeA]kCi@yCaC{IwAoDsDmI_BeDmByE}@wCa@{Ae@cCSwAUqB{@sNw@{KIcBKoAk@iDSaA]gA{@oB}AoCmDyFy@eA}AgBcDuCgEyDcBaCg@iA_@mAa@}BMuBBkCL{ArBiKf@kCZeCFcA@wEUgQK_QE_BCsIDqDGkCQ{Ao@_Cm@qAe@w@k@u@g@g@i@c@iAu@aBy@gH_E}AmAgAiAs@cA{@cBm@qBUmAIw@CqCF_BRmBNi@b@uAnBqEpAqC|AsDb@kA\\yAN{@J_CR}IJwCd@}N|Aed@hB}h@^eL@uAIwAMiAQ_AsAiFcDaLyCwK_CiIeCeJcH}VsAwEaEgOgAmEqBqHaSuu@qR_u@_e@yiB}Ju`@}DyOeB}Go@iBk@gA[g@m@w@{JwJg@k@aA{Ag@cAe@yA[eBMiB?wBFuAP}AvBeK`AcEb@wB~@kHZeDDmAImBYiBeAqDqAcEo@gDUwBQeDQgNGqLB_FP_Gx@kQViCZyA\\_Aj@sAd@u@l@y@zFcG~@mAn@iAf@qAPi@Py@NiAL_CAcAMqBM{@k@uBc@eA_@q@q@_A{OmPsBaCcCcDkOaUuCyFaAsBwBcFi@gAeA}Aa@e@e@c@iAw@uFwCuD{BuByAu@s@o@y@{@}Aa@kA]{Ao@gEiCiRy@uF_AiEeA{D_B{F]sBI{AAcCRuDrAiRdAsK\\}BRoBt@eFtAyF`BgGVoAR_C@gBMkK@sDFoATkBfAoEnD_Nj@}Bd@eC`@{DF_C?qCK}BEe@GkBo@aDe@iBwC_K_AyDeAoDyAuFaM{d@}E_RwZqiAk@iCu@qE_AsGKk@k@mBi@qAuFeLeD_H_C{DuD}F}AkCaBsDiBiFgAgEm@eDg@}Dg@uGS}AWgDu@qIgBcQgCgVe@cFaAeJMkBCeCFkBDg@`@wBh@sBnB_FhAgCl@}Av@iCp@}DRmBLsCRgHd@aKHsDCkAg@{DMiCKsEI_AOq@g@{Aw@{AkAsB_ImPwPi^aB{DaPod@yGkRkCoHyEuMiDuJ}H}UsRsm@yEwOoBgGwLk`@cFwOo@cCe@}ByBkJ_DeMuEaSiCeMiA}EqFcXkAkFeCwLy@cFqFiWuAsFu@mBsBgE{J_TqGqM}@eBwAwBkB_Ck@y@q@k@oA}@kBiAuCmB_@_@k@kA}BmHe@oAuB_HkQah@iEqMsK_WiGgNaAaBgUyg@kMiVcHeMcA_BwIuO}EmJyD_HaCoEuFoIsPuV_NmRsG}IwSwX{HuJgDwEiF{GyCiE}@sAmCaHYw@qBiEqB_FaC{GsBwGkH}UIm@i@qB{EoOq@aCg@cDUyBSaAOm@_@{@[g@Sc@oCsEqB}CcNiOkMeN_AeAmDsD_FmFiDyC}J}JiPkQmXsXcJaL}LcOwAuAm@e@}B}AaBo@iD}@cDo@wA]gA]iAe@u@k@qAuAk@s@u@qAi@cAaAeDSaASwBUgGY{EMeBc@{IOyAaAuO}Cup@mAaX]iDoBiP_CuQaAmF_@iCa@}BwB{NeAeM{BaUoIqk@qAgJw@oDkMmn@aFwVk@gCwAwEa\\caAeA_Di@eBiEiMiAiDaAoCeCcG}AuD_Pyc@aGkPwDsLaKi\\kJ}YqCuIiAuCqCmG{AgDwC}GqDgJoBwE]aA_@wBKuAAoAD_BJsAZcBx@gC`Tel@^aBfKwp@vAkJFs@BuAC}AGo@Km@kAgFqF{T_FaTcO}n@wB{IaA}BmImQkNwY{BwFuNc`@qHmRcFcM}D{Jo@kB}Ke`@{@oEgB{LuEyXq@uEyDiVWsAiJkj@u@gEwJkn@e@aDmDoTmFs\\_DgPsCkOoAmG}Jyh@K]wHgScAuCkDcJsFeOaHsOkLwW_BiDuBaFqCgGcEoJiA{BgEcHgCmE_EsGgD{E}FyHaA_ASFUCOQCS@OKO{D_OmDsNw@mDgBeHe@kB]oBy@kGaAwGeBsJm@eFoDm]iBeRS}AuBcIoJk]cCiJy@sCcCcJgGqS{AuFcGaSk@sAcDmK{CgJ}BcIsDyMcAuDQw@a@_Co@gCa@uB_AaDo@cBk@mBOo@yCiJk@oB}@kD_AwDyAmGiB{HiBqH}@yDaBsGyEyTgF}Q{@gD{CgKoA}Es@aDmBoHcB}HiLwf@kAmF{CwL_Kkb@wDsNyDmOmQqq@_HgWuBiI}EyR}FkToCgKmGgWmAwEi@eC]}CiBkU{A_QGmAe@eGs@cHy@gLY_Cc@iF[sCM}Bo@{G]}Dk@cEgBiPo@eF]yCIa@mBwNYqAqAsHA_@_@}BgAsJ]iCSmBYeGk@q[CyBFsECcDE_D?{CRsHr@gPL_EHoLb@yMJqDH}BBgBCy@D_@`@HXHzG~Dv@PdFz@zCh@z@PtEjC`Aj@d@NpAN`@CpEyARKpBi@~B{@nD}@z@c@`@]n@q@JKbBwBlByBn@{@P_@BcADg@Ds@PiAb@{@\\k@Pg@v@aDJy@@}@I_FLmDGa@g@sAKi@Ci@?e@\\aDCmAEg@GUIQSQyAu@QGGSBSFEVgBVwBNa@XOtBe@jAg@^Wf@g@Za@j@qALi@n@mGJuBA_@EW]gAQ]W_@e@YuAq@SWMYOiAIaAB_@Pk@hBmDfAaCjCiHXe@zCyDPa@|@iG`@eBdEuNdCiInAoBVy@@_@Og@MQk@Sy@A{AJSAGMDM?KKa@?m@HaEFSCQHeAJy@HONkAl@aI`A_F^_CKGAKFKDCGQS}CQs@KcAGsA@q@NcAr@uCPyAAG@c@oAm@]SiBsA_Aw@qByAg@OcAKk@?_CFeBA]Ik@AsAUqFq@Ae@Vm@\\eAXYRMNyA",
+      "waypoints": [
+        {
+          "latitude": 22.7196,
+          "longitude": 75.8577,
+          "name": "Origin"
+        },
+        {
+          "latitude": 23.2599,
+          "longitude": 77.4126,
+          "name": "Destination"
+        }
+      ],
+      "segments": [
+        {
+          "summary": "Google Navigation Optimized Emergency Route",
+          "distance_km": 192.98,
+          "duration_minutes": 235.4,
+          "safety_tier": "RECOMMENDED_SAFE",
+          "hazard_warnings": []
+        }
+      ],
+      "nearby_emergency_services": [
+        {
+          "provider_id": "gplace_ChIJNReMvQv9YjkR0W9Ee-ytEEA",
+          "name": "Aurobindo Hospital",
+          "service_types": [
+            "HOSPITAL",
+            "TOWING",
+            "PUNCTURE_REPAIR"
+          ],
+          "location": {
+            "latitude": 22.7978798,
+            "longitude": 75.8453796,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "Ujjain Rd, Bhawrasla, Indore, Madhya Pradesh 453555, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": "0731 423 1000",
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 1.5,
+          "eta_minutes": 5,
+          "rating": 4.1,
+          "review_count": 2056,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.95,
+          "recommendation_reason": "Google Places Verified Vendor",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:22.347908+00:00"
+        },
+        {
+          "provider_id": "gplace_ChIJ0yE_UFQdYzkRhDWxeZZiFME",
+          "name": "Bombay Hospital",
+          "service_types": [
+            "HOSPITAL",
+            "TOWING",
+            "PUNCTURE_REPAIR"
+          ],
+          "location": {
+            "latitude": 22.754344500000002,
+            "longitude": 75.9033461,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "No.94, IDA Scheme 95, Eastern Ring Rd, Opp.Prestige CollegeNear Bombay Hospital, Vijay Nagar, Tulsi Nagar, Scheme No 94 Sector WA, Indore, Madhya Pradesh 452010, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": "091113 33606",
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 1.5,
+          "eta_minutes": 5,
+          "rating": 3.1,
+          "review_count": 1662,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.95,
+          "recommendation_reason": "Google Places Verified Vendor",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:22.347930+00:00"
+        },
+        {
+          "provider_id": "gplace_ChIJn6JqDb0DYzkR_wIyr9BpsBc",
+          "name": "Apollo Hospitals | Best Hospital in Indore",
+          "service_types": [
+            "HOSPITAL",
+            "TOWING",
+            "PUNCTURE_REPAIR"
+          ],
+          "location": {
+            "latitude": 22.757501899999998,
+            "longitude": 75.8851377,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "Sector-D, Vijay Nagar, Scheme No 74C, Indore, Madhya Pradesh 452010, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": "080 6904 9755",
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 1.5,
+          "eta_minutes": 5,
+          "rating": 4.8,
+          "review_count": 25409,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.95,
+          "recommendation_reason": "Google Places Verified Vendor",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:22.347939+00:00"
+        },
+        {
+          "provider_id": "gplace_ChIJEZRiXG39YjkROWMWP9E7IgQ",
+          "name": "Maharaja Yeshwantrao ( M. Y) Hospital",
+          "service_types": [
+            "HOSPITAL",
+            "TOWING",
+            "PUNCTURE_REPAIR"
+          ],
+          "location": {
+            "latitude": 22.7134701,
+            "longitude": 75.8803582,
+            "accuracy_meters": null,
+            "altitude_meters": null,
+            "heading_degrees": null,
+            "speed_mps": null
+          },
+          "address": {
+            "formatted_address": "AB Rd, CRP Line, Indore, Madhya Pradesh 452001, India",
+            "street_name": null,
+            "city": null,
+            "state": null,
+            "postal_code": null,
+            "country": "India",
+            "landmark": null
+          },
+          "contact": {
+            "phone_primary": null,
+            "phone_secondary": null,
+            "whatsapp": null,
+            "emergency_shortcode": null,
+            "is_phone_verified": false
+          },
+          "distance_km": 1.5,
+          "eta_minutes": 5,
+          "rating": 3.2,
+          "review_count": 606,
+          "availability_status": "UNKNOWN",
+          "verification_status": "VERIFIED",
+          "recommendation_score": 0.95,
+          "recommendation_reason": "Google Places Verified Vendor",
+          "source": "GOOGLE_PLACES",
+          "is_cached": false,
+          "retrieved_at": "2026-08-20T16:27:22.347945+00:00"
+        }
+      ],
+      "provider_source": "GOOGLE_ROUTES"
+    },
+    "meta": {},
+    "error": null,
+    "request_id": "55f165e0-af36-4f29-9e49-91ee5523dc0f"
+  },
+  "offline": {
+    "success": false,
+    "data": null,
+    "meta": {},
+    "error": {
+      "code": "VALIDATION_ERROR",
+      "message": "Invalid request parameters or body format",
+      "details": {
+        "errors": [
+          {
+            "type": "list_type",
+            "loc": [
+              "body",
+              "bounding_box"
+            ],
+            "msg": "Input should be a valid list",
+            "input": {
+              "min_lat": 22.7196,
+              "min_lng": 75.8577,
+              "max_lat": 23.2599,
+              "max_lng": 77.4126
+            },
+            "url": "https://errors.pydantic.dev/2.12/v/list_type"
+          }
+        ]
+      }
+    },
+    "request_id": "7d32c492-ceab-4c9a-8da4-82db6d472bf4"
+  }
+}

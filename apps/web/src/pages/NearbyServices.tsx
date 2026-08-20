@@ -5,6 +5,7 @@ import { requestApi, ServiceProvider } from '../api/client';
 export const NearbyServices: React.FC = () => {
   const [services, setServices] = useState<ServiceProvider[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
 
   const categories = [
@@ -18,14 +19,15 @@ export const NearbyServices: React.FC = () => {
 
   const fetchNearby = async (cat: string) => {
     setLoading(true);
+    setError(null);
     try {
       const url = cat === 'ALL'
         ? '/services/nearby?lat=22.7196&lng=75.8577&radius_km=15'
         : `/services/nearby?lat=22.7196&lng=75.8577&radius_km=15&category=${cat}`;
       const data = await requestApi<{ services: ServiceProvider[] }>(url);
-      setServices(data.services);
-    } catch (err) {
-      console.error('Failed to load services', err);
+      setServices(data.services || []);
+    } catch (err: any) {
+      setError(err.message || 'Failed to load live services');
     } finally {
       setLoading(false);
     }
@@ -35,6 +37,43 @@ export const NearbyServices: React.FC = () => {
     fetchNearby(selectedCategory);
   }, [selectedCategory]);
 
+  const renderLiveBadge = (source?: string, timestamp?: string, isCached?: boolean) => {
+    const s = source?.toUpperCase() || 'UNKNOWN';
+    if (isCached || s === 'MOCK') {
+      return (
+        <span style={{ backgroundColor: 'rgba(239, 68, 68, 0.2)', color: '#fca5a5', border: '1px solid rgba(239, 68, 68, 0.4)', padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 700 }}>
+          🔴 Cached
+        </span>
+      );
+    }
+    if (s === 'GOOGLE_PLACES' || s === 'GOOGLE_ROUTES') {
+      return (
+        <span style={{ backgroundColor: 'rgba(16, 185, 129, 0.2)', color: '#34d399', border: '1px solid rgba(16, 185, 129, 0.4)', padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 700 }}>
+          🟢 LIVE · GOOGLE_PLACES {timestamp ? `· ${timestamp.substring(11, 19)}Z` : ''}
+        </span>
+      );
+    }
+    if (s === 'GEOAPIFY') {
+      return (
+        <span style={{ backgroundColor: 'rgba(16, 185, 129, 0.2)', color: '#34d399', border: '1px solid rgba(16, 185, 129, 0.4)', padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 700 }}>
+          🟢 LIVE · GEOAPIFY {timestamp ? `· ${timestamp.substring(11, 19)}Z` : ''}
+        </span>
+      );
+    }
+    if (s === 'OSM_OVERPASS' || s === 'OSRM') {
+      return (
+        <span style={{ backgroundColor: 'rgba(245, 158, 11, 0.2)', color: '#fcd34d', border: '1px solid rgba(245, 158, 11, 0.4)', padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 700 }}>
+          🟡 Fallback · OSM_OVERPASS {timestamp ? `· ${timestamp.substring(11, 19)}Z` : ''}
+        </span>
+      );
+    }
+    return (
+      <span style={{ backgroundColor: 'rgba(245, 158, 11, 0.2)', color: '#fcd34d', border: '1px solid rgba(245, 158, 11, 0.4)', padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 700 }}>
+        🟡 Data · {s} {timestamp ? `· ${timestamp.substring(11, 19)}Z` : ''}
+      </span>
+    );
+  };
+
   return (
     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '32px 24px' }}>
       <div style={{ marginBottom: '28px' }}>
@@ -42,7 +81,7 @@ export const NearbyServices: React.FC = () => {
           Nearby Emergency Directory
         </h2>
         <p style={{ color: '#94a3b8', margin: 0 }}>
-          Find verified mechanics, hospitals, towing cranes, and fuel delivery providers within your location radius.
+          Real-time API directory of mechanics, hospitals, towing cranes, and fuel providers from Google Places.
         </p>
       </div>
 
@@ -77,17 +116,30 @@ export const NearbyServices: React.FC = () => {
         })}
       </div>
 
+      {error && (
+        <div style={{ padding: '20px 24px', backgroundColor: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.4)', borderRadius: '12px', color: '#fca5a5', marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span>{error}</span>
+          <button onClick={() => fetchNearby(selectedCategory)} style={{ backgroundColor: '#ef4444', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontWeight: 700 }}>
+            Retry
+          </button>
+        </div>
+      )}
+
       {loading ? (
-        <div style={{ padding: '40px', textAlign: 'center', color: '#94a3b8' }}>Scanning emergency radar...</div>
+        <div style={{ padding: '40px', textAlign: 'center', color: '#94a3b8' }}>Scanning Google Places API radar...</div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '20px' }}>
           {services.map((service) => (
             <div key={service.provider_id} className="glass-card" style={{ padding: '24px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
                 <h3 style={{ margin: 0, fontSize: '1.15rem' }}>{service.name}</h3>
                 <span style={{ backgroundColor: 'rgba(16, 185, 129, 0.15)', color: '#34d399', padding: '4px 10px', borderRadius: '8px', fontWeight: 700, fontSize: '0.85rem' }}>
                   {service.rating ? `⭐ ${service.rating}` : 'Verified'}
                 </span>
+              </div>
+
+              <div style={{ marginBottom: '12px' }}>
+                {renderLiveBadge(service.source, service.retrieved_at, service.is_cached)}
               </div>
 
               <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
@@ -96,7 +148,7 @@ export const NearbyServices: React.FC = () => {
               </div>
 
               <div style={{ fontSize: '0.85rem', color: '#cbd5e1', marginBottom: '20px', lineHeight: '1.4' }}>
-                {service.address.formatted_address || 'Verified Highway Corridor Location'}
+                {service.address.formatted_address || 'Google Places Verified Location'}
               </div>
 
               <div style={{ display: 'flex', gap: '10px' }}>
