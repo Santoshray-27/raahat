@@ -1,0 +1,15 @@
+.env
+.env.local
+firebase-key.json
+apikey.txt
+node_modules/
+__pycache__/
+*.pyc
+dist/
+build/
+.venv/
+venv/
+.pytest_cache/
+.coverage
+*.sqlite3
+raahat.db

@@ -1,0 +1,51 @@
+from enum import Enum
+
+class IncidentCategory(str, Enum):
+    ACCIDENT = "ACCIDENT"
+    MEDICAL = "MEDICAL"
+    PUNCTURE = "PUNCTURE"
+    BREAKDOWN = "BREAKDOWN"
+    FUEL_EMPTY = "FUEL_EMPTY"
+    STRANDED = "STRANDED"
+    ANIMAL_STRIKE = "ANIMAL_STRIKE"
+    FIRE = "FIRE"
+    WEATHER_HAZARD = "WEATHER_HAZARD"
+    OTHER = "OTHER"
+
+class SeverityLevel(str, Enum):
+    CRITICAL = "CRITICAL"
+    HIGH = "HIGH"
+    MEDIUM = "MEDIUM"
+    LOW = "LOW"
+
+class ServiceType(str, Enum):
+    AMBULANCE = "AMBULANCE"
+    POLICE = "POLICE"
+    FIRE_BRIGADE = "FIRE_BRIGADE"
+    TOWING = "TOWING"
+    MECHANIC = "MECHANIC"
+    PUNCTURE_REPAIR = "PUNCTURE_REPAIR"
+    FUEL_DELIVERY = "FUEL_DELIVERY"
+    HOSPITAL = "HOSPITAL"
+    TRAUMA_CENTER = "TRAUMA_CENTER"
+    PHARMACY = "PHARMACY"
+    REST_STOP = "REST_STOP"
+    HOTEL = "HOTEL"
+    TAXI = "TAXI"
+    CRANE = "CRANE"
+
+class AvailabilityStatus(str, Enum):
+    OPEN_NOW = "OPEN_NOW"
+    CLOSED = "CLOSED"
+    UNKNOWN = "UNKNOWN"
+    BUSY = "BUSY"
+
+class VerificationStatus(str, Enum):
+    VERIFIED = "VERIFIED"
+    UNVERIFIED = "UNVERIFIED"
+    USER_REPORTED = "USER_REPORTED"
+
+class RouteSafetyTier(str, Enum):
+    RECOMMENDED_SAFE = "RECOMMENDED_SAFE"
+    CAUTION_HAZARD = "CAUTION_HAZARD"
+    BLOCKED_UNPASSABLE = "BLOCKED_UNPASSABLE"
