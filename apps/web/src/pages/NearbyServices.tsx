@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, Phone, Navigation, Wrench, Truck, Fuel, Hospital, ShieldAlert } from 'lucide-react';
+import { MapPin, Phone, Navigation, Wrench, Truck, Fuel, Building2, ShieldAlert } from 'lucide-react';
 import { requestApi, ServiceProvider } from '../api/client';
 
 export const NearbyServices: React.FC = () => {
@@ -13,7 +13,7 @@ export const NearbyServices: React.FC = () => {
     { id: 'PUNCTURE_REPAIR', label: 'Puncture', icon: Wrench },
     { id: 'TOWING', label: 'Towing', icon: Truck },
     { id: 'FUEL_DELIVERY', label: 'Fuel', icon: Fuel },
-    { id: 'HOSPITAL', label: 'Hospitals', icon: Hospital },
+    { id: 'HOSPITAL', label: 'Hospitals', icon: Building2 },
   ];
 
   const fetchNearby = async (cat: string) => {
