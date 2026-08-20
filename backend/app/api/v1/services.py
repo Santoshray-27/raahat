@@ -6,6 +6,9 @@ from app.services.ranking import service_ranker
 from app.schemas.common import GeoPoint
 from app.schemas.enums import ServiceType
 from app.schemas.services import ServiceSearchRequest, ServicesNearbyResponseData
+import time
+from app.core.config import settings
+from app.core.telemetry import log_request
 
 router = APIRouter()
 
@@ -14,8 +17,10 @@ async def get_services_nearby(
     lat: float = Query(..., ge=-90, le=90),
     lng: float = Query(..., ge=-180, le=180),
     radius_km: float = Query(10.0, ge=0.1, le=100.0),
-    category: Optional[str] = None
+    category: Optional[str] = None,
+    limit: int = Query(10, ge=1, le=50)
 ):
+    start_time = time.time()
     loc = GeoPoint(latitude=lat, longitude=lng)
     
     st_list = [ServiceType.MECHANIC, ServiceType.PUNCTURE_REPAIR, ServiceType.TOWING, ServiceType.HOSPITAL]
@@ -29,9 +34,18 @@ async def get_services_nearby(
         location=loc,
         service_types=st_list,
         radius_km=radius_km,
-        limit=10
+        limit=limit
     )
     
+    latency = (time.time() - start_time) * 1000
+    log_request(
+        endpoint="/api/v1/services/nearby", 
+        provider_source=provider_source, 
+        latency_ms=latency, 
+        results_count=len(providers), 
+        mode="MOCK" if settings.USE_MOCKS else "LIVE"
+    )
+
     data = ServicesNearbyResponseData(
         center_location=loc,
         radius_km=radius_km,

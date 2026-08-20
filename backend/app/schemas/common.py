@@ -40,5 +40,6 @@ class ServiceProvider(BaseModel):
     verification_status: str = "VERIFIED"
     recommendation_score: float = 0.95
     recommendation_reason: str = "Nearest verified provider suited for puncture repair"
+    source: str = "GOOGLE_PLACES"
     is_cached: bool = False
     retrieved_at: Optional[str] = None

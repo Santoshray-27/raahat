@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     VERSION: str = "1.0.0"
     API_V1_STR: str = "/api/v1"
     
-    USE_MOCKS: bool = True
+    USE_MOCKS: bool = False
     GOOGLE_PLACES_API_KEY: str = ""
     GOOGLE_ROUTES_API_KEY: str = ""
     GOOGLE_MAPS_JS_KEY: str = ""
