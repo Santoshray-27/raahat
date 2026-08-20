@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from typing import List
 from app.core.config import settings
 from app.core.logging import logger
+from app.core.circuit_breaker import google_circuit_breaker
 from app.providers.base import BasePlacesProvider
 from app.schemas.common import GeoPoint, ServiceProvider, LocationAddress, ContactInfo
 from app.schemas.enums import ServiceType
@@ -17,6 +18,11 @@ class GooglePlacesProvider(BasePlacesProvider):
     ) -> List[ServiceProvider]:
         if not settings.GOOGLE_PLACES_API_KEY:
             raise ValueError("GOOGLE_PLACES_API_KEY is not configured")
+            
+        exhausted, until_time = google_circuit_breaker.is_exhausted()
+        if exhausted:
+            logger.warning(f"GooglePlacesProvider: Skipping call due to active circuit breaker (exhausted until {until_time}).")
+            raise RuntimeError(f"Google Places quota exhausted (skipping until {until_time})")
             
         url = "https://places.googleapis.com/v1/places:searchNearby"
         headers = {
@@ -52,10 +58,15 @@ class GooglePlacesProvider(BasePlacesProvider):
         
         async with httpx.AsyncClient(timeout=6.0) as client:
             resp = await client.post(url, headers=headers, json=payload)
-            if resp.status_code != 200:
+            if resp.status_code == 429:
+                google_circuit_breaker.record_429("google_places")
+                logger.warning(f"Google Places API error status 429: {resp.text}")
+                raise RuntimeError("Google Places API quota limit 429 exceeded")
+            elif resp.status_code != 200:
                 logger.warning(f"Google Places API error status {resp.status_code}: {resp.text}")
                 raise RuntimeError(f"Google Places API request failed with status {resp.status_code}")
                 
+            google_circuit_breaker.record_success("google_places")
             data = resp.json()
             places = data.get("places", [])
             
@@ -77,7 +88,7 @@ class GooglePlacesProvider(BasePlacesProvider):
                         eta_minutes=5,
                         rating=p.get("rating", 4.5),
                         review_count=p.get("userRatingCount", 10),
-                        availability_status="UNKNOWN",  # NON-NEGOTIABLE RULE
+                        availability_status="UNKNOWN",
                         verification_status="VERIFIED",
                         recommendation_score=0.95,
                         recommendation_reason="Google Places Verified Vendor",

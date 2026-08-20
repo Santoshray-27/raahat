@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     GEMINI_API_KEY: str = ""
     FIREBASE_CREDENTIALS_PATH: str = "./firebase-key.json"
     AUTH_DISABLED: bool = True
-    DATABASE_URL: str = "sqlite:///./raahat.db"
+    DATABASE_URL: str = "postgresql+asyncpg://postgres:password@localhost:5432/raahat"
     CORS_ORIGINS: str = "http://localhost:5173,http://localhost:3000"
     
     model_config = SettingsConfigDict(

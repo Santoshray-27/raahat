@@ -61,6 +61,7 @@ export interface ProviderStatus {
   active_mode: string;
   google_places: { configured: boolean; status: string };
   google_routes: { configured: boolean; status: string };
+  geoapify?: { configured: boolean; status: string };
   fallback_providers: string[];
   gemini_ai: { configured: boolean; model: string };
 }

@@ -11,14 +11,24 @@ export const App: React.FC = () => {
 
   return (
     <AuthProvider>
-      <div style={{ minHeight: '100vh', backgroundColor: '#090d16', color: '#f8fafc' }}>
+      <div style={{ minHeight: '100vh', backgroundColor: '#F7F9FC', color: '#0F172A', display: 'flex', flexDirection: 'column' }}>
         <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
-        <main>
+        <main style={{ flex: 1 }}>
           {activeTab === 'dashboard' && <Dashboard />}
           {activeTab === 'services' && <NearbyServices />}
           {activeTab === 'routes' && <RoutePlanner />}
           {activeTab === 'offline' && <OfflinePack />}
         </main>
+        <footer style={{
+          textAlign: 'center',
+          padding: '20px 24px',
+          borderTop: '1px solid #E2E8F0',
+          color: '#94A3B8',
+          fontSize: '0.8rem',
+          fontWeight: 500
+        }}>
+          SquidHack 2026 · Team Solution Savvy · SW-17
+        </footer>
       </div>
     </AuthProvider>
   );

@@ -1,9 +1,14 @@
 import httpx
 import time
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from fastapi.responses import JSONResponse
+from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.config import settings
-from app.core.response import success_response
+from app.core.response import success_response, error_response
 from app.core.telemetry import get_logs
+from app.core.circuit_breaker import google_circuit_breaker
+from app.core.database import get_db
+from app.repositories.health_repository import HealthRepository
 
 router = APIRouter()
 
@@ -35,29 +40,50 @@ async def _check_geoapify_status():
     return _geoapify_cache["status"]
 
 @router.get("/health")
-async def get_health():
+async def get_health(db: AsyncSession = Depends(get_db)):
+    health_repo = HealthRepository(db)
+    is_db_healthy = await health_repo.check_database_health()
+    
+    if not is_db_healthy:
+        return JSONResponse(
+            status_code=503,
+            content=error_response(
+                code="SERVICE_UNAVAILABLE",
+                message="Database connection failed"
+            )
+        )
+
     return success_response(
         data={
             "status": "healthy",
             "service": settings.PROJECT_NAME,
             "version": settings.VERSION,
             "mode": "mock" if settings.USE_MOCKS else "live",
-            "auth_disabled": settings.AUTH_DISABLED
+            "auth_disabled": settings.AUTH_DISABLED,
+            "database": "connected"
         }
     )
 
 @router.get("/providers/status")
 async def get_providers_status():
+    exhausted, expiry_time = google_circuit_breaker.is_exhausted()
+    if exhausted:
+        gp_status = f"QUOTA_EXHAUSTED (skipping until {expiry_time})"
+        gr_status = f"QUOTA_EXHAUSTED (skipping until {expiry_time})"
+    else:
+        gp_status = "OPERATIONAL" if settings.GOOGLE_PLACES_API_KEY else "DISABLED"
+        gr_status = "OPERATIONAL" if settings.GOOGLE_ROUTES_API_KEY else "DISABLED"
+
     return success_response(
         data={
             "active_mode": "MOCK" if settings.USE_MOCKS else "LIVE",
             "google_places": {
                 "configured": bool(settings.GOOGLE_PLACES_API_KEY),
-                "status": "OPERATIONAL" if settings.GOOGLE_PLACES_API_KEY else "DISABLED"
+                "status": gp_status
             },
             "google_routes": {
                 "configured": bool(settings.GOOGLE_ROUTES_API_KEY),
-                "status": "OPERATIONAL" if settings.GOOGLE_ROUTES_API_KEY else "DISABLED"
+                "status": gr_status
             },
             "geoapify": {
                 "configured": bool(settings.GEOAPIFY_API_KEY),
