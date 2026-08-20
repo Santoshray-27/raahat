@@ -1,5 +1,5 @@
 from typing import Optional, List, Dict, Any
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 from app.schemas.enums import IncidentCategory, SeverityLevel, ServiceType
 from app.schemas.common import GeoPoint, ServiceProvider
 
@@ -10,11 +10,22 @@ class VehicleInfo(BaseModel):
     fuel_type: Optional[str] = None
 
 class EmergencyRequest(BaseModel):
-    user_query: str = Field(..., min_length=2, description="Natural language description of emergency in English, Hindi, or Hinglish")
+    user_query: Optional[str] = None
+    message: Optional[str] = None
     location: GeoPoint
     user_id: Optional[str] = "anonymous"
     language: Optional[str] = "en"
     vehicle_info: Optional[VehicleInfo] = None
+
+    @model_validator(mode="before")
+    def validate_query(cls, values):
+        if isinstance(values, dict):
+            query_val = values.get("message") or values.get("user_query")
+            if not query_val or len(str(query_val).strip()) < 2:
+                raise ValueError("Field 'message' or 'user_query' is required (min 2 characters)")
+            values["user_query"] = str(query_val)
+            values["message"] = str(query_val)
+        return values
 
 class IncidentDetails(BaseModel):
     incident_id: str

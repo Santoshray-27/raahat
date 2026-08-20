@@ -3,6 +3,7 @@ from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
+from fastapi.encoders import jsonable_encoder
 
 from app.core.config import settings
 from app.core.logging import logger
@@ -53,7 +54,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
         content=error_response(
             code="VALIDATION_ERROR",
             message="Invalid request parameters or body format",
-            details={"errors": exc.errors()},
+            details={"errors": jsonable_encoder(exc.errors())},
             status_code=422,
             request_id=req_id
         )
