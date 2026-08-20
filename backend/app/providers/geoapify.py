@@ -1,7 +1,7 @@
 import httpx
 from datetime import datetime, timezone
 import uuid
-from typing import List, Optional
+from typing import List, Optional, Tuple
 from app.providers.base import BasePlacesProvider, BaseRoutingProvider
 from app.core.config import settings
 from app.core.logging import logger
@@ -16,15 +16,17 @@ class GeoapifyProviderError(Exception):
 class GeoapifyPlacesProvider(BasePlacesProvider):
     name = "geoapify"
 
-    _CATEGORY_MAP = {
-        ServiceType.HOSPITAL: ["healthcare.hospital"],
-        ServiceType.AMBULANCE: ["healthcare.ambulance", "healthcare.hospital"],
-        ServiceType.POLICE: ["amenity.police"],
-        ServiceType.FIRE_BRIGADE: ["amenity.fire_station"],
-        ServiceType.PUNCTURE_REPAIR: ["service.vehicle", "commercial.vehicle"],
-        ServiceType.MECHANIC: ["service.vehicle.repair", "service.vehicle"],
-        ServiceType.TOWING: ["service.vehicle.towing", "service.vehicle"],
-        ServiceType.FUEL_DELIVERY: ["service.fuel"],
+    # Category map: (geoapify_api_category, [local_filter_keywords])
+    # ONLY pass 200-returning categories to the API!
+    _CATEGORY_MAP: dict[ServiceType, Tuple[str, List[str]]] = {
+        ServiceType.HOSPITAL: ("healthcare.hospital", []),
+        ServiceType.AMBULANCE: ("healthcare", ["ambulance"]),
+        ServiceType.POLICE: ("amenity", ["police"]),
+        ServiceType.FIRE_BRIGADE: ("amenity", ["fire", "fire_station"]),
+        ServiceType.PUNCTURE_REPAIR: ("service.vehicle", []),
+        ServiceType.MECHANIC: ("service.vehicle.repair", []),
+        ServiceType.TOWING: ("service.vehicle", ["towing"]),
+        ServiceType.FUEL_DELIVERY: ("commercial", ["fuel", "gas"]),
     }
 
     async def search_nearby(
@@ -39,76 +41,96 @@ class GeoapifyPlacesProvider(BasePlacesProvider):
             raise GeoapifyProviderError("Key not configured")
 
         main_type = service_types[0] if service_types else ServiceType.HOSPITAL
-        categories = self._CATEGORY_MAP.get(main_type, ["amenity.other"])
+        api_category, filter_keywords = self._CATEGORY_MAP.get(main_type, ("amenity", []))
 
-        for category in categories:
-            url = "https://api.geoapify.com/v2/places"
-            params = {
-                "categories": category,
-                "filter": f"circle:{location.longitude},{location.latitude},{int(radius_km * 1000)}",
-                "limit": limit,
-                "apiKey": settings.GEOAPIFY_API_KEY,
-                "lang": "en"
-            }
-            try:
-                async with httpx.AsyncClient(timeout=15.0) as client:
-                    response = await client.get(url, params=params)
-                    if response.status_code in [401, 403, 429]:
-                        raise GeoapifyProviderError(f"Geoapify authentication/rate limit error: {response.status_code}")
-                    if response.status_code != 200:
-                        logger.warning(f"Geoapify category {category} returned {response.status_code}. Trying fallback...")
-                        continue
+        url = "https://api.geoapify.com/v2/places"
+        params = {
+            "categories": api_category,
+            "filter": f"circle:{location.longitude},{location.latitude},{int(radius_km * 1000)}",
+            "limit": max(limit * 3, 20) if filter_keywords else limit,  # Fetch more if doing local filtering
+            "apiKey": settings.GEOAPIFY_API_KEY,
+            "lang": "en"
+        }
+        
+        try:
+            async with httpx.AsyncClient(timeout=15.0) as client:
+                response = await client.get(url, params=params)
+                if response.status_code in [401, 403, 429]:
+                    raise GeoapifyProviderError(f"Geoapify authentication/rate limit error: {response.status_code}")
+                if response.status_code != 200:
+                    logger.warning(f"Geoapify category {api_category} returned {response.status_code}.")
+                    raise GeoapifyProviderError(f"Geoapify returned {response.status_code}")
 
-                    data = response.json()
-                    features = data.get("features", [])
-                    if features:
-                        results = []
-                        for f in features:
-                            props = f.get("properties", {})
-                            place_id = props.get("place_id", str(uuid.uuid4()))
-                            
-                            # Calculate distance
-                            dist = props.get("distance")
-                            loc = GeoPoint(latitude=props.get("lat", 0), longitude=props.get("lon", 0))
-                            if dist is None:
-                                dist = calculate_haversine_distance(location, loc) * 1000.0
-
-                            # Parse address
-                            address_line = props.get("address_line1", "")
-                            if props.get("address_line2"):
-                                address_line += ", " + props.get("address_line2")
-
-                            sp = ServiceProvider(
-                                provider_id=f"geoapify_{place_id}",
-                                name=props.get("name") or props.get("address_line1", "Unknown Service"),
-                                service_types=[main_type.value],
-                                location=loc,
-                                address=LocationAddress(
-                                    formatted_address=address_line or None,
-                                    city=props.get("city"),
-                                    state=props.get("state"),
-                                    country=props.get("country", "India"),
-                                    postal_code=props.get("postcode")
-                                ),
-                                contact=ContactInfo(
-                                    phone_primary=str(props.get("contact", {}).get("phone")) if props.get("contact", {}).get("phone") else None
-                                ),
-                                distance_km=dist / 1000.0,
-                                eta_minutes=int(dist / 1000.0 * 2), # rough estimate
-                                rating=None,
-                                review_count=0,
-                                availability_status="UNKNOWN",
-                                source=ProviderSource.GEOAPIFY,
-                                is_cached=False,
-                                retrieved_at=datetime.now(timezone.utc).isoformat()
-                            )
-                            results.append(sp)
-                        return sorted(results, key=lambda x: x.distance_km)[:limit]
-            except GeoapifyProviderError:
-                raise
-            except Exception as e:
-                logger.error(f"Geoapify request failed: {e}")
+                data = response.json()
+                features = data.get("features", [])
                 
+                # Apply local keyword filtering if filter_keywords specified
+                if filter_keywords and features:
+                    filtered_features = []
+                    for f in features:
+                        props = f.get("properties", {})
+                        item_cats = [c.lower() for c in props.get("categories", [])]
+                        item_name = props.get("name", "").lower()
+                        
+                        # Match if any keyword is in item categories or name
+                        matched = any(
+                            kw.lower() in cat_str or kw.lower() in item_name
+                            for kw in filter_keywords
+                            for cat_str in item_cats + [item_name]
+                        )
+                        if matched:
+                            filtered_features.append(f)
+                    
+                    # If local filter yielded matching features, use them; else fallback to raw features
+                    if filtered_features:
+                        features = filtered_features
+
+                if features:
+                    results = []
+                    for f in features[:limit]:
+                        props = f.get("properties", {})
+                        place_id = props.get("place_id", str(uuid.uuid4()))
+                        
+                        dist = props.get("distance")
+                        loc = GeoPoint(latitude=props.get("lat", 0), longitude=props.get("lon", 0))
+                        if dist is None:
+                            dist = calculate_haversine_distance(location, loc) * 1000.0
+
+                        address_line = props.get("address_line1", "")
+                        if props.get("address_line2"):
+                            address_line += ", " + props.get("address_line2")
+
+                        sp = ServiceProvider(
+                            provider_id=f"geoapify_{place_id}",
+                            name=props.get("name") or props.get("address_line1", "Unknown Service"),
+                            service_types=[main_type.value],
+                            location=loc,
+                            address=LocationAddress(
+                                formatted_address=address_line or None,
+                                city=props.get("city"),
+                                state=props.get("state"),
+                                country=props.get("country", "India"),
+                                postal_code=props.get("postcode")
+                            ),
+                            contact=ContactInfo(
+                                phone_primary=str(props.get("contact", {}).get("phone")) if props.get("contact", {}).get("phone") else None
+                            ),
+                            distance_km=round(dist / 1000.0, 2),
+                            eta_minutes=max(1, int(dist / 1000.0 * 2)),
+                            rating=None,
+                            review_count=0,
+                            availability_status="UNKNOWN",
+                            source=ProviderSource.GEOAPIFY,
+                            is_cached=False,
+                            retrieved_at=datetime.now(timezone.utc).isoformat()
+                        )
+                        results.append(sp)
+                    return sorted(results, key=lambda x: x.distance_km)[:limit]
+        except GeoapifyProviderError:
+            raise
+        except Exception as e:
+            logger.error(f"Geoapify request failed: {e}")
+            
         raise GeoapifyProviderError("No results found in any categories or request failed completely.")
 
 class GeoapifyRoutingProvider(BaseRoutingProvider):
@@ -155,7 +177,7 @@ class GeoapifyRoutingProvider(BaseRoutingProvider):
             route_id=f"rt_geoapify_{uuid.uuid4().hex[:8]}",
             origin=origin,
             destination=destination,
-            total_distance_km=dist_m / 1000.0,
-            total_duration_minutes=dur_s / 60.0,
+            total_distance_km=round(dist_m / 1000.0, 2),
+            total_duration_minutes=round(dur_s / 60.0, 1),
             provider_source=ProviderSource.GEOAPIFY
         )

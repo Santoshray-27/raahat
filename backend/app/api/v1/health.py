@@ -4,6 +4,7 @@ from fastapi import APIRouter
 from app.core.config import settings
 from app.core.response import success_response
 from app.core.telemetry import get_logs
+from app.core.circuit_breaker import google_circuit_breaker
 
 router = APIRouter()
 
@@ -48,16 +49,24 @@ async def get_health():
 
 @router.get("/providers/status")
 async def get_providers_status():
+    exhausted, expiry_time = google_circuit_breaker.is_exhausted()
+    if exhausted:
+        gp_status = f"QUOTA_EXHAUSTED (skipping until {expiry_time})"
+        gr_status = f"QUOTA_EXHAUSTED (skipping until {expiry_time})"
+    else:
+        gp_status = "OPERATIONAL" if settings.GOOGLE_PLACES_API_KEY else "DISABLED"
+        gr_status = "OPERATIONAL" if settings.GOOGLE_ROUTES_API_KEY else "DISABLED"
+
     return success_response(
         data={
             "active_mode": "MOCK" if settings.USE_MOCKS else "LIVE",
             "google_places": {
                 "configured": bool(settings.GOOGLE_PLACES_API_KEY),
-                "status": "OPERATIONAL" if settings.GOOGLE_PLACES_API_KEY else "DISABLED"
+                "status": gp_status
             },
             "google_routes": {
                 "configured": bool(settings.GOOGLE_ROUTES_API_KEY),
-                "status": "OPERATIONAL" if settings.GOOGLE_ROUTES_API_KEY else "DISABLED"
+                "status": gr_status
             },
             "geoapify": {
                 "configured": bool(settings.GEOAPIFY_API_KEY),

@@ -1,94 +1,131 @@
 import React, { useState } from 'react';
-import { Download, ShieldAlert, CheckCircle, FileText, Lock } from 'lucide-react';
+import { Download, CheckCircle, Package, Trash2, RefreshCw } from 'lucide-react';
 import { requestApi } from '../api/client';
+
+interface OfflinePackData {
+  manifest: {
+    pack_id: string;
+    total_providers: number;
+    sha256_checksum: string;
+    version?: string;
+    created_at?: string;
+    expires_at?: string;
+  };
+}
 
 export const OfflinePack: React.FC = () => {
   const [region, setRegion] = useState('Indore Highway Corridor');
-  const [pack, setPack] = useState<any | null>(null);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(['AMBULANCE', 'POLICE', 'MECHANIC', 'PUNCTURE_REPAIR', 'HOSPITAL']);
+  const [pack, setPack] = useState<OfflinePackData | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [packs, setPacks] = useState<OfflinePackData[]>([]);
+
+  const allCategories = ['AMBULANCE', 'POLICE', 'HOSPITAL', 'MECHANIC', 'PUNCTURE_REPAIR', 'TOWING', 'FUEL_DELIVERY', 'FIRE_BRIGADE'];
+
+  const toggleCategory = (cat: string) => {
+    setSelectedCategories(prev =>
+      prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
+    );
+  };
 
   const handleGeneratePack = async () => {
     setLoading(true);
+    setError(null);
     try {
-      const data = await requestApi<any>('/offline-packs', 'POST', {
+      const data = await requestApi<OfflinePackData>('/offline-packs', 'POST', {
         region_name: region,
-        route_id: "demo_route_123",
-        include_categories: ['AMBULANCE', 'POLICE', 'MECHANIC', 'PUNCTURE_REPAIR', 'HOSPITAL']
+        route_id: 'demo_route_123',
+        include_categories: selectedCategories
       });
       setPack(data);
-    } catch (err) {
-      console.error('Offline pack creation failed', err);
+      setPacks(prev => [data, ...prev]);
+    } catch (err: any) {
+      setError(err.message || 'Offline pack creation failed');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '32px 24px' }}>
-      <div style={{ marginBottom: '28px' }}>
-        <h2 style={{ fontSize: '2rem', fontWeight: 800, margin: '0 0 8px 0' }}>
-          Offline Region Emergency Pack Generator
-        </h2>
-        <p style={{ color: '#94a3b8', margin: 0 }}>
-          Download offline region data bundles containing emergency contacts, verified mechanics, hospitals, and SHA256 verified manifests for zero-connectivity situations.
+    <div className="container">
+      <div style={{ marginBottom: '24px' }}>
+        <h1 style={{ fontSize: '1.8rem', fontWeight: 800, margin: '0 0 6px 0', color: '#0F172A' }}>
+          Offline Emergency Pack
+        </h1>
+        <p style={{ color: '#64748B', margin: 0, fontSize: '0.92rem' }}>
+          Download offline data bundles containing emergency contacts and verified services for zero-connectivity situations.
         </p>
       </div>
 
-      <div className="glass-card" style={{ padding: '24px', marginBottom: '28px' }}>
-        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-          <div style={{ flex: 1 }}>
-            <label style={{ display: 'block', fontSize: '0.85rem', color: '#94a3b8', marginBottom: '6px' }}>Target Region Name</label>
-            <input
-              type="text"
-              value={region}
-              onChange={(e) => setRegion(e.target.value)}
-              placeholder="e.g. Indore Highway Corridor"
-              style={{ width: '100%', boxSizing: 'border-box', padding: '14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.2)', backgroundColor: 'rgba(15, 23, 42, 0.8)', color: 'white' }}
-            />
-          </div>
-          <button
-            onClick={handleGeneratePack}
-            disabled={loading}
-            style={{
-              backgroundColor: '#10b981',
-              color: 'white',
-              border: 'none',
-              borderRadius: '10px',
-              padding: '14px 24px',
-              fontWeight: 700,
-              cursor: 'pointer',
-              marginTop: '22px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}
-          >
-            <Download size={18} />
-            {loading ? 'GENERATING PACK...' : 'GENERATE OFFLINE PACK'}
-          </button>
+      {/* Create Pack */}
+      <div className="card" style={{ padding: '24px', marginBottom: '24px' }}>
+        <h3 style={{ margin: '0 0 16px 0', fontSize: '1rem', color: '#0F172A' }}>Create New Pack</h3>
+
+        <div style={{ marginBottom: '16px' }}>
+          <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748B', marginBottom: '6px', fontWeight: 600 }}>Region Name</label>
+          <input
+            className="input"
+            value={region}
+            onChange={(e) => setRegion(e.target.value)}
+            placeholder="e.g. Indore Highway Corridor"
+            style={{ maxWidth: '400px' }}
+          />
         </div>
+
+        <div style={{ marginBottom: '20px' }}>
+          <label style={{ display: 'block', fontSize: '0.82rem', color: '#64748B', marginBottom: '8px', fontWeight: 600 }}>Categories to Include</label>
+          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+            {allCategories.map(cat => (
+              <button
+                key={cat}
+                className={selectedCategories.includes(cat) ? 'chip chip-active' : 'chip'}
+                onClick={() => toggleCategory(cat)}
+                style={{ fontSize: '0.8rem', padding: '6px 12px' }}
+              >
+                {cat.replace('_', ' ')}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <button className="btn btn-success" onClick={handleGeneratePack} disabled={loading} style={{ gap: '8px' }}>
+          {loading ? (
+            <><div className="spinner" style={{ width: 14, height: 14, borderWidth: 2, borderTopColor: 'white' }} /> Generating...</>
+          ) : (
+            <><Package size={16} /> Generate Offline Pack</>
+          )}
+        </button>
       </div>
 
+      {/* Error */}
+      {error && (
+        <div className="card" style={{ padding: '16px 20px', marginBottom: '20px', borderLeft: '4px solid #EF4444' }}>
+          <span style={{ color: '#DC2626', fontSize: '0.88rem' }}>{error}</span>
+        </div>
+      )}
+
+      {/* Generated Pack Result */}
       {pack && (
-        <div className="glass-card" style={{ padding: '28px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <CheckCircle size={24} color="#10b981" />
-              <h3 style={{ margin: 0 }}>Offline Pack Ready: {pack.manifest.pack_id}</h3>
-            </div>
-            <span style={{ backgroundColor: 'rgba(16, 185, 129, 0.15)', color: '#34d399', padding: '4px 12px', borderRadius: '8px', fontWeight: 600, fontSize: '0.85rem' }}>
-              SHA-256 Verified
-            </span>
+        <div className="card" style={{ padding: '24px', marginBottom: '24px', borderLeft: '4px solid #16A34A' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+            <CheckCircle size={22} color="#16A34A" />
+            <h3 style={{ margin: 0, fontSize: '1.05rem', color: '#0F172A' }}>Pack Ready</h3>
+            <span className="badge badge-live" style={{ fontSize: '0.72rem' }}>SHA-256 Verified</span>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px', backgroundColor: 'rgba(15, 23, 42, 0.6)', padding: '18px', borderRadius: '12px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '20px', backgroundColor: '#F8FAFC', padding: '16px', borderRadius: '10px', border: '1px solid #E2E8F0' }}>
             <div>
-              <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>TOTAL SERVICE PROVIDERS</div>
-              <div style={{ fontSize: '1.4rem', fontWeight: 700, color: '#f8fafc' }}>{pack.manifest.total_providers} Verified Vendors</div>
+              <div style={{ fontSize: '0.75rem', color: '#64748B', fontWeight: 600, textTransform: 'uppercase', marginBottom: '2px' }}>Pack ID</div>
+              <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0F172A' }}>{pack.manifest.pack_id}</div>
             </div>
             <div>
-              <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>FILE CHECKSUM (SHA-256)</div>
-              <div style={{ fontSize: '0.78rem', color: '#60a5fa', fontFamily: 'monospace', wordBreak: 'break-all' }}>{pack.manifest.sha256_checksum}</div>
+              <div style={{ fontSize: '0.75rem', color: '#64748B', fontWeight: 600, textTransform: 'uppercase', marginBottom: '2px' }}>Providers</div>
+              <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0F172A' }}>{pack.manifest.total_providers} verified</div>
+            </div>
+            <div style={{ gridColumn: '1 / -1' }}>
+              <div style={{ fontSize: '0.75rem', color: '#64748B', fontWeight: 600, textTransform: 'uppercase', marginBottom: '2px' }}>SHA-256 Checksum</div>
+              <code style={{ fontSize: '0.72rem', color: '#2563EB', wordBreak: 'break-all' }}>{pack.manifest.sha256_checksum}</code>
             </div>
           </div>
 
@@ -96,21 +133,33 @@ export const OfflinePack: React.FC = () => {
             href={`http://localhost:8000/api/v1/offline-packs/${pack.manifest.pack_id}/download`}
             target="_blank"
             rel="noreferrer"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              backgroundColor: '#3b82f6',
-              color: 'white',
-              padding: '12px 24px',
-              borderRadius: '10px',
-              textDecoration: 'none',
-              fontWeight: 700
-            }}
+            className="btn btn-primary"
+            style={{ textDecoration: 'none' }}
           >
-            <Download size={18} />
-            DOWNLOAD JSON BUNDLE FOR FLUTTER / WEB
+            <Download size={16} /> Download JSON Bundle
           </a>
+        </div>
+      )}
+
+      {/* Pack History */}
+      {packs.length > 1 && (
+        <div>
+          <h3 style={{ fontSize: '1rem', color: '#0F172A', marginBottom: '12px' }}>Previous Packs</h3>
+          {packs.slice(1).map((p, idx) => (
+            <div key={idx} className="card" style={{ padding: '14px 20px', marginBottom: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div>
+                <span style={{ fontWeight: 600, fontSize: '0.88rem', color: '#0F172A' }}>{p.manifest.pack_id}</span>
+                <span style={{ fontSize: '0.78rem', color: '#64748B', marginLeft: '12px' }}>{p.manifest.total_providers} providers</span>
+              </div>
+              <a
+                href={`http://localhost:8000/api/v1/offline-packs/${p.manifest.pack_id}/download`}
+                target="_blank" rel="noreferrer"
+                className="btn btn-outline" style={{ fontSize: '0.78rem', padding: '6px 12px' }}
+              >
+                <Download size={12} /> Download
+              </a>
+            </div>
+          ))}
         </div>
       )}
     </div>
