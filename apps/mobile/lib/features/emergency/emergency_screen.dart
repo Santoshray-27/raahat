@@ -1,40 +1,9 @@
 import 'package:flutter/material.dart';
 
-/// Local data model representing a structured emergency response.
-class MockEmergencyResponse {
-  final String incidentType;
-  final String severity;
-  final double confidence;
-  final String summary;
-  final String guidanceTitle;
-  final List<String> guidanceSteps;
-  final String safetyNote;
-
-  const MockEmergencyResponse({
-    required this.incidentType,
-    required this.severity,
-    required this.confidence,
-    required this.summary,
-    required this.guidanceTitle,
-    required this.guidanceSteps,
-    required this.safetyNote,
-  });
-}
-
-/// Standard mock response instance for demonstration.
-const MockEmergencyResponse _kMockEmergencyResponse = MockEmergencyResponse(
-  incidentType: 'TYRE_PUNCTURE',
-  severity: 'MEDIUM',
-  confidence: 0.94,
-  summary: 'Vehicle has a tyre puncture.',
-  guidanceTitle: 'Stay safe after a tyre puncture',
-  guidanceSteps: [
-    'Move to a safe location if possible.',
-    'Turn on hazard lights.',
-    'Avoid continuing to drive if the tyre is damaged.',
-  ],
-  safetyNote: 'Do not attempt repairs in an unsafe traffic position.',
-);
+import 'package:raahat/services/api_client.dart';
+import 'package:raahat/core/location/location_service.dart';
+import 'package:raahat/services/emergency_service.dart';
+import 'package:raahat/core/constants/enums.dart';
 
 /// Interactive emergency reporting screen using mock-driven analysis.
 class EmergencyScreen extends StatefulWidget {
@@ -47,8 +16,13 @@ class EmergencyScreen extends StatefulWidget {
 class _EmergencyScreenState extends State<EmergencyScreen> {
   final TextEditingController _inputController = TextEditingController();
   bool _isLoading = false;
-  MockEmergencyResponse? _response;
+  Map<String, dynamic>? _response;
   String? _validationError;
+
+  final EmergencyService _emergencyService = EmergencyService(
+    apiClient: ApiClient(),
+    locationService: LocationService(),
+  );
 
   static const List<String> _quickSelectExamples = [
     'I have a flat tire',
@@ -94,14 +68,27 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
       _validationError = null;
     });
 
-    await Future.delayed(const Duration(milliseconds: 1500));
+    try {
+      final responseMap = await _emergencyService.submitEmergency(text, NetworkMode.ONLINE);
 
-    if (!mounted) return;
-
-    setState(() {
-      _isLoading = false;
-      _response = _kMockEmergencyResponse;
-    });
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+        _response = responseMap;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+        _validationError = 'Error: ${e.toString()}';
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to submit emergency: ${e.toString()}'),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ),
+      );
+    }
   }
 
   void _resetReport() {
@@ -242,41 +229,27 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
     );
   }
 
-  Widget _buildResponseCard(ThemeData theme, MockEmergencyResponse response) {
+  Widget _buildResponseCard(ThemeData theme, Map<String, dynamic> response) {
+    // Extract real backend fields
+    final incident = response['incident'] as Map<String, dynamic>? ?? {};
+    final guidance = response['guidance'] as Map<String, dynamic>? ?? {};
+    final ai = response['ai'] as Map<String, dynamic>? ?? {};
+    final actions = response['recommended_actions'] as List<dynamic>? ?? [];
+
+    final String incidentType = incident['category'] as String? ?? 'UNKNOWN';
+    final String severity = incident['severity'] as String? ?? 'UNKNOWN';
+    final double confidence = (ai['confidence_score'] as num?)?.toDouble() ?? 0.0;
+    final String summary = guidance['summary'] as String? ?? (incident['description_summary'] as String? ?? 'Emergency reported.');
+
+    final List<dynamic> stepsRaw = guidance['steps'] as List<dynamic>? ?? [];
+    final List<String> guidanceSteps = stepsRaw.map((s) => (s['instruction'] as String?) ?? '').where((s) => s.isNotEmpty).toList();
+
+    final List<dynamic> dontDoRaw = guidance['immediate_do_not_do'] as List<dynamic>? ?? [];
+    final String safetyNote = dontDoRaw.join('\n');
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // Demo notice banner
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-          decoration: BoxDecoration(
-            color: theme.colorScheme.primaryContainer,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: theme.colorScheme.primary.withAlpha(80),
-            ),
-          ),
-          child: Row(
-            children: [
-              Icon(
-                Icons.info_outline,
-                size: 20,
-                color: theme.colorScheme.onPrimaryContainer,
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  'Demo response — backend integration will be connected later.',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onPrimaryContainer,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
 
         // Incident Overview Alert Card
         Card(
@@ -299,7 +272,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
-                        response.incidentType,
+                        incidentType,
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -317,7 +290,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
-                        'SEVERITY: ${response.severity}',
+                        'SEVERITY: $severity',
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -329,14 +302,14 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  response.summary,
+                  summary,
                   style: theme.textTheme.headlineMedium?.copyWith(
                     fontSize: 18,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Confidence: ${(response.confidence * 100).toStringAsFixed(0)}%',
+                  'Confidence: ${(confidence * 100).toStringAsFixed(0)}%',
                   style: theme.textTheme.bodyMedium,
                 ),
               ],
@@ -361,14 +334,14 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        response.guidanceTitle,
+                        'Immediate Guidance',
                         style: theme.textTheme.titleLarge,
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 16),
-                ...response.guidanceSteps.asMap().entries.map((entry) {
+                ...guidanceSteps.asMap().entries.map((entry) {
                   final index = entry.key + 1;
                   final step = entry.value;
                   return Container(
@@ -448,7 +421,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      response.safetyNote,
+                      safetyNote.isEmpty ? 'Follow guidance steps carefully.' : safetyNote,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: const Color(0xFF5D4037),
                         fontWeight: FontWeight.w600,
@@ -475,23 +448,28 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
                 ),
                 const SizedBox(height: 12),
                 Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: () {},
-                        icon: const Icon(Icons.car_repair),
-                        label: const Text('CALL TOWING'),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: () {},
-                        icon: const Icon(Icons.navigation),
-                        label: const Text('NAVIGATE'),
-                      ),
-                    ),
-                  ],
+                  children: actions.isEmpty
+                      ? [const Text('No immediate actions recommended.')]
+                      : actions.map((action) {
+                          final label = (action['label'] as String?) ?? 'ACTION';
+                          final actionType = (action['action_type'] as String?) ?? 'CALL';
+
+                          IconData iconData = Icons.call;
+                          if (actionType == 'NAVIGATE') iconData = Icons.navigation;
+                          if (actionType == 'CALL_TOWING') iconData = Icons.car_repair;
+                          if (actionType == 'CALL_POLICE') iconData = Icons.local_police;
+
+                          return Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: ElevatedButton.icon(
+                                onPressed: () {},
+                                icon: Icon(iconData),
+                                label: Text(label),
+                              ),
+                            ),
+                          );
+                        }).toList(),
                 ),
               ],
             ),

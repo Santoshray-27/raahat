@@ -45,10 +45,10 @@ class ServicesService {
     final String longitudeStr = locationMap['longitude'].toString();
 
     final Map<String, String> queryParams = {
-      'latitude': latitudeStr,
-      'longitude': longitudeStr,
+      'lat': latitudeStr,
+      'lng': longitudeStr,
       'category': serviceCategoryFilter,
-      'radius_meters': '5000',
+      'radius_km': '5.0',
       'limit': '10',
     };
 

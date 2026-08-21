@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:raahat/core/constants/mock_services.dart';
+import 'package:raahat/services/api_client.dart';
+import 'package:raahat/core/location/location_service.dart';
+import 'package:raahat/services/services_service.dart';
 
-/// Screen listing nearby emergency services using mock dataset.
+/// Screen listing nearby emergency services from the backend API.
 class ServicesScreen extends StatefulWidget {
   const ServicesScreen({super.key});
 
@@ -20,12 +22,53 @@ class _ServicesScreenState extends State<ServicesScreen> {
     'PUNCTURE_REPAIR',
   ];
 
+  List<Map<String, dynamic>> _services = [];
+  bool _isLoading = true;
+  String? _errorMessage;
+
+  late final ServicesService _servicesService;
+
+  @override
+  void initState() {
+    super.initState();
+    _servicesService = ServicesService(
+      apiClient: ApiClient(),
+      locationService: LocationService(),
+    );
+    _fetchServices();
+  }
+
+  Future<void> _fetchServices() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    try {
+      final results = await _servicesService.fetchNearbyServices('ALL');
+      if (!mounted) return;
+      setState(() {
+        _services = results;
+        _isLoading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _errorMessage = e.toString();
+        _isLoading = false;
+      });
+    }
+  }
+
   List<Map<String, dynamic>> get _filteredServices {
     if (_selectedCategory == 'ALL') {
-      return mockServicesData;
+      return _services;
     }
-    return mockServicesData
-        .where((service) => service['category'] == _selectedCategory)
+    return _services
+        .where((service) {
+          final types = service['service_types'] as List<dynamic>?;
+          return types != null && types.contains(_selectedCategory);
+        })
         .toList();
   }
 
@@ -75,15 +118,41 @@ class _ServicesScreenState extends State<ServicesScreen> {
 
             // Services List
             Expanded(
-              child: services.isEmpty
-                  ? Center(child: _buildEmptyState(theme))
-                  : ListView.builder(
-                      padding: const EdgeInsets.all(16),
-                      itemCount: services.length,
-                      itemBuilder: (context, index) {
-                        return _buildServiceCard(theme, services[index]);
-                      },
-                    ),
+              child: _isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : _errorMessage != null
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(32.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                                const SizedBox(height: 16),
+                                Text(
+                                  'Failed to load nearby services:\n$_errorMessage',
+                                  textAlign: TextAlign.center,
+                                  style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.error),
+                                ),
+                                const SizedBox(height: 16),
+                                ElevatedButton.icon(
+                                  onPressed: _fetchServices,
+                                  icon: const Icon(Icons.refresh),
+                                  label: const Text('Retry'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : services.isEmpty
+                          ? Center(child: _buildEmptyState(theme))
+                          : ListView.builder(
+                              padding: const EdgeInsets.all(16),
+                              itemCount: services.length,
+                              itemBuilder: (context, index) {
+                                return _buildServiceCard(theme, services[index]);
+                              },
+                            ),
             ),
           ],
         ),
@@ -191,17 +260,28 @@ class _ServicesScreenState extends State<ServicesScreen> {
 
   Widget _buildServiceCard(ThemeData theme, Map<String, dynamic> service) {
     final String name = service['name'] as String? ?? 'Unknown Provider';
-    final String category = service['category'] as String? ?? 'SERVICE';
-    final String address = service['address'] as String? ?? 'No address provided';
-    final String phone = service['phone'] as String? ?? 'No phone provided';
-    final int? distanceMeters = service['distance_meters'] as int?;
+
+    // category comes from service_types[0]
+    final List<dynamic>? serviceTypes = service['service_types'] as List<dynamic>?;
+    final String category = (serviceTypes != null && serviceTypes.isNotEmpty)
+        ? serviceTypes.first.toString()
+        : 'SERVICE';
+
+    // address comes from address.formatted_address
+    final Map<String, dynamic>? addressMap = service['address'] as Map<String, dynamic>?;
+    final String address = addressMap?['formatted_address'] as String? ?? 'No address provided';
+
+    // phone comes from contact.phone_primary
+    final Map<String, dynamic>? contactMap = service['contact'] as Map<String, dynamic>?;
+    final String phone = contactMap?['phone_primary'] as String? ?? 'No phone provided';
+
+    final num? distanceKmNum = service['distance_km'] as num?;
     final double? rating = (service['rating'] as num?)?.toDouble();
-    final bool? isOpen = service['is_open'] as bool?;
     final String availabilityStatus =
         service['availability_status'] as String? ?? 'UNKNOWN';
 
-    final String distanceKmText = distanceMeters != null
-        ? '${(distanceMeters / 1000).toStringAsFixed(1)} km'
+    final String distanceKmText = distanceKmNum != null
+        ? '${distanceKmNum.toStringAsFixed(1)} km'
         : 'N/A';
 
     return Card(
@@ -358,7 +438,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
             // Status & Availability Row
             Row(
               children: [
-                if (isOpen == true)
+                if (availabilityStatus == 'OPEN')
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 8,
@@ -378,7 +458,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                       ),
                     ),
                   )
-                else if (isOpen == false)
+                else if (availabilityStatus == 'CLOSED')
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 8,
@@ -398,9 +478,6 @@ class _ServicesScreenState extends State<ServicesScreen> {
                       ),
                     ),
                   ),
-
-                if (isOpen != null && availabilityStatus == 'UNKNOWN')
-                  const SizedBox(width: 8),
 
                 if (availabilityStatus == 'UNKNOWN')
                   Text(
