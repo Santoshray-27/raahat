@@ -1,5 +1,11 @@
 import uuid
-from typing import List
+from typing import List, Optional
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.schemas.users import UserProfile
+from app.repositories.user_repository import UserRepository
+from app.repositories.incident_repository import IncidentRepository
+from app.models.incident import Incident, IncidentUpdate
 from app.services.gemini_service import gemini_enhancer
 from app.services.guidance import guidance_engine
 from app.services.ranking import service_ranker
@@ -10,9 +16,41 @@ from app.schemas.emergency import (
 )
 
 class EmergencyOrchestrator:
-    async def process_emergency(self, req: EmergencyRequest) -> EmergencyResponseData:
+    async def process_emergency(
+        self, 
+        req: EmergencyRequest, 
+        db: Optional[AsyncSession] = None, 
+        user: Optional[UserProfile] = None
+    ) -> EmergencyResponseData:
         # 1. Classify Query (Primary Gemini 1.5 Flash server-side with rule fallback)
         category, severity, confidence, req_services, classifier_model = await gemini_enhancer.analyze_emergency(req.user_query)
+        
+        # Persist Incident (Transaction 1)
+        incident_id_str = f"inc_{str(uuid.uuid4())[:8]}"
+        persisted_incident = None
+
+        if db and user and not user.is_anonymous:
+            try:
+                user_repo = UserRepository(db)
+                inc_repo = IncidentRepository(db)
+                db_user = await user_repo.sync_user(user)
+                
+                new_incident = Incident(
+                    user_id=db_user.id,
+                    incident_type=category.value,
+                    severity=severity.value,
+                    description=req.user_query or req.message,
+                    location=f"SRID=4326;POINT({req.location.longitude} {req.location.latitude})",
+                    status="active"
+                )
+                persisted_incident = await inc_repo.create_incident(new_incident)
+                if persisted_incident:
+                    incident_id_str = str(persisted_incident.id)
+            except Exception as e:
+                # Critical resilience: do not block emergency response
+                import logging
+                logging.getLogger(__name__).error(f"Persistence error: {e}", exc_info=True)
+                pass
         
         # 2. Get Structured Guidance
         guidance = guidance_engine.get_guidance(category, severity)
@@ -69,7 +107,7 @@ class EmergencyOrchestrator:
             )
             
         incident = IncidentDetails(
-            incident_id=f"inc_{str(uuid.uuid4())[:8]}",
+            incident_id=incident_id_str,
             category=category,
             severity=severity,
             confidence=confidence,
@@ -90,6 +128,19 @@ class EmergencyOrchestrator:
                 f"Service directory served via {provider_source} fallback.",
                 "Vendor availability status is UNKNOWN — please call to confirm opening hours."
             ]
+            
+        # Transaction 2: Incident Update
+        if persisted_incident and db:
+            try:
+                inc_repo = IncidentRepository(db)
+                update = IncidentUpdate(
+                    incident_id=persisted_incident.id,
+                    status="active",
+                    message="Services retrieved and actions recommended."
+                )
+                await inc_repo.create_incident_update(update)
+            except Exception:
+                pass
             
         return EmergencyResponseData(
             incident=incident,

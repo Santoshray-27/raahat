@@ -63,3 +63,42 @@ async def get_current_user(
             detail=f"Invalid or expired Firebase authentication token: {str(e)}",
             headers={"WWW-Authenticate": "Bearer"}
         )
+
+async def get_optional_current_user(
+    auth_credentials: Optional[HTTPAuthorizationCredentials] = Security(security_scheme)
+) -> Optional[UserProfile]:
+    """
+    Returns the UserProfile if a valid token is provided.
+    Returns None if no token is provided.
+    Throws 401 if a token is provided but invalid.
+    """
+    if settings.AUTH_DISABLED:
+        return UserProfile(
+            uid="dev_user_999",
+            email="santosh.dev@raahat.app",
+            display_name="Santosh Ray (Dev Mode)",
+            is_anonymous=False
+        )
+        
+    if not auth_credentials or not auth_credentials.credentials:
+        return None
+        
+    token = auth_credentials.credentials
+    
+    try:
+        decoded_token = auth.verify_id_token(token)
+        return UserProfile(
+            uid=decoded_token.get("uid", "user_unknown"),
+            email=decoded_token.get("email"),
+            display_name=decoded_token.get("name", "RAAHAT User"),
+            phone_number=decoded_token.get("phone_number"),
+            photo_url=decoded_token.get("picture"),
+            is_anonymous=False
+        )
+    except Exception as e:
+        logger.error(f"Optional Firebase Token Verification Failed: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=f"Invalid or expired Firebase authentication token: {str(e)}",
+            headers={"WWW-Authenticate": "Bearer"}
+        )
