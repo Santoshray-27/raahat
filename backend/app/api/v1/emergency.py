@@ -1,4 +1,9 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from typing import Optional
+from sqlalchemy.ext.asyncio import AsyncSession
+from app.core.database import get_db
+from app.core.security import get_optional_current_user
+from app.schemas.users import UserProfile
 from app.core.response import success_response
 from app.schemas.emergency import EmergencyRequest
 from app.services.orchestrator import orchestrator
@@ -9,9 +14,13 @@ from app.core.telemetry import log_request
 router = APIRouter()
 
 @router.post("/emergency-assistance")
-async def process_emergency_assistance(req: EmergencyRequest):
+async def process_emergency_assistance(
+    req: EmergencyRequest,
+    db: AsyncSession = Depends(get_db),
+    user: Optional[UserProfile] = Depends(get_optional_current_user)
+):
     start_time = time.time()
-    result = await orchestrator.process_emergency(req)
+    result = await orchestrator.process_emergency(req, db, user)
     latency = (time.time() - start_time) * 1000
     
     # Extract provider source from the first service if available, else fallback
