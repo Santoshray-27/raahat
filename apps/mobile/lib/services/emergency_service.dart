@@ -59,10 +59,7 @@ class EmergencyService {
         'latitude': locationMap['latitude'],
         'longitude': locationMap['longitude'],
         'accuracy_meters': locationMap['accuracy_meters'],
-        'timestamp': locationMap['timestamp'],
       },
-      'network_mode': mode == NetworkMode.ONLINE ? 'ONLINE' : 'OFFLINE',
-      'include_services': true,
     };
 
     final Map<String, dynamic> response = await apiClient.post(
