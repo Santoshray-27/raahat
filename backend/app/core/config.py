@@ -14,9 +14,14 @@ class Settings(BaseSettings):
     GOOGLE_MAPS_JS_KEY: str = ""
     GEMINI_API_KEY: str = ""
     FIREBASE_CREDENTIALS_PATH: str = "./firebase-key.json"
+    ENVIRONMENT: str = "development"
     AUTH_DISABLED: bool = True
     DATABASE_URL: str = "postgresql+asyncpg://postgres:password@localhost:5432/raahat"
     CORS_ORIGINS: str = "http://localhost:5173,http://localhost:3000"
+    
+    RAG_CORPUS_DIR: str = "../RAG"
+    RAG_EMBEDDING_MODEL: str = "models/gemini-embedding-001"
+    RAG_EMBEDDING_DIMENSION: int = 1536
     
     model_config = SettingsConfigDict(
         env_file=".env",
