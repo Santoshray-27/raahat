@@ -398,21 +398,35 @@ export const Dashboard: React.FC = () => {
             <div className="card" style={{ padding: '20px', marginTop: '20px' }}>
               <h3 style={{ margin: '0 0 12px 0', fontSize: '1rem', color: '#0F172A' }}>Recommended Actions</h3>
               <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                {result.recommended_actions.map((action) => (
-                  <button
-                    key={action.action_id}
-                    className={`btn ${action.action_type === 'CALL' ? 'btn-danger' : action.action_type === 'NAVIGATE' ? 'btn-primary' : 'btn-outline'}`}
-                    onClick={() => {
-                      if (action.action_type === 'CALL' && action.target_contact) {
-                        window.location.href = `tel:${action.target_contact}`;
-                      }
-                    }}
-                    style={{ fontSize: '0.85rem' }}
-                  >
-                    {action.action_type === 'CALL' ? <Phone size={14} /> : <ChevronRight size={14} />}
-                    {action.label}
-                  </button>
-                ))}
+                {result.recommended_actions.map((action) => {
+                  const isCallAction = action.action_type?.includes('CALL') || action.action_type?.includes('POLICE') || action.action_type === 'CALL';
+                  const isNavAction = action.action_type === 'NAVIGATE';
+
+                  return (
+                    <button
+                      key={action.action_id}
+                      className={`btn ${isCallAction ? 'btn-danger' : isNavAction ? 'btn-primary' : 'btn-outline'}`}
+                      onClick={() => {
+                        if (isCallAction && action.target_contact) {
+                          window.location.href = `tel:${action.target_contact}`;
+                        } else if (isNavAction) {
+                          const lat = action.target_payload?.latitude;
+                          const lng = action.target_payload?.longitude;
+                          if (lat && lng) {
+                            window.open(`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`, '_blank', 'noopener,noreferrer');
+                          } else if (result.services?.length > 0) {
+                            const top = result.services[0];
+                            window.open(`https://www.google.com/maps/search/?api=1&query=${top.location.latitude},${top.location.longitude}`, '_blank', 'noopener,noreferrer');
+                          }
+                        }
+                      }}
+                      style={{ fontSize: '0.85rem' }}
+                    >
+                      {isCallAction ? <Phone size={14} /> : isNavAction ? <Navigation size={14} /> : <ChevronRight size={14} />}
+                      {action.label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           )}

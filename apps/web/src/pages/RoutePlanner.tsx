@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Navigation, MapPin, Crosshair, ArrowRight, Download } from 'lucide-react';
-import { requestApi } from '../api/client';
+import { Navigation, MapPin, Crosshair, ArrowRight } from 'lucide-react';
+import { requestApi, RoutePlanResponse, ServiceProvider } from '../api/client';
 
 export const RoutePlanner: React.FC = () => {
   const [originLat, setOriginLat] = useState('22.7196');
   const [originLng, setOriginLng] = useState('75.8577');
   const [destLat, setDestLat] = useState('23.2599');
   const [destLng, setDestLng] = useState('77.4126');
-  const [route, setRoute] = useState<any | null>(null);
+  const [route, setRoute] = useState<RoutePlanResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -27,7 +27,7 @@ export const RoutePlanner: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await requestApi<any>('/routes/plan', 'POST', {
+      const data = await requestApi<RoutePlanResponse>('/routes/plan', 'POST', {
         origin: { latitude: parseFloat(originLat), longitude: parseFloat(originLng) },
         destination: { latitude: parseFloat(destLat), longitude: parseFloat(destLng) },
         prefer_safe_corridors: true
@@ -130,7 +130,7 @@ export const RoutePlanner: React.FC = () => {
               {route.segments?.length > 0 && (
                 <>
                   <strong style={{ color: '#0F172A', display: 'block', marginBottom: '8px', fontSize: '0.9rem' }}>Segments:</strong>
-                  {route.segments.map((seg: any, idx: number) => (
+                  {route.segments.map((seg, idx) => (
                     <div key={idx} style={{ backgroundColor: '#F8FAFC', border: '1px solid #E2E8F0', padding: '10px 14px', borderRadius: '8px', marginBottom: '6px', borderLeft: '3px solid #16A34A' }}>
                       <div style={{ fontWeight: 600, color: '#0F172A', fontSize: '0.88rem' }}>{seg.summary}</div>
                       <div style={{ fontSize: '0.8rem', color: '#64748B' }}>{seg.distance_km} km · ~{seg.duration_minutes} min</div>
@@ -138,18 +138,13 @@ export const RoutePlanner: React.FC = () => {
                   ))}
                 </>
               )}
-
-              {/* Prepare Offline Pack */}
-              <button className="btn btn-outline" style={{ marginTop: '16px', fontSize: '0.85rem' }}>
-                <Download size={14} /> Prepare Offline Pack
-              </button>
             </div>
 
             {/* Corridor Services */}
             <div className="card" style={{ padding: '24px' }}>
               <h3 style={{ margin: '0 0 16px 0', fontSize: '1.1rem', color: '#0F172A' }}>Corridor Emergency Services</h3>
               {route.nearby_emergency_services?.length > 0 ? (
-                route.nearby_emergency_services.map((service: any) => (
+                route.nearby_emergency_services.map((service: ServiceProvider) => (
                   <div key={service.provider_id} style={{ backgroundColor: '#F8FAFC', border: '1px solid #E2E8F0', padding: '12px 14px', borderRadius: '10px', marginBottom: '10px' }}>
                     <div style={{ fontWeight: 600, color: '#0F172A', fontSize: '0.92rem' }}>{service.name}</div>
                     <div style={{ fontSize: '0.8rem', color: '#64748B', marginTop: '4px' }}>
