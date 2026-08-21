@@ -1,0 +1,883 @@
+{
+    "domain": "Tyre / Puncture Emergency",
+    "domain_id": "DOMAIN-005",
+    "knowledge_requirements": [
+        {
+            "requirement_id": "KR-001",
+            "requirement": "Recognizing a flat tyre",
+            "description": "Signs and symptoms that a tyre has gone flat while stationary or driving.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-002",
+            "requirement": "Recognizing slow tyre pressure loss",
+            "description": "Recognising a slow leak through gradual handling changes, pressure warnings or visual inspection.",
+            "priority": "Medium"
+        },
+        {
+            "requirement_id": "KR-003",
+            "requirement": "Recognizing a sudden tyre blowout",
+            "description": "Recognising the sound, vibration and handling change of a sudden blowout.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-004",
+            "requirement": "Immediate response to a tyre blowout while driving",
+            "description": "Safe control inputs (steering, braking, acceleration) during a blowout at speed.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-005",
+            "requirement": "Safe stopping after tyre failure",
+            "description": "Bringing the vehicle to a controlled stop in the safest available position.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-006",
+            "requirement": "Highway/expressway puncture safety",
+            "description": "Handling a puncture on high-speed access-controlled roads, including shoulder use and escalation.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-007",
+            "requirement": "Night-time puncture safety",
+            "description": "Additional visibility and positioning precautions for punctures in darkness or poor visibility.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-008",
+            "requirement": "Passenger safety during tyre failure",
+            "description": "Keeping passengers safe during and after a tyre failure.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-009",
+            "requirement": "Whether/how far a vehicle may be driven on a flat tyre",
+            "description": "Whether driving on a flat is advisable and any distance/speed limits.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-010",
+            "requirement": "When driving on a damaged tyre is unsafe",
+            "description": "Identifying tyre damage that makes further driving unsafe.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-011",
+            "requirement": "Spare tyre replacement",
+            "description": "Safe process and preconditions for replacing a punctured tyre with a spare.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-012",
+            "requirement": "Temporary spare/donut tyre limitations",
+            "description": "Speed and distance limitations of temporary/compact spares.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-013",
+            "requirement": "Using a tyre inflator/compressor",
+            "description": "Safe use of an inflator/compressor for a deflated tyre.",
+            "priority": "Medium"
+        },
+        {
+            "requirement_id": "KR-014",
+            "requirement": "Using a puncture-repair kit",
+            "description": "Safe use and limitations of sealant/plug puncture-repair kits.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-015",
+            "requirement": "Tubeless tyre puncture",
+            "description": "Handling punctures in tubeless tyres commonly used in India.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-016",
+            "requirement": "Tube-type tyre puncture",
+            "description": "Handling punctures in tube-type tyres.",
+            "priority": "Medium"
+        },
+        {
+            "requirement_id": "KR-017",
+            "requirement": "Tyre sidewall damage",
+            "description": "Whether sidewall damage can be repaired and associated risks.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-018",
+            "requirement": "Tyre/rim damage after pothole impact",
+            "description": "Assessing tyre and rim damage after hitting a pothole or debris.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-019",
+            "requirement": "TPMS warning",
+            "description": "Interpreting and responding to tyre-pressure monitoring system warnings.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-020",
+            "requirement": "Run-flat tyres",
+            "description": "Capabilities and limitations of run-flat tyres.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-021",
+            "requirement": "Valve damage",
+            "description": "Recognising and responding to tyre valve damage or leakage.",
+            "priority": "Medium"
+        },
+        {
+            "requirement_id": "KR-022",
+            "requirement": "Multiple tyre failures",
+            "description": "Handling more than one damaged tyre when only one spare is available.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-023",
+            "requirement": "No spare tyre available",
+            "description": "Options when no spare tyre is available.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-024",
+            "requirement": "When professional roadside assistance is required",
+            "description": "Situations where the driver should stop and call assistance rather than attempt repair.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-025",
+            "requirement": "Safe handling of passengers/pets around the vehicle",
+            "description": "Keeping passengers and pets clear of traffic and the working area during tyre change.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-026",
+            "requirement": "Warning other road users",
+            "description": "Hazard lights, warning triangle and visibility measures during a tyre incident.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-027",
+            "requirement": "What tools a driver should use/not use",
+            "description": "Appropriate tools (jack, wheel spanner) and unsafe improvisation.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-028",
+            "requirement": "Dangerous tyre-repair actions",
+            "description": "Actions an ordinary driver should never attempt at the roadside.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-029",
+            "requirement": "India-specific roadside tyre assistance",
+            "description": "Indian highway helplines and roadside assistance relevant to tyre incidents.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-030",
+            "requirement": "Motorcycle/scooter tyre puncture safety",
+            "description": "Safe handling of two-wheeler punctures and blowouts.",
+            "priority": "High"
+        }
+    ],
+    "knowledge_records": [],
+    "conflicts": [],
+    "unsafe_or_unsupported_claims": [
+        {
+            "claim_id": "UNSAFE-001",
+            "claim": "Exact distance a vehicle can be driven on a completely flat tyre",
+            "reason": "Depends on vehicle, tyre construction and load; unsafe to state a universal figure without manufacturer evidence (not verified)."
+        },
+        {
+            "claim_id": "UNSAFE-002",
+            "claim": "Exact run-flat driving distance and speed",
+            "reason": "Run-flat capability is tyre- and manufacturer-specific; must not be generalised (not verified)."
+        },
+        {
+            "claim_id": "UNSAFE-003",
+            "claim": "Exact maximum speed for a temporary/compact spare",
+            "reason": "Speed and distance limits are printed by the manufacturer on the spare or in the owner's manual and vary (not verified)."
+        },
+        {
+            "claim_id": "UNSAFE-004",
+            "claim": "Whether a specific puncture can be safely repaired",
+            "reason": "Repairability depends on puncture size, location and tyre condition and requires professional assessment (not verified)."
+        },
+        {
+            "claim_id": "UNSAFE-005",
+            "claim": "Whether sidewall damage can be repaired",
+            "reason": "Sidewall repairs are widely considered unsafe, but the specific threshold requires authoritative tyre-industry evidence (not verified)."
+        },
+        {
+            "claim_id": "UNSAFE-006",
+            "claim": "Vehicle-specific jack points",
+            "reason": "Jack placement points are vehicle-specific and listed in the owner's manual; using wrong points is dangerous (not verified)."
+        },
+        {
+            "claim_id": "UNSAFE-007",
+            "claim": "Vehicle-specific wheel-nut torque values",
+            "reason": "Torque values are vehicle-specific and must come from the manufacturer (not verified)."
+        },
+        {
+            "claim_id": "UNSAFE-008",
+            "claim": "Vehicle-specific correct tyre pressure",
+            "reason": "Correct pressure is on the vehicle placard or owner's manual and varies (not verified)."
+        },
+        {
+            "claim_id": "UNSAFE-009",
+            "claim": "Whether a puncture-repair kit is a permanent fix",
+            "reason": "Repair kits are generally temporary; the exact limitation requires manufacturer/kit evidence (not verified)."
+        },
+        {
+            "claim_id": "UNSAFE-010",
+            "claim": "Whether a specific tyre is a run-flat",
+            "reason": "Depends on the specific tyre markings; must be checked, not assumed (not verified)."
+        },
+        {
+            "claim_id": "UNSAFE-011",
+            "claim": "Precise steering/braking technique during a blowout as a universal rule",
+            "reason": "General principles exist but exact instruction must be supported by authoritative road-safety guidance (not verified)."
+        }
+    ],
+    "knowledge_gaps": [
+        {
+            "gap_id": "GAP-001",
+            "knowledge_requirement": "ALL",
+            "missing_information": "No authoritative source could be live-opened, inspected and verified in this environment, so no factual evidence records or verified source registry entries could be produced.",
+            "why_it_matters": "Tyre-failure advice is safety-critical and can affect vehicle control; unverified advice could cause loss of control or collision.",
+            "recommended_followup": "Perform live verification of MoRTH, NHAI, tyre-manufacturer and owner's-manual sources before ingestion.",
+            "priority": "Critical"
+        },
+        {
+            "gap_id": "GAP-002",
+            "knowledge_requirement": "KR-004",
+            "missing_information": "Authoritative guidance on correct steering/braking/acceleration response during a high-speed blowout has not been verified.",
+            "why_it_matters": "Incorrect reaction (e.g., hard braking) can cause loss of control.",
+            "recommended_followup": "Verify official road-safety authority guidance on blowout response.",
+            "priority": "Critical"
+        },
+        {
+            "gap_id": "GAP-003",
+            "knowledge_requirement": "KR-009",
+            "missing_information": "Verified guidance on whether and how far a vehicle may be driven on a flat tyre has not been confirmed.",
+            "why_it_matters": "Driving on a flat can damage the rim and cause loss of control.",
+            "recommended_followup": "Verify tyre-manufacturer and owner's-manual guidance.",
+            "priority": "Critical"
+        },
+        {
+            "gap_id": "GAP-004",
+            "knowledge_requirement": "KR-012",
+            "missing_information": "Verified temporary-spare speed/distance limitations have not been confirmed.",
+            "why_it_matters": "Exceeding spare limits can cause spare failure.",
+            "recommended_followup": "Verify owner's-manual and manufacturer guidance; treat as vehicle-specific.",
+            "priority": "High"
+        },
+        {
+            "gap_id": "GAP-005",
+            "knowledge_requirement": "KR-014",
+            "missing_information": "Verified limitations of puncture-repair kits (temporary nature, speed limits) have not been confirmed.",
+            "why_it_matters": "Users may treat a temporary sealant repair as permanent.",
+            "recommended_followup": "Verify repair-kit manufacturer and tyre-industry guidance.",
+            "priority": "High"
+        },
+        {
+            "gap_id": "GAP-006",
+            "knowledge_requirement": "KR-017",
+            "missing_information": "Verified tyre-industry guidance that sidewall-damaged tyres should not be repaired/driven has not been confirmed.",
+            "why_it_matters": "A weakened sidewall can burst suddenly.",
+            "recommended_followup": "Verify tyre-manufacturer or tyre-industry association guidance.",
+            "priority": "Critical"
+        },
+        {
+            "gap_id": "GAP-007",
+            "knowledge_requirement": "KR-019",
+            "missing_information": "Verified guidance on responding to a TPMS warning has not been confirmed.",
+            "why_it_matters": "Ignoring a genuine low-pressure warning can lead to tyre failure.",
+            "recommended_followup": "Verify vehicle-manufacturer guidance.",
+            "priority": "High"
+        },
+        {
+            "gap_id": "GAP-008",
+            "knowledge_requirement": "KR-020",
+            "missing_information": "Verified run-flat capability and limitation guidance has not been confirmed.",
+            "why_it_matters": "Run-flat behaviour is tyre-specific and easily misunderstood.",
+            "recommended_followup": "Verify tyre-manufacturer guidance; treat as tyre-specific.",
+            "priority": "High"
+        },
+        {
+            "gap_id": "GAP-009",
+            "knowledge_requirement": "KR-006",
+            "missing_information": "Verified NHAI/MoRTH guidance on highway/expressway tyre-incident safety and escalation has not been confirmed.",
+            "why_it_matters": "Changing a tyre in a live highway lane is highly dangerous.",
+            "recommended_followup": "Verify official Indian highway-authority guidance.",
+            "priority": "Critical"
+        },
+        {
+            "gap_id": "GAP-010",
+            "knowledge_requirement": "KR-011",
+            "missing_information": "Verified safe spare-replacement preconditions (firm level ground, chocking, jack points) have not been confirmed against authoritative sources.",
+            "why_it_matters": "Improper jacking can cause the vehicle to fall.",
+            "recommended_followup": "Verify owner's-manual and road-safety guidance.",
+            "priority": "Critical"
+        },
+        {
+            "gap_id": "GAP-011",
+            "knowledge_requirement": "KR-029",
+            "missing_information": "Current Indian highway helpline and roadside-assistance contacts have not been verified.",
+            "why_it_matters": "Users need reliable escalation contacts.",
+            "recommended_followup": "Verify official Indian highway/emergency helpline sources.",
+            "priority": "High"
+        },
+        {
+            "gap_id": "GAP-012",
+            "knowledge_requirement": "KR-030",
+            "missing_information": "Verified two-wheeler puncture/blowout safety guidance for Indian conditions has not been confirmed.",
+            "why_it_matters": "Two-wheeler blowouts carry high rider-injury risk.",
+            "recommended_followup": "Verify road-safety authority or manufacturer guidance.",
+            "priority": "High"
+        }
+    ],
+    "india_specific_assessment": {
+        "krs_with_indian_authoritative_support": [],
+        "krs_relying_on_international_or_manufacturer_guidance": [
+            "KR-012",
+            "KR-014",
+            "KR-017",
+            "KR-019",
+            "KR-020"
+        ],
+        "krs_with_no_verified_india_specific_evidence": [
+            "KR-001",
+            "KR-002",
+            "KR-003",
+            "KR-004",
+            "KR-005",
+            "KR-006",
+            "KR-007",
+            "KR-008",
+            "KR-009",
+            "KR-010",
+            "KR-011",
+            "KR-013",
+            "KR-015",
+            "KR-016",
+            "KR-018",
+            "KR-021",
+            "KR-022",
+            "KR-023",
+            "KR-024",
+            "KR-025",
+            "KR-026",
+            "KR-027",
+            "KR-028",
+            "KR-029",
+            "KR-030"
+        ],
+        "important_india_specific_gaps": [
+            "Highway/expressway tyre-incident escalation and helpline (KR-006, KR-029) not verified.",
+            "Pothole-related tyre/rim damage guidance for Indian road conditions (KR-018) not verified.",
+            "Two-wheeler puncture safety for Indian traffic conditions (KR-030) not verified."
+        ],
+        "highway_condition_notes": "Indian highways commonly feature mixed traffic, limited or occupied shoulders, and potholes, which likely increase tyre-incident risk and the danger of roadside tyre changes. These considerations require verification against authoritative Indian sources before ingestion (not verified)."
+    },
+    "source_coverage_matrix": [
+        {
+            "knowledge_requirement": "KR-001 to KR-030 (all)",
+            "source_ids": [],
+            "coverage": "Insufficient",
+            "authority": "Official",
+            "india_specific": false,
+            "notes": "No live-verified source available for any requirement in this dataset version. See knowledge_gaps GAP-001."
+        }
+    ],
+    "recommended_rag_corpus": {
+        "core_sources": [],
+        "supporting_sources": [],
+        "vehicle_manufacturer_specific_sources": [],
+        "followup_sources": []
+    },
+    "query_coverage": [
+        {
+            "query_id": "Q-001",
+            "query": "My tyre suddenly went flat while driving. What should I do?",
+            "language": "English",
+            "topic": "Flat tyre immediate response",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Keep a firm grip on the steering wheel (not verified)",
+                "Ease off the accelerator gradually (not verified)",
+                "Do not brake hard suddenly (not verified)",
+                "Move to a safe location and switch on hazard lights (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-002",
+            "query": "My tyre burst on the highway. What should I do?",
+            "language": "English",
+            "topic": "Highway blowout",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Maintain control and avoid sudden steering (not verified)",
+                "Slow down gradually and reach the shoulder (not verified)",
+                "Switch on hazard lights and place a warning triangle (not verified)",
+                "Call highway assistance (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-003",
+            "query": "Can I drive a few kilometres on a completely flat tyre?",
+            "language": "English",
+            "topic": "Driving on a flat tyre",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Driving on a flat can damage the rim and reduce control (not verified)",
+                "Generally avoid driving on a fully flat tyre (not verified)",
+                "Exact safe distance is vehicle-specific (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-004",
+            "query": "How do I safely change a punctured tyre?",
+            "language": "English",
+            "topic": "Spare tyre replacement",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Park on firm level ground away from traffic (not verified)",
+                "Apply the parking brake and use wheel chocks (not verified)",
+                "Use the correct jack points from the owner's manual (not verified)",
+                "If unsafe, call roadside assistance instead (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-005",
+            "query": "Is it safe to change a tyre on the highway shoulder?",
+            "language": "English",
+            "topic": "Highway tyre change safety",
+            "intent": "Informational",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Changing a tyre near fast traffic is dangerous (not verified)",
+                "Prefer calling highway assistance if unsafe (not verified)",
+                "Keep passengers behind the barrier (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-006",
+            "query": "My TPMS light has come on. Can I keep driving?",
+            "language": "English",
+            "topic": "TPMS warning",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Check tyres for low pressure or damage (not verified)",
+                "Reduce speed and stop safely if a tyre is losing pressure (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-007",
+            "query": "Can I repair a tyre with sidewall damage?",
+            "language": "English",
+            "topic": "Sidewall damage",
+            "intent": "Informational",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Sidewall-damaged tyres are generally not repairable (not verified)",
+                "Replace rather than repair; seek professional assessment (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-008",
+            "query": "Can I use a puncture repair kit temporarily?",
+            "language": "English",
+            "topic": "Puncture repair kit",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Repair kits are usually a temporary fix only (not verified)",
+                "Drive slowly and get a professional repair soon (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-009",
+            "query": "My car doesn't have a spare tyre. What should I do?",
+            "language": "English",
+            "topic": "No spare available",
+            "intent": "Emergency",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Stop safely and avoid driving on a damaged tyre (not verified)",
+                "Use a repair kit if suitable, otherwise call assistance (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-010",
+            "query": "There's a puncture at night on an isolated road. What should I do?",
+            "language": "English",
+            "topic": "Night/isolated puncture",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Switch on hazard lights and stay visible (not verified)",
+                "Stay inside a locked vehicle if the area feels unsafe (not verified)",
+                "Call roadside assistance or emergency services (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-011",
+            "query": "Should I brake hard if my tyre bursts at high speed?",
+            "language": "English",
+            "topic": "Blowout braking",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Avoid sudden hard braking (not verified)",
+                "Slow down gradually while keeping control (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-012",
+            "query": "How fast can I drive on a temporary spare (donut) tyre?",
+            "language": "English",
+            "topic": "Temporary spare limits",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Temporary spares have reduced speed and distance limits (not verified)",
+                "Follow the limit printed on the spare or owner's manual (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-013",
+            "query": "Is it safe to keep driving on a run-flat tyre after a puncture?",
+            "language": "English",
+            "topic": "Run-flat tyres",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Run-flats allow limited driving but have specific limits (not verified)",
+                "Follow the tyre manufacturer's distance and speed limits (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-014",
+            "query": "I hit a big pothole and now the steering feels off. Is my tyre or rim damaged?",
+            "language": "English",
+            "topic": "Pothole tyre/rim damage",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Stop safely and inspect the tyre and rim (not verified)",
+                "Avoid driving if damage or vibration is present; seek professional check (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-015",
+            "query": "Two of my tyres are damaged but I only have one spare. What should I do?",
+            "language": "English",
+            "topic": "Multiple tyre failures",
+            "intent": "Emergency",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Do not drive on a second damaged tyre (not verified)",
+                "Call roadside assistance (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-016",
+            "query": "Where should my family wait while I change a tyre on the roadside?",
+            "language": "English",
+            "topic": "Passenger safety",
+            "intent": "Informational",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Keep passengers away from traffic, behind the barrier (not verified)",
+                "Keep children and pets under control (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-017",
+            "query": "What should I NOT do when my tyre gets punctured on the road?",
+            "language": "English",
+            "topic": "Dangerous tyre actions",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Do not brake hard during a blowout (not verified)",
+                "Do not change a tyre in a live traffic lane (not verified)",
+                "Do not drive on a shredded or sidewall-damaged tyre (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-018",
+            "query": "My tyre valve seems to be leaking air. What should I do?",
+            "language": "English",
+            "topic": "Valve damage",
+            "intent": "Informational",
+            "severity": "Medium",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "A leaking valve can deflate the tyre; monitor pressure (not verified)",
+                "Get it inspected and repaired professionally (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-019",
+            "query": "When should I stop trying to fix the tyre myself and call for help?",
+            "language": "English",
+            "topic": "Professional assistance escalation",
+            "intent": "Informational",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Call assistance if the location is unsafe or traffic is fast (not verified)",
+                "Call assistance for sidewall/rim damage or multiple flats (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-020",
+            "query": "Can I use an inflator to reinflate my tyre and keep driving?",
+            "language": "English",
+            "topic": "Inflator/compressor use",
+            "intent": "Informational",
+            "severity": "Medium",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "An inflator may help with slow leaks temporarily (not verified)",
+                "It will not fix a large puncture; seek repair (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-021",
+            "query": "गाड़ी का टायर हाईवे पर पंचर हो गया, क्या करें?",
+            "language": "Hindi",
+            "topic": "Highway puncture",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "गाड़ी को सुरक्षित शोल्डर पर ले जाएं (not verified)",
+                "हैजार्ड लाइट्स ऑन करें (not verified)",
+                "हाईवे सहायता को कॉल करें (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-022",
+            "query": "टायर फट गया है, अभी क्या करना चाहिए?",
+            "language": "Hindi",
+            "topic": "Blowout immediate response",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "स्टीयरिंग को मजबूती से पकड़ें (not verified)",
+                "अचानक ब्रेक न लगाएं (not verified)",
+                "धीरे-धीरे गाड़ी रोकें (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-023",
+            "query": "क्या फ्लैट टायर पर गाड़ी चला सकते हैं?",
+            "language": "Hindi",
+            "topic": "Driving on a flat tyre",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "फ्लैट टायर पर चलाने से रिम खराब हो सकता है (not verified)",
+                "आमतौर पर फ्लैट टायर पर न चलाएं (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-024",
+            "query": "टायर पंचर हो गया है और स्पेयर व्हील नहीं है, क्या करें?",
+            "language": "Hindi",
+            "topic": "No spare available",
+            "intent": "Emergency",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "सुरक्षित जगह पर रुकें (not verified)",
+                "रोडसाइड सहायता को कॉल करें (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-025",
+            "query": "रात में सुनसान सड़क पर टायर पंचर हो गया, क्या करें?",
+            "language": "Hindi",
+            "topic": "Night/isolated puncture",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "हैजार्ड लाइट्स ऑन रखें (not verified)",
+                "असुरक्षित लगे तो गाड़ी में ही रहें (not verified)",
+                "सहायता को कॉल करें (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-026",
+            "query": "क्या साइडवॉल डैमेज वाला टायर ठीक कराया जा सकता है?",
+            "language": "Hindi",
+            "topic": "Sidewall damage",
+            "intent": "Informational",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "साइडवॉल डैमेज आमतौर पर रिपेयर नहीं होता (not verified)",
+                "टायर बदलवाना सुरक्षित है (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-027",
+            "query": "Tyre burst ho gaya hai highway par, abhi kya karna chahiye?",
+            "language": "Hinglish",
+            "topic": "Highway blowout",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Steering firmly pakdein aur control banaye rakhein (not verified)",
+                "Achanak brake mat lagayein (not verified)",
+                "Dheere dheere shoulder par gaadi rokhein (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-028",
+            "query": "Puncture repair kit se fix karke aage drive kar sakta hoon kya?",
+            "language": "Hinglish",
+            "topic": "Puncture repair kit",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Repair kit sirf temporary hota hai (not verified)",
+                "Slow chalayein aur jald professional repair karayein (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-029",
+            "query": "Donut spare laga hai, normal speed par chala sakta hoon?",
+            "language": "Hinglish",
+            "topic": "Temporary spare limits",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Temporary spare par speed limit hoti hai (not verified)",
+                "Spare par likhi limit follow karein (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-030",
+            "query": "TPMS light aa gayi hai, drive karna safe hai kya?",
+            "language": "Hinglish",
+            "topic": "TPMS warning",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Tyres check karein low pressure ke liye (not verified)",
+                "Pressure kam ho to safe jagah ruk jayein (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-031",
+            "query": "Bike ka tyre highway par puncture ho gaya, kya karna chahiye?",
+            "language": "Hinglish",
+            "topic": "Two-wheeler puncture",
+            "intent": "Emergency",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Dheere dheere speed kam karke safe side par rokein (not verified)",
+                "Bike ko traffic se door khada karein (not verified)",
+                "Nearest puncture repair ya assistance dhundein (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-032",
+            "query": "Scooter chalate waqt tyre ki hawa nikal rahi hai, kya karun?",
+            "language": "Hinglish",
+            "topic": "Two-wheeler slow leak",
+            "intent": "Emergency",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Speed kam karein aur safe jagah rokein (not verified)",
+                "Flat tyre par scooter na chalayein (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-033",
+            "query": "Heavy traffic mein tyre flat ho gaya aur rukne ki jagah nahi hai, kya karein?",
+            "language": "Hinglish",
+            "topic": "Unsafe stopping location",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Hazard lights on karein (not verified)",
+                "Slow chalte hue safe stopping point tak jayein (not verified)",
+                "Live lane mein tyre change na karein (not verified)"
+            ]
+        }
+    ],
+    "final_coverage_summary": {
+        "a_total_krs": 30,
+        "b_fully_covered_krs": 0,
+        "c_partially_covered_krs": 0,
+        "d_missing_krs": 30,
+        "e_india_specific_coverage": "No verified India-specific evidence in this dataset version.",
+        "f_critical_knowledge_gaps": [
+            "GAP-001",
+            "GAP-002",
+            "GAP-003",
+            "GAP-006",
+            "GAP-009",
+            "GAP-010"
+        ],
+        "g_conflicting_guidance": "None identified (no sources were verified).",
+        "h_core_sources": 0,
+        "i_supporting_sources": 0,
+        "j_most_important_facts_raahat_must_know": [
+            "During a blowout, avoid sudden hard braking and keep control (requires verification).",
+            "Do not change a tyre in a live traffic lane; escalate to assistance if unsafe (requires verification).",
+            "Sidewall-damaged tyres should generally be replaced, not repaired (requires verification).",
+            "Temporary spares and repair kits are limited/temporary (requires verification).",
+            "Keep passengers away from traffic during a roadside tyre change (requires verification)."
+        ],
+        "k_facts_raahat_must_not_guess": [
+            "Exact flat-tyre driving distance",
+            "Exact run-flat distance/speed",
+            "Exact temporary-spare speed limit",
+            "Whether a specific puncture/sidewall is repairable",
+            "Vehicle-specific jack points, torque and tyre pressure",
+            "Whether a specific tyre is a run-flat"
+        ],
+        "l_recommended_next_domain": "DOMAIN-006 Vehicle Fire"
+    }
+}

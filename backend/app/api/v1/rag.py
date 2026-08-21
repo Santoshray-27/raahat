@@ -1,46 +1,88 @@
-import httpx
-from fastapi import APIRouter
-from app.core.config import settings
+import time
+import logging
+from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
+from app.core.database import get_db
 from app.core.response import success_response
-from app.schemas.rag import RAGQueryRequest, RAGQueryResponseData, RAGDocumentChunk
+from app.schemas.rag import RAGQueryRequest, RAGQueryResponse, RAGRetrievedChunk
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
+
 
 @router.post("/rag/query")
-async def query_rag(req: RAGQueryRequest):
-    # Satwik Integration Point: If Satwik's AI Service is available at AI_SERVICE_URL, pass-through
-    ai_url = getattr(settings, "AI_SERVICE_URL", None)
-    if ai_url:
-        try:
-            async with httpx.AsyncClient(timeout=8.0) as client:
-                resp = await client.post(f"{ai_url}/rag/query", json=req.model_dump())
-                if resp.status_code == 200:
-                    return resp.json()
-        except Exception:
-            pass
+async def query_rag(
+    req: RAGQueryRequest,
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    M3-A: Real RAG query endpoint using pgvector cosine similarity.
 
-    # Clean fallback stub when AI service is not running
-    chunks = [
-        RAGDocumentChunk(
-            chunk_id="chk_first_aid_01",
-            title="Roadside Emergency First Aid Guidelines (SW-17 Manual)",
-            content="In case of vehicle accident with casualties, dial 112 immediately. Apply direct firm pressure over bleeding wounds with clean cloth.",
-            score=0.94,
-            source="RAAHAT Emergency SOP Manual v1"
-        ),
-        RAGDocumentChunk(
-            chunk_id="chk_puncture_02",
-            title="Expressway Vehicle Breakdowns & Safety Protocol",
-            content="Pull over to left shoulder, engage hazard lights, remain inside vehicle on expressways, and alert mobile roadside repair units.",
-            score=0.88,
-            source="National Highway Safety Manual"
+    Embeds the query via RagEmbeddingService (RETRIEVAL_QUERY task type),
+    runs similarity search through RagRepository, and returns structured chunks.
+
+    Graceful fallback: returns empty results if embedding or DB fails.
+    """
+    start = time.time()
+
+    try:
+        from app.services.rag_embedding_service import RagEmbeddingService, RagEmbeddingError
+        from app.repositories.rag_repository import RagRepository
+
+        embedding_service = RagEmbeddingService()
+        query_embedding = await embedding_service.embed_query(req.query)
+
+        # Optionally build a metadata filter from the request
+        metadata_filter = None
+        filter_parts = {}
+        if req.domain_id:
+            filter_parts["domain_id"] = req.domain_id
+        if req.india_specific is not None:
+            filter_parts["india_specific"] = req.india_specific
+        if filter_parts:
+            metadata_filter = filter_parts
+
+        rag_repo = RagRepository(db)
+        raw_results = await rag_repo.similarity_search(
+            query_embedding=query_embedding,
+            top_k=req.top_k,
+            min_score=req.min_score,
+            metadata_filter=metadata_filter,
         )
-    ]
-    
-    data = RAGQueryResponseData(
-        query=req.query,
-        answer=f"RAAHAT RAG Assistance: For '{req.query}', follow standard safety protocols. Park safely, activate hazard lights, and contact nearest verified provider.",
-        chunks=chunks[:req.top_k],
-        source_attribution=["RAAHAT Emergency SOP Manual v1", "National Highway Safety Manual"]
-    )
-    return success_response(data=data.model_dump())
+
+        results = [
+            RAGRetrievedChunk(
+                chunk_id=str(chunk.id),
+                document_id=str(chunk.document_id),
+                chunk_index=chunk.chunk_index,
+                content=chunk.content,
+                similarity_score=round(float(score), 6),
+                metadata=chunk.metadata_ or {},
+            )
+            for chunk, score in raw_results
+        ]
+
+        elapsed_ms = round((time.time() - start) * 1000, 2)
+        logger.info(
+            f"RAG query: '{req.query[:60]}...' → {len(results)} results "
+            f"in {elapsed_ms}ms"
+        )
+
+        response = RAGQueryResponse(
+            query=req.query,
+            results=results,
+            results_count=len(results),
+            rag_used=True,
+        )
+        return success_response(data=response.model_dump())
+
+    except Exception as e:
+        # Graceful degradation: log and return empty results
+        logger.warning(f"RAG query failed, returning empty results: {e}", exc_info=False)
+        response = RAGQueryResponse(
+            query=req.query,
+            results=[],
+            results_count=0,
+            rag_used=False,
+        )
+        return success_response(data=response.model_dump())

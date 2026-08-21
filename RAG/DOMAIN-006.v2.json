@@ -1,0 +1,1100 @@
+{
+    "domain": "Roadside / Towing Safety",
+    "research_summary": {
+        "objective": "Research safe roadside positioning, waiting for assistance, and towing/recovery safety for ordinary drivers and passengers in India.",
+        "sources_reviewed": 7,
+        "core_sources": [
+            "SRC-001",
+            "SRC-002",
+            "SRC-003"
+        ],
+        "supporting_sources": [
+            "SRC-004",
+            "SRC-005",
+            "SRC-006"
+        ],
+        "major_findings": [
+            "Strong India-specific guidance exists for safe stopping and warning devices on national highways (NHAI/MoRTH).",
+            "Very limited authoritative public guidance exists for ordinary drivers on towing/recovery safety procedures in India.",
+            "Most towing-related KRs remain Partial or Gap due to absence of verified bystander-level Indian sources."
+        ],
+        "india_specific_gaps": [
+            "No verified public guidance on passenger behaviour during vehicle loading/unloading on a tow truck.",
+            "No verified India-specific rules for when passengers may remain inside a vehicle being towed.",
+            "Expressway-specific towing assistance procedures not consolidated in one official public source."
+        ]
+    },
+    "knowledge_requirements": [
+        {
+            "requirement_id": "KR-001",
+            "requirement": "Safe stopping after a vehicle breakdown",
+            "description": "Actions for safely stopping a disabled vehicle and moving it out of traffic lanes where possible.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-002",
+            "requirement": "Getting the vehicle out of the traffic lane",
+            "description": "When and how to move a disabled vehicle completely off the carriageway.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-003",
+            "requirement": "Highway / expressway roadside safety",
+            "description": "Specific safety measures when breakdown occurs on high-speed roads.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-004",
+            "requirement": "What passengers should do after stopping",
+            "description": "Safe actions and positioning for passengers after the vehicle has stopped.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-005",
+            "requirement": "When it is safer to remain inside the vehicle",
+            "description": "Situations where remaining inside the vehicle is safer than exiting.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-006",
+            "requirement": "When it is safer to exit the vehicle",
+            "description": "Situations where exiting the vehicle is safer than remaining inside.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-007",
+            "requirement": "Safe location for waiting for roadside assistance",
+            "description": "Where passengers should wait while assistance arrives.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-008",
+            "requirement": "Hazard lights and warning devices",
+            "description": "Use of hazard lights and other warning measures.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-009",
+            "requirement": "Visibility at night / low visibility",
+            "description": "Additional measures required at night or in poor visibility.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-010",
+            "requirement": "Warning triangles / reflective devices",
+            "description": "When and how to deploy reflective warning triangles.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-011",
+            "requirement": "Standing near a disabled vehicle",
+            "description": "Safe distance and positioning relative to a broken-down vehicle.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-012",
+            "requirement": "Safe positioning relative to moving traffic",
+            "description": "How to avoid exposure to moving traffic while waiting.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-013",
+            "requirement": "Calling roadside assistance / towing services",
+            "description": "How and when to request professional assistance.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-014",
+            "requirement": "Information to provide the towing/assistance service",
+            "description": "Key information to communicate when calling for help.",
+            "priority": "Medium"
+        },
+        {
+            "requirement_id": "KR-015",
+            "requirement": "Approaching or interacting with a tow truck",
+            "description": "Safe behaviour when a tow truck arrives.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-016",
+            "requirement": "Safe behavior while a vehicle is being recovered",
+            "description": "Actions passengers should take during recovery operations.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-017",
+            "requirement": "Vehicle loading onto a tow truck",
+            "description": "Safety considerations during vehicle loading.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-018",
+            "requirement": "Vehicle unloading from a tow truck",
+            "description": "Safety considerations during vehicle unloading.",
+            "priority": "Medium"
+        },
+        {
+            "requirement_id": "KR-019",
+            "requirement": "Safety during vehicle towing",
+            "description": "Precautions while the vehicle is being towed.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-020",
+            "requirement": "Passenger safety during towing",
+            "description": "Whether and when passengers may travel inside a towed vehicle.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-021",
+            "requirement": "When passengers must NOT remain in a vehicle being towed",
+            "description": "Situations where passengers must exit before towing begins.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-022",
+            "requirement": "Towing on highways / high-speed roads",
+            "description": "Additional precautions required during towing on high-speed roads.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-023",
+            "requirement": "Preventing secondary collisions around a disabled vehicle",
+            "description": "Measures to reduce the risk of another vehicle colliding with the disabled vehicle.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-024",
+            "requirement": "What to do if the vehicle cannot be moved",
+            "description": "Actions when the vehicle is stuck in a traffic lane or unsafe position.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-025",
+            "requirement": "What to do if stranded in a dangerous location",
+            "description": "Response when no safe waiting area exists.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-026",
+            "requirement": "Night-time roadside breakdown safety",
+            "description": "Extra precautions required at night.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-027",
+            "requirement": "Bad weather / poor visibility while stranded",
+            "description": "Additional safety measures in rain, fog, or low visibility.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-028",
+            "requirement": "Pedestrian safety around towing/recovery operations",
+            "description": "Keeping pedestrians clear of recovery equipment and moving vehicles.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-029",
+            "requirement": "Tow-truck scam / unsafe unauthorized recovery considerations",
+            "description": "Basic precautions against unauthorized or unsafe recovery operators.",
+            "priority": "Medium"
+        },
+        {
+            "requirement_id": "KR-030",
+            "requirement": "Emergency escalation when roadside assistance is unsafe or unavailable",
+            "description": "When to call emergency services (112/100) instead of waiting for a tow.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-031",
+            "requirement": "India-specific roadside/towing considerations",
+            "description": "India-specific rules, helplines, and practices for roadside assistance.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-032",
+            "requirement": "Legal/regulatory considerations relevant to ordinary motorists in India",
+            "description": "Basic legal obligations or protections for stranded motorists.",
+            "priority": "Medium"
+        }
+    ],
+    "source_registry": [
+        {
+            "source_id": "SRC-001",
+            "source_name": "National Highways Authority of India (NHAI)",
+            "source_url": "https://nhai.gov.in/",
+            "source_type": "Government",
+            "authority_level": "Official",
+            "india_specific": true,
+            "topics_supported": [
+                "Highway breakdown safety",
+                "NHAI 1033 helpline"
+            ],
+            "recommended_use": "Core",
+            "reason": "Official national highway authority providing the 1033 roadside assistance helpline and highway safety guidance."
+        },
+        {
+            "source_id": "SRC-002",
+            "source_name": "Ministry of Road Transport and Highways (MoRTH) - Central Motor Vehicle Rules",
+            "source_url": "https://morth.nic.in/",
+            "source_type": "Government",
+            "authority_level": "Official",
+            "india_specific": true,
+            "topics_supported": [
+                "Warning triangle requirement",
+                "Vehicle safety equipment"
+            ],
+            "recommended_use": "Core",
+            "reason": "Official regulatory body; CMVR mandates carrying a reflective warning triangle."
+        },
+        {
+            "source_id": "SRC-003",
+            "source_name": "NHAI Highway Helpline 1033",
+            "source_url": "https://nhai.gov.in/1033",
+            "source_type": "Government",
+            "authority_level": "Official",
+            "india_specific": true,
+            "topics_supported": [
+                "Roadside assistance on national highways"
+            ],
+            "recommended_use": "Core",
+            "reason": "Official helpline for stranded commuters on national highways."
+        },
+        {
+            "source_id": "SRC-004",
+            "source_name": "National Highway Traffic Safety Administration (NHTSA) - Roadside Safety",
+            "source_url": "https://www.nhtsa.gov/road-safety",
+            "source_type": "Government",
+            "authority_level": "Official",
+            "india_specific": false,
+            "topics_supported": [
+                "Highway breakdown positioning",
+                "Warning devices"
+            ],
+            "recommended_use": "Supporting",
+            "reason": "Authoritative international road-safety guidance used where India-specific detail is unavailable."
+        },
+        {
+            "source_id": "SRC-005",
+            "source_name": "Automobile Association of India (AAI)",
+            "source_url": "https://www.aa-india.com/",
+            "source_type": "Institutional",
+            "authority_level": "Institutional",
+            "india_specific": true,
+            "topics_supported": [
+                "Roadside assistance practices"
+            ],
+            "recommended_use": "Supporting",
+            "reason": "Recognized Indian automobile association providing roadside assistance services."
+        },
+        {
+            "source_id": "SRC-006",
+            "source_name": "Central Motor Vehicles Rules (CMVR) - Warning Triangle",
+            "source_url": "https://morth.nic.in/central-motor-vehicles-rules",
+            "source_type": "Government",
+            "authority_level": "Official",
+            "india_specific": true,
+            "topics_supported": [
+                "Reflective warning triangle requirement"
+            ],
+            "recommended_use": "Core",
+            "reason": "Legal requirement under CMVR for carrying warning triangles."
+        }
+    ],
+    "recommended_rag_corpus": [
+        {
+            "source_id": "SRC-001",
+            "source_name": "National Highways Authority of India (NHAI)",
+            "source_url": "https://nhai.gov.in/",
+            "recommended_use": "Core",
+            "priority": "Core",
+            "authority_level": "Official",
+            "india_specific": true,
+            "reason": "Primary official source for national highway breakdown safety and the 1033 helpline."
+        },
+        {
+            "source_id": "SRC-002",
+            "source_name": "Ministry of Road Transport and Highways (MoRTH)",
+            "source_url": "https://morth.nic.in/",
+            "recommended_use": "Core",
+            "priority": "Core",
+            "authority_level": "Official",
+            "india_specific": true,
+            "reason": "Official source for CMVR warning triangle requirement and vehicle safety rules."
+        },
+        {
+            "source_id": "SRC-003",
+            "source_name": "NHAI Highway Helpline 1033",
+            "source_url": "https://nhai.gov.in/1033",
+            "recommended_use": "Core",
+            "priority": "Core",
+            "authority_level": "Official",
+            "india_specific": true,
+            "reason": "Direct official channel for roadside assistance on national highways."
+        },
+        {
+            "source_id": "SRC-004",
+            "source_name": "NHTSA Roadside Safety",
+            "source_url": "https://www.nhtsa.gov/road-safety",
+            "recommended_use": "Supporting",
+            "priority": "Supporting",
+            "authority_level": "Official",
+            "india_specific": false,
+            "reason": "International authoritative guidance used to supplement gaps in Indian public sources."
+        },
+        {
+            "source_id": "SRC-005",
+            "source_name": "Automobile Association of India",
+            "source_url": "https://www.aa-india.com/",
+            "recommended_use": "Supporting",
+            "priority": "Supporting",
+            "authority_level": "Institutional",
+            "india_specific": true,
+            "reason": "Indian institutional source for roadside assistance practices."
+        },
+        {
+            "source_id": "SRC-006",
+            "source_name": "Central Motor Vehicles Rules - Warning Triangle",
+            "source_url": "https://morth.nic.in/central-motor-vehicles-rules",
+            "recommended_use": "Core",
+            "priority": "Core",
+            "authority_level": "Official",
+            "india_specific": true,
+            "reason": "Legal basis for warning triangle requirement in India."
+        }
+    ],
+    "knowledge_coverage": [
+        {
+            "knowledge_requirement": "KR-001: Safe stopping after a vehicle breakdown",
+            "source_ids": [
+                "SRC-001",
+                "SRC-002"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": true,
+            "notes": "NHAI and MoRTH guidance supports moving to the left shoulder; detailed step-by-step instructions limited."
+        },
+        {
+            "knowledge_requirement": "KR-002: Getting the vehicle out of the traffic lane",
+            "source_ids": [
+                "SRC-001"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": true,
+            "notes": "Highway guidance exists; urban road guidance limited."
+        },
+        {
+            "knowledge_requirement": "KR-003: Highway / expressway roadside safety",
+            "source_ids": [
+                "SRC-001",
+                "SRC-003"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": true,
+            "notes": "NHAI 1033 coverage is good; expressway-specific rules are operator-dependent and not consolidated."
+        },
+        {
+            "knowledge_requirement": "KR-004: What passengers should do after stopping",
+            "source_ids": [
+                "SRC-001"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": true,
+            "notes": "General safety principles supported; specific passenger instructions limited."
+        },
+        {
+            "knowledge_requirement": "KR-005: When it is safer to remain inside the vehicle",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": false,
+            "notes": "No verified authoritative Indian source found."
+        },
+        {
+            "knowledge_requirement": "KR-006: When it is safer to exit the vehicle",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": false,
+            "notes": "No verified authoritative Indian source found."
+        },
+        {
+            "knowledge_requirement": "KR-007: Safe location for waiting for roadside assistance",
+            "source_ids": [
+                "SRC-001"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": true,
+            "notes": "NHAI guidance recommends staying behind barriers where available."
+        },
+        {
+            "knowledge_requirement": "KR-008: Hazard lights and warning devices",
+            "source_ids": [
+                "SRC-002"
+            ],
+            "coverage": "Full",
+            "authority": "Official",
+            "india_specific": true,
+            "notes": "CMVR and NHAI strongly recommend hazard lights."
+        },
+        {
+            "knowledge_requirement": "KR-009: Visibility at night / low visibility",
+            "source_ids": [
+                "SRC-002",
+                "SRC-006"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": true,
+            "notes": "Warning triangle requirement exists; night-specific positioning guidance limited."
+        },
+        {
+            "knowledge_requirement": "KR-010: Warning triangles / reflective devices",
+            "source_ids": [
+                "SRC-002",
+                "SRC-006"
+            ],
+            "coverage": "Full",
+            "authority": "Official",
+            "india_specific": true,
+            "notes": "CMVR legally requires vehicles to carry a reflective warning triangle."
+        },
+        {
+            "knowledge_requirement": "KR-011: Standing near a disabled vehicle",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": false,
+            "notes": "No verified authoritative source found."
+        },
+        {
+            "knowledge_requirement": "KR-012: Safe positioning relative to moving traffic",
+            "source_ids": [
+                "SRC-001"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": true,
+            "notes": "NHAI guidance supports staying behind barriers."
+        },
+        {
+            "knowledge_requirement": "KR-013: Calling roadside assistance / towing services",
+            "source_ids": [
+                "SRC-001",
+                "SRC-003"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": true,
+            "notes": "NHAI 1033 is well documented for national highways."
+        },
+        {
+            "knowledge_requirement": "KR-014: Information to provide the towing/assistance service",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": false,
+            "notes": "No verified authoritative source found."
+        },
+        {
+            "knowledge_requirement": "KR-015: Approaching or interacting with a tow truck",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": false,
+            "notes": "No verified authoritative source found."
+        },
+        {
+            "knowledge_requirement": "KR-016: Safe behavior while a vehicle is being recovered",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": false,
+            "notes": "No verified authoritative source found."
+        },
+        {
+            "knowledge_requirement": "KR-017: Vehicle loading onto a tow truck",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": false,
+            "notes": "No verified authoritative source found."
+        },
+        {
+            "knowledge_requirement": "KR-018: Vehicle unloading from a tow truck",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": false,
+            "notes": "No verified authoritative source found."
+        },
+        {
+            "knowledge_requirement": "KR-019: Safety during vehicle towing",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": false,
+            "notes": "No verified authoritative source found."
+        },
+        {
+            "knowledge_requirement": "KR-020: Passenger safety during towing",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": false,
+            "notes": "No verified authoritative source found."
+        },
+        {
+            "knowledge_requirement": "KR-021: When passengers must NOT remain in a vehicle being towed",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": false,
+            "notes": "No verified authoritative source found."
+        },
+        {
+            "knowledge_requirement": "KR-022: Towing on highways / high-speed roads",
+            "source_ids": [
+                "SRC-001"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": true,
+            "notes": "NHAI context available; specific towing rules limited."
+        },
+        {
+            "knowledge_requirement": "KR-023: Preventing secondary collisions around a disabled vehicle",
+            "source_ids": [
+                "SRC-001",
+                "SRC-002"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": true,
+            "notes": "Hazard lights and warning triangle guidance support this."
+        },
+        {
+            "knowledge_requirement": "KR-024: What to do if the vehicle cannot be moved",
+            "source_ids": [
+                "SRC-001"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": true,
+            "notes": "NHAI guidance recommends staying in a safe position and calling assistance."
+        },
+        {
+            "knowledge_requirement": "KR-025: What to do if stranded in a dangerous location",
+            "source_ids": [
+                "SRC-001"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": true,
+            "notes": "NHAI 1033 recommended when no safe area exists."
+        },
+        {
+            "knowledge_requirement": "KR-026: Night-time roadside breakdown safety",
+            "source_ids": [
+                "SRC-002",
+                "SRC-006"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": true,
+            "notes": "Warning triangle and hazard light guidance apply; additional night measures limited."
+        },
+        {
+            "knowledge_requirement": "KR-027: Bad weather / poor visibility while stranded",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": false,
+            "notes": "No verified authoritative source found."
+        },
+        {
+            "knowledge_requirement": "KR-028: Pedestrian safety around towing/recovery operations",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": false,
+            "notes": "No verified authoritative source found."
+        },
+        {
+            "knowledge_requirement": "KR-029: Tow-truck scam / unsafe unauthorized recovery considerations",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": false,
+            "notes": "No verified authoritative source found."
+        },
+        {
+            "knowledge_requirement": "KR-030: Emergency escalation when roadside assistance is unsafe or unavailable",
+            "source_ids": [
+                "SRC-001"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": true,
+            "notes": "NHAI guidance implies calling 112/100 in life-threatening situations."
+        },
+        {
+            "knowledge_requirement": "KR-031: India-specific roadside/towing considerations",
+            "source_ids": [
+                "SRC-001",
+                "SRC-003"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": true,
+            "notes": "NHAI 1033 is the main verified India-specific channel."
+        },
+        {
+            "knowledge_requirement": "KR-032: Legal/regulatory considerations relevant to ordinary motorists in India",
+            "source_ids": [
+                "SRC-002",
+                "SRC-006"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": true,
+            "notes": "CMVR warning triangle requirement is the only clear verified legal obligation."
+        }
+    ],
+    "query_coverage": [
+        {
+            "query_id": "Q-001",
+            "query": "What should I do if my car breaks down on a highway?",
+            "language": "English",
+            "topic": "Highway breakdown",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Move to the left shoulder if possible",
+                "Turn on hazard lights",
+                "Call NHAI 1033",
+                "Stay behind a barrier if available"
+            ]
+        },
+        {
+            "query_id": "Q-002",
+            "query": "My car has stopped in the middle of the road. What should I do?",
+            "language": "English",
+            "topic": "Vehicle in traffic lane",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Turn on hazard lights immediately",
+                "Try to move the vehicle to the left if safe",
+                "Call emergency services if the vehicle cannot be moved",
+                "Keep passengers inside if no safe exit exists"
+            ]
+        },
+        {
+            "query_id": "Q-003",
+            "query": "Should I stay inside my car while waiting for a tow truck?",
+            "language": "English",
+            "topic": "Stay inside vs exit",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Stay inside if the shoulder is narrow or traffic is fast",
+                "Exit only if there is a safe area behind a barrier",
+                "Keep seatbelts fastened if remaining inside"
+            ]
+        },
+        {
+            "query_id": "Q-004",
+            "query": "Is it safe to stand behind my broken-down vehicle?",
+            "language": "English",
+            "topic": "Positioning near vehicle",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "No, stay well away from traffic",
+                "Wait behind a guardrail or barrier if available"
+            ]
+        },
+        {
+            "query_id": "Q-005",
+            "query": "What should I do if my car cannot be moved off the highway?",
+            "language": "English",
+            "topic": "Vehicle stuck in lane",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Turn on hazard lights",
+                "Call NHAI 1033 or emergency services",
+                "Keep passengers inside with seatbelts on if no safe exit"
+            ]
+        },
+        {
+            "query_id": "Q-006",
+            "query": "Can passengers stay inside a car while it is being towed?",
+            "language": "English",
+            "topic": "Passengers during towing",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Generally not recommended",
+                "Follow the tow operator's instructions",
+                "Exit the vehicle before towing if possible (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-007",
+            "query": "हाईवे पर गाड़ी खराब हो जाए तो क्या करना चाहिए?",
+            "language": "Hindi",
+            "topic": "Highway breakdown",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "हज़ार्ड लाइट ऑन करें",
+                "बाईं ओर शोल्डर पर गाड़ी ले जाएँ",
+                "NHAI 1033 पर कॉल करें"
+            ]
+        },
+        {
+            "query_id": "Q-008",
+            "query": "गाड़ी सड़क के बीच में बंद हो गई है, क्या करें?",
+            "language": "Hindi",
+            "topic": "Vehicle in traffic lane",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "तुरंत हज़ार्ड लाइट ऑन करें",
+                "यदि सुरक्षित हो तो गाड़ी बाईं ओर ले जाएँ",
+                "गाड़ी न हिल पाए तो इमरजेंसी सर्विस को कॉल करें"
+            ]
+        },
+        {
+            "query_id": "Q-009",
+            "query": "टो ट्रक आने तक गाड़ी के अंदर बैठना चाहिए या बाहर निकलना चाहिए?",
+            "language": "Hindi",
+            "topic": "Stay inside vs exit",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "यदि शोल्डर संकरा है या ट्रैफिक तेज़ है तो अंदर बैठें",
+                "यदि बैरियर के पीछे सुरक्षित जगह हो तो बाहर निकलें"
+            ]
+        },
+        {
+            "query_id": "Q-010",
+            "query": "Highway par car breakdown ho gayi, ab kya karein?",
+            "language": "Hinglish",
+            "topic": "Highway breakdown",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Hazard light on karo",
+                "Left shoulder par gaadi le jao",
+                "NHAI 1033 call karo"
+            ]
+        },
+        {
+            "query_id": "Q-011",
+            "query": "Tow truck aane tak car ke andar rehna safe hai?",
+            "language": "Hinglish",
+            "topic": "Stay inside vs exit",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Agar shoulder chhota hai to andar baitho",
+                "Barrier ke peeche safe jagah ho to bahar niklo"
+            ]
+        },
+        {
+            "query_id": "Q-012",
+            "query": "Gaadi ko tow karte time passengers andar baith sakte hain?",
+            "language": "Hinglish",
+            "topic": "Passengers during towing",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Generally nahi",
+                "Tow operator ke instruction follow karo",
+                "Agar possible ho to pehle bahar niklo (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-013",
+            "query": "Should I put a warning triangle behind my broken car on the highway?",
+            "language": "English",
+            "topic": "Warning triangle",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Yes, if it can be done safely",
+                "Indian law requires carrying one",
+                "Place it at a safe distance behind the vehicle"
+            ]
+        },
+        {
+            "query_id": "Q-014",
+            "query": "My car is stuck in a live lane at night. What should I do?",
+            "language": "English",
+            "topic": "Night dangerous location",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Keep hazard lights on",
+                "Do not exit into traffic",
+                "Call NHAI 1033 or 112 immediately"
+            ]
+        },
+        {
+            "query_id": "Q-015",
+            "query": "Can I stand on the highway shoulder while waiting for help?",
+            "language": "English",
+            "topic": "Positioning near traffic",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "No, stay behind a guardrail or barrier if possible",
+                "Avoid standing between your vehicle and moving traffic"
+            ]
+        },
+        {
+            "query_id": "Q-016",
+            "query": "What number should I call for roadside help on a national highway?",
+            "language": "English",
+            "topic": "India assistance number",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Call NHAI 1033",
+                "For life-threatening situations call 112"
+            ]
+        },
+        {
+            "query_id": "Q-017",
+            "query": "Gaadi highway par band ho gayi hai, warning triangle kaise lagayein?",
+            "language": "Hinglish",
+            "topic": "Warning triangle",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Agar safely lagaya ja sake to lagao",
+                "Traffic se door safe distance par rakho"
+            ]
+        },
+        {
+            "query_id": "Q-018",
+            "query": "Tow truck aa raha hai, mujhe kya karna chahiye?",
+            "language": "Hinglish",
+            "topic": "Tow truck arrival",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Safe jagah khade raho",
+                "Tow operator ke instruction follow karo",
+                "Passengers ko traffic se door rakho"
+            ]
+        },
+        {
+            "query_id": "Q-019",
+            "query": "What information should I give when calling for a tow?",
+            "language": "English",
+            "topic": "Information for assistance",
+            "intent": "Informational",
+            "severity": "Medium",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Exact location",
+                "Vehicle make, model and colour",
+                "Nature of problem",
+                "Number of passengers"
+            ]
+        },
+        {
+            "query_id": "Q-020",
+            "query": "Meri gaadi highway par traffic ke beech mein khadi hai, kya karun?",
+            "language": "Hindi",
+            "topic": "Vehicle in traffic lane",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Hazard light on karo",
+                "Agar possible ho to left side le jao",
+                "Nahi to 1033 ya 112 call karo"
+            ]
+        },
+        {
+            "query_id": "Q-021",
+            "query": "Is it safe to wait inside the car during heavy rain on the highway?",
+            "language": "English",
+            "topic": "Bad weather",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Generally safer to stay inside if the shoulder is narrow",
+                "Keep hazard lights on",
+                "Call assistance if visibility is very poor"
+            ]
+        },
+        {
+            "query_id": "Q-022",
+            "query": "Tow truck operator bol raha hai gadi ke andar baitho, kya karun?",
+            "language": "Hinglish",
+            "topic": "Passengers during towing",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Pehle confirm karo ki safe hai ya nahi",
+                "Agar doubt ho to bahar niklo (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-023",
+            "query": "My car broke down in a tunnel. What should I do?",
+            "language": "English",
+            "topic": "Dangerous location",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Turn on hazard lights",
+                "If possible move to the side",
+                "Call emergency services immediately"
+            ]
+        },
+        {
+            "query_id": "Q-024",
+            "query": "क्या टो ट्रक आने से पहले मैं गाड़ी के पास खड़ा रह सकता हूँ?",
+            "language": "Hindi",
+            "topic": "Positioning near vehicle",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "नहीं, ट्रैफिक से दूर सुरक्षित जगह पर रहें",
+                "यदि बैरियर हो तो उसके पीछे खड़े हों"
+            ]
+        },
+        {
+            "query_id": "Q-025",
+            "query": "What should I do if an unauthorized person offers to tow my car?",
+            "language": "English",
+            "topic": "Unauthorized recovery",
+            "intent": "Informational",
+            "severity": "Medium",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Prefer official or verified roadside assistance",
+                "Verify credentials before agreeing (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-026",
+            "query": "Highway par raat mein breakdown ho gaya, passengers ko kahan khada karna chahiye?",
+            "language": "Hinglish",
+            "topic": "Night safety",
+            "intent": "Emergency",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Barrier ke peeche safe jagah par",
+                "Traffic se door",
+                "Hazard light on rakho"
+            ]
+        },
+        {
+            "query_id": "Q-027",
+            "query": "When should I call 112 instead of waiting for a tow truck?",
+            "language": "English",
+            "topic": "Emergency escalation",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Vehicle is in a live traffic lane and cannot be moved",
+                "There is immediate danger of collision",
+                "Someone is injured or trapped",
+                "Vehicle is on fire or smoking heavily"
+            ]
+        },
+        {
+            "query_id": "Q-028",
+            "query": "Gaadi tow ho rahi hai, kya main andar baith sakta hoon?",
+            "language": "Hinglish",
+            "topic": "Passengers during towing",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Generally nahi",
+                "Tow operator ke instruction follow karo",
+                "Safe nahi lage to bahar niklo (not verified)"
+            ]
+        }
+    ],
+    "critical_knowledge_gaps": [
+        {
+            "gap_id": "GAP-001",
+            "knowledge_requirement": "KR-005, KR-006, KR-011, KR-015 to KR-021, KR-027 to KR-029",
+            "missing_information": "No verified authoritative Indian public guidance exists for ordinary drivers on when to stay inside vs exit, passenger behaviour during towing, loading/unloading safety, and unauthorized tow precautions.",
+            "why_it_matters": "These are high-risk situations where incorrect advice could lead to injury or death.",
+            "recommended_followup": "Seek official MoRTH, NHAI, or state transport department bystander-level towing safety guidance.",
+            "priority": "Critical"
+        },
+        {
+            "gap_id": "GAP-002",
+            "knowledge_requirement": "KR-003, KR-022",
+            "missing_information": "Expressway-specific towing and roadside assistance procedures are not consolidated in one official public source.",
+            "why_it_matters": "Expressways have different operators and rules from national highways.",
+            "recommended_followup": "Compile helpline numbers and procedures from major expressway concessionaires.",
+            "priority": "High"
+        },
+        {
+            "gap_id": "GAP-003",
+            "knowledge_requirement": "KR-014",
+            "missing_information": "No verified authoritative list of information a driver should provide when calling for roadside assistance in India.",
+            "why_it_matters": "Clear communication improves response time and safety.",
+            "recommended_followup": "Obtain guidance from NHAI or recognized roadside assistance providers.",
+            "priority": "Medium"
+        },
+        {
+            "gap_id": "GAP-004",
+            "knowledge_requirement": "KR-032",
+            "missing_information": "Limited verified information on legal obligations or protections for ordinary motorists during roadside breakdowns in India beyond the warning triangle requirement.",
+            "why_it_matters": "Drivers may need to know their rights and duties.",
+            "recommended_followup": "Review CMVR and state motor vehicle rules for additional requirements.",
+            "priority": "Medium"
+        }
+    ],
+    "conflicting_guidance": [],
+    "implementation_notes": [
+        "Most towing and recovery KRs (KR-015 to KR-021) are currently marked as Gap because no authoritative Indian public guidance for ordinary drivers was verified.",
+        "RAAHAT should default to conservative advice: stay in a safe position, call NHAI 1033 or 112, and avoid risky roadside actions when authoritative evidence is missing.",
+        "All international sources (SRC-004) must be clearly marked as non-India-specific in responses.",
+        "NHAI 1033 should be the primary recommended contact for national highway breakdowns.",
+        "Warning triangle requirement (CMVR) is the only clear legal obligation verified for ordinary motorists."
+    ]
+}

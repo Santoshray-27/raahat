@@ -1,0 +1,433 @@
+{
+    "domain": "Road Accident",
+    "domain_id": "DOMAIN-001",
+    "knowledge_requirements": [
+        {
+            "requirement_id": "KR-001",
+            "requirement": "Immediate actions after a road accident",
+            "description": "Scene assessment, personal safety, casualty assessment, prioritization, and emergency contact procedure.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-002",
+            "requirement": "Secondary-collision prevention",
+            "description": "Safe positioning of people and vehicles, warning measures, and traffic-risk reduction.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-003",
+            "requirement": "Injured-person safety",
+            "description": "Safe approach, prohibited actions, casualty movement, and basic trauma precautions.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-004",
+            "requirement": "Emergency escalation",
+            "description": "Recognition of life-threatening situations and escalation to medical, police, fire, or rescue services.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-005",
+            "requirement": "Highway and roadside accidents",
+            "description": "Safety procedures for highways, night conditions, low visibility, and heavy traffic.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-006",
+            "requirement": "Accident-specific hazards",
+            "description": "Fuel leakage, fire, smoke, damaged electrical systems, unstable vehicles, and dangerous traffic conditions.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-007",
+            "requirement": "India-specific emergency information",
+            "description": "Indian emergency-response procedures, emergency contacts, transport authorities, and highway guidance.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-008",
+            "requirement": "Good Samaritan and legal considerations",
+            "description": "Authoritative Indian information about assistance to road-crash victims and related legal protections or duties.",
+            "priority": "High"
+        }
+    ],
+    "sources": [],
+    "knowledge_records": [],
+    "knowledge_gaps": [
+        {
+            "gap_id": "GAP-001",
+            "topic": "All road-accident response guidance",
+            "missing_information": "No source was live-opened and independently verified in this dataset. Factual knowledge records cannot be created without inspecting authoritative source content.",
+            "importance": "Critical",
+            "status": "Needs Verification"
+        },
+        {
+            "gap_id": "GAP-002",
+            "topic": "India emergency contact procedure",
+            "missing_information": "The currently applicable national and state-specific emergency contact procedures, service scope, and caller information requirements require live verification from official Indian emergency-service sources.",
+            "importance": "Critical",
+            "status": "Needs Verification"
+        },
+        {
+            "gap_id": "GAP-003",
+            "topic": "Highway and roadside safety",
+            "missing_information": "Current official Indian highway guidance for disabled or crashed vehicles, occupant positioning, warning measures, and traffic exposure requires live verification.",
+            "importance": "Critical",
+            "status": "Needs Verification"
+        },
+        {
+            "gap_id": "GAP-004",
+            "topic": "Casualty movement and spinal injury",
+            "missing_information": "Current public-facing Indian medical or emergency-service guidance on when not to move an injured person and when an immediate hazard may justify movement requires live verification.",
+            "importance": "Critical",
+            "status": "Needs Verification"
+        },
+        {
+            "gap_id": "GAP-005",
+            "topic": "Severe bleeding and traumatic injury",
+            "missing_information": "Authoritative, current, public-facing trauma first-aid instructions applicable to road accidents in India require live verification.",
+            "importance": "Critical",
+            "status": "Needs Verification"
+        },
+        {
+            "gap_id": "GAP-006",
+            "topic": "Fire, fuel, smoke, and electrical hazards",
+            "missing_information": "Current official Indian guidance for crash-scene fire risk, fuel leakage, smoke, damaged electrical systems, and electric-vehicle battery hazards requires live verification.",
+            "importance": "Critical",
+            "status": "Needs Verification"
+        },
+        {
+            "gap_id": "GAP-007",
+            "topic": "Night, low-visibility, and heavy-traffic accidents",
+            "missing_information": "Current official Indian procedures for safe positioning and visibility in night, low-visibility, and heavy-traffic crash scenes require live verification.",
+            "importance": "High",
+            "status": "Needs Verification"
+        },
+        {
+            "gap_id": "GAP-008",
+            "topic": "Good Samaritan and legal guidance",
+            "missing_information": "Current official Indian legal or government guidance concerning Good Samaritan protections, duties, reporting, and assistance to crash victims requires live verification.",
+            "importance": "High",
+            "status": "Needs Verification"
+        }
+    ],
+    "source_coverage_matrix": [
+        {
+            "knowledge_requirement": "Immediate actions after a road accident",
+            "source_ids": [],
+            "coverage": "Insufficient",
+            "authority": "—",
+            "india_specific": false,
+            "notes": "No live-verified source included."
+        },
+        {
+            "knowledge_requirement": "Secondary-collision prevention",
+            "source_ids": [],
+            "coverage": "Insufficient",
+            "authority": "—",
+            "india_specific": false,
+            "notes": "No live-verified source included."
+        },
+        {
+            "knowledge_requirement": "Injured-person safety",
+            "source_ids": [],
+            "coverage": "Insufficient",
+            "authority": "—",
+            "india_specific": false,
+            "notes": "No live-verified source included."
+        },
+        {
+            "knowledge_requirement": "Emergency escalation",
+            "source_ids": [],
+            "coverage": "Insufficient",
+            "authority": "—",
+            "india_specific": false,
+            "notes": "No live-verified source included."
+        },
+        {
+            "knowledge_requirement": "Highway and roadside accidents",
+            "source_ids": [],
+            "coverage": "Insufficient",
+            "authority": "—",
+            "india_specific": false,
+            "notes": "No live-verified source included."
+        },
+        {
+            "knowledge_requirement": "Accident-specific hazards",
+            "source_ids": [],
+            "coverage": "Insufficient",
+            "authority": "—",
+            "india_specific": false,
+            "notes": "No live-verified source included."
+        },
+        {
+            "knowledge_requirement": "India-specific emergency information",
+            "source_ids": [],
+            "coverage": "Insufficient",
+            "authority": "—",
+            "india_specific": false,
+            "notes": "No live-verified source included."
+        },
+        {
+            "knowledge_requirement": "Good Samaritan and legal considerations",
+            "source_ids": [],
+            "coverage": "Insufficient",
+            "authority": "—",
+            "india_specific": false,
+            "notes": "No live-verified source included."
+        }
+    ],
+    "recommended_rag_corpus": [],
+    "human_review_required": [
+        {
+            "review_id": "HR-001",
+            "topic": "Corpus eligibility",
+            "conflicting_sources": [],
+            "conflict": "No source can be admitted as verified without live inspection of the official document or webpage, including its current status, relevant content, and dates.",
+            "risk": "Unsupported or outdated safety instructions could be ingested into a critical emergency-response system.",
+            "recommended_handling": "Perform live source verification before creating knowledge records or approving any source for ingestion."
+        }
+    ],
+    "query_coverage": [
+        {
+            "query_id": "Q-001",
+            "query": "What should I do immediately after a road accident?",
+            "language": "English",
+            "topic": "Immediate response",
+            "intent": "Emergency guidance",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-002",
+            "query": "I witnessed a crash. How do I safely assess the scene?",
+            "language": "English",
+            "topic": "Scene safety",
+            "intent": "Witness response",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-003",
+            "query": "Should I move my car after an accident on a highway?",
+            "language": "English",
+            "topic": "Vehicle movement",
+            "intent": "Secondary-collision prevention",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-004",
+            "query": "There is heavy traffic around the crash. Where should I stand?",
+            "language": "English",
+            "topic": "Traffic exposure",
+            "intent": "Scene positioning",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-005",
+            "query": "The accident happened at night and visibility is poor. What should I do?",
+            "language": "English",
+            "topic": "Night accident",
+            "intent": "Hazard reduction",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-006",
+            "query": "When should emergency medical help be called after a crash?",
+            "language": "English",
+            "topic": "Emergency escalation",
+            "intent": "Medical escalation",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-007",
+            "query": "What information should I tell emergency responders?",
+            "language": "English",
+            "topic": "Emergency call",
+            "intent": "Information reporting",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-008",
+            "query": "A person is unconscious after a road accident. What should a bystander do?",
+            "language": "English",
+            "topic": "Unconscious casualty",
+            "intent": "Trauma first aid",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-009",
+            "query": "Should I move someone who may have a neck or spinal injury?",
+            "language": "English",
+            "topic": "Spinal injury",
+            "intent": "Casualty movement",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-010",
+            "query": "There is heavy bleeding after the collision. What is the priority?",
+            "language": "English",
+            "topic": "Severe bleeding",
+            "intent": "Immediate first aid",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-011",
+            "query": "The vehicle is smoking. Is it safe to approach?",
+            "language": "English",
+            "topic": "Smoke and fire",
+            "intent": "Accident hazard assessment",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-012",
+            "query": "What should I do if fuel is leaking from the crashed vehicle?",
+            "language": "English",
+            "topic": "Fuel leakage",
+            "intent": "Hazard response",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-013",
+            "query": "What should I do if an electric vehicle is damaged in a crash?",
+            "language": "English",
+            "topic": "Electric-vehicle hazards",
+            "intent": "Crash hazard response",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-014",
+            "query": "Accident ke turant baad mujhe kya karna chahiye?",
+            "language": "Hinglish",
+            "topic": "Immediate response",
+            "intent": "Emergency guidance",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-015",
+            "query": "Road accident dekhne par scene ke paas kaise safely jaana chahiye?",
+            "language": "Hinglish",
+            "topic": "Scene safety",
+            "intent": "Witness response",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-016",
+            "query": "Highway par accident ho gaya hai, gaadi se bahar kahan khade hona chahiye?",
+            "language": "Hinglish",
+            "topic": "Highway safety",
+            "intent": "Safe positioning",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-017",
+            "query": "घायल व्यक्ति को दुर्घटना के बाद कब नहीं हिलाना चाहिए?",
+            "language": "Hindi",
+            "topic": "Casualty movement",
+            "intent": "Trauma safety",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-018",
+            "query": "सड़क दुर्घटना में पुलिस, एम्बुलेंस या फायर सर्विस को कब बुलाना चाहिए?",
+            "language": "Hindi",
+            "topic": "Emergency escalation",
+            "intent": "Emergency-service selection",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-019",
+            "query": "क्या भारत में दुर्घटना पीड़ित की मदद करने वाले व्यक्ति को Good Samaritan सुरक्षा मिलती है?",
+            "language": "Hinglish",
+            "topic": "Good Samaritan and law",
+            "intent": "Legal information",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-020",
+            "query": "I am injured, the car is blocking a fast road, and another person is unconscious. What should be prioritized?",
+            "language": "English",
+            "topic": "Multi-intent emergency response",
+            "intent": "Priority resolution",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-021",
+            "query": "Can I switch on hazard lights and place a warning triangle after a highway crash?",
+            "language": "English",
+            "topic": "Warning measures",
+            "intent": "Secondary-collision prevention",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-022",
+            "query": "There may be a damaged electrical system and fuel leak. What hazards should responders know about?",
+            "language": "English",
+            "topic": "Combined accident hazards",
+            "intent": "Multi-hazard reporting",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-023",
+            "query": "Ambulance आने तक घायल व्यक्ति की मदद कैसे करें?",
+            "language": "Hinglish",
+            "topic": "Waiting for responders",
+            "intent": "Interim casualty care",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        },
+        {
+            "query_id": "Q-024",
+            "query": "What should a bystander avoid doing at a road accident scene?",
+            "language": "English",
+            "topic": "Prohibited actions",
+            "intent": "Bystander safety",
+            "severity": "High",
+            "relevant_record_ids": [],
+            "expected_answer_points": []
+        }
+    ]
+}

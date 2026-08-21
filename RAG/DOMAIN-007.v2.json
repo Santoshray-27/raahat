@@ -1,0 +1,1262 @@
+{
+    "domain": "Domain G — Regional Emergency Information",
+    "research_summary": {
+        "objective": "Build an India-specific, source-traceable emergency-contact knowledge base covering national, state, Union Territory, district, and service-specific emergency routing.",
+        "sources_reviewed": 0,
+        "core_sources": [],
+        "supporting_sources": [],
+        "major_findings": [
+            "No live official source was opened and verified in this research pass.",
+            "No emergency number has been admitted into the production corpus because emergency numbers must not be inferred from memory or search snippets.",
+            "National, state, Union Territory, district, and service-specific emergency information remains unresolved pending live verification."
+        ],
+        "india_specific_gaps": [
+            "Current operational status and geographic coverage of national integrated emergency services.",
+            "Current police, ambulance, fire, disaster-management, highway, state, Union Territory, and district emergency contacts.",
+            "Legacy-number status and migration or redirection arrangements.",
+            "Official confirmation of toll-free, mobile-access, SIM, balance, language, and call-routing characteristics."
+        ],
+        "freshness_recommendation": "Use a hybrid approach: store only verified emergency-number records with source and verification metadata, refresh them periodically from official sources, and use live official-source lookup or an actively maintained directory for state, Union Territory, district, and local contacts. Do not rely on an undated static RAG record as the sole source for emergency numbers."
+    },
+    "knowledge_requirements": [
+        {
+            "requirement_id": "KR-001",
+            "requirement": "India national emergency number",
+            "description": "Verify the current national emergency number and its official scope.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-002",
+            "requirement": "Integrated emergency response number",
+            "description": "Verify the official integrated emergency-response system, responsible authority, services covered, and geographic coverage.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-003",
+            "requirement": "Police emergency number",
+            "description": "Verify current national, integrated, and service-specific police emergency contacts.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-004",
+            "requirement": "Ambulance / medical emergency number",
+            "description": "Verify current ambulance and medical emergency contacts and their geographic applicability.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-005",
+            "requirement": "Fire emergency number",
+            "description": "Verify current fire and rescue emergency contacts and their geographic applicability.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-006",
+            "requirement": "Women emergency services",
+            "description": "Verify relevant official women-focused emergency services only where they affect emergency routing.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-007",
+            "requirement": "Child emergency services",
+            "description": "Verify relevant official child emergency services only where they affect emergency routing.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-008",
+            "requirement": "Disaster management emergency services",
+            "description": "Verify official disaster-management emergency contacts and their scope.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-009",
+            "requirement": "State-specific emergency numbers",
+            "description": "Verify state-level emergency contacts and whether they are separate from or integrated with national systems.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-010",
+            "requirement": "Union Territory-specific emergency numbers",
+            "description": "Verify Union Territory-level emergency contacts and applicability.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-011",
+            "requirement": "District-level emergency contacts",
+            "description": "Determine whether district contacts are official, stable, current, and suitable for inclusion.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-012",
+            "requirement": "Local police control-room numbers",
+            "description": "Verify local police control-room contacts where relevant and maintainable.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-013",
+            "requirement": "Government hospital emergency contacts",
+            "description": "Verify official government hospital and emergency medical contact information where appropriate.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-014",
+            "requirement": "State ambulance services",
+            "description": "Verify state-operated or state-endorsed ambulance systems.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-015",
+            "requirement": "State fire and rescue services",
+            "description": "Verify state fire-service emergency contacts.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-016",
+            "requirement": "Highway and road emergency assistance numbers",
+            "description": "Verify official highway, road-authority, and expressway assistance contacts.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-017",
+            "requirement": "National Highway emergency assistance",
+            "description": "Verify current official National Highway emergency assistance contact information.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-018",
+            "requirement": "Railway emergency services",
+            "description": "Include railway emergency contacts only where directly relevant to roadside or transport emergency navigation.",
+            "priority": "Medium"
+        },
+        {
+            "requirement_id": "KR-019",
+            "requirement": "Emergency number applicability by location",
+            "description": "Determine whether each number is national, state, Union Territory, district, local, or route-specific.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-020",
+            "requirement": "Emergency number applicability by emergency type",
+            "description": "Map police, ambulance, fire, disaster, and integrated emergency contacts to appropriate scenarios.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-021",
+            "requirement": "Whether emergency numbers are toll-free",
+            "description": "Record toll-free status only when officially verified.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-022",
+            "requirement": "Whether emergency numbers work from mobile phones",
+            "description": "Record mobile-access capability only when officially verified.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-023",
+            "requirement": "Balance and SIM conditions",
+            "description": "Record no-balance, inactive-SIM, or network requirements only when officially verified.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-024",
+            "requirement": "Multilingual and regional availability",
+            "description": "Verify official language and regional-access capabilities.",
+            "priority": "Medium"
+        },
+        {
+            "requirement_id": "KR-025",
+            "requirement": "Emergency call routing through integrated systems",
+            "description": "Verify how calls are routed among police, ambulance, fire, and other services.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-026",
+            "requirement": "When to call police versus ambulance versus fire",
+            "description": "Provide source-backed service-selection rules without duplicating first-aid procedures.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-027",
+            "requirement": "When to call the integrated emergency number",
+            "description": "Verify when an integrated emergency number should be preferred over a department-specific contact.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-028",
+            "requirement": "Emergency services for road accidents",
+            "description": "Map road-accident scenarios to police, ambulance, fire, and integrated emergency services.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-029",
+            "requirement": "Emergency services for vehicle fire",
+            "description": "Map vehicle-fire scenarios to fire, police, ambulance, and integrated emergency services.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-030",
+            "requirement": "Emergency services for serious medical emergencies",
+            "description": "Map serious medical emergencies to ambulance and integrated emergency services.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-031",
+            "requirement": "Emergency service availability in rural areas",
+            "description": "Verify coverage limitations and routing options for rural users.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-032",
+            "requirement": "Emergency service availability in urban areas",
+            "description": "Verify urban coverage and city-specific control-room arrangements.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-033",
+            "requirement": "State and Union Territory emergency-information verification",
+            "description": "Establish an official-source verification method for every state and Union Territory.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-034",
+            "requirement": "Official emergency-service websites and directories",
+            "description": "Identify stable official portals and directories suitable for refresh and retrieval.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-035",
+            "requirement": "Outdated and legacy emergency numbers",
+            "description": "Identify numbers that are replaced, integrated, inactive, or unsafe to recommend.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-036",
+            "requirement": "Conflicting emergency numbers",
+            "description": "Detect and document conflicting official numbers without silently resolving them.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-037",
+            "requirement": "Emergency number changes and migration",
+            "description": "Track migrations from legacy service-specific numbers to newer integrated systems.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-038",
+            "requirement": "Location-based emergency contact retrieval",
+            "description": "Determine what official location information is needed to select a regional contact.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-039",
+            "requirement": "India-specific emergency-number data limitations",
+            "description": "Document coverage, freshness, availability, and maintenance limitations.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-040",
+            "requirement": "Safe fallback when regional information cannot be verified",
+            "description": "Define a source-backed fallback strategy without inventing or guessing regional numbers.",
+            "priority": "Critical"
+        }
+    ],
+    "source_registry": [],
+    "recommended_rag_corpus": {
+        "core": [],
+        "supporting": [],
+        "exclude": [
+            {
+                "source_id": "EXCLUDE-001",
+                "source_name": "Unverified third-party emergency-number directories",
+                "source_url": null,
+                "source_type": "Third-party directory",
+                "authority_level": "Unverified",
+                "jurisdiction": "Unknown",
+                "region": "India",
+                "recommended_use": "Exclude",
+                "reason": "No source was independently verified, and third-party directories may contain outdated, duplicated, or incorrectly scoped emergency numbers."
+            },
+            {
+                "source_id": "EXCLUDE-002",
+                "source_name": "Search-result snippets and user-generated listings",
+                "source_url": null,
+                "source_type": "Search or user-generated content",
+                "authority_level": "Unverified",
+                "jurisdiction": "Unknown",
+                "region": "India",
+                "recommended_use": "Exclude",
+                "reason": "Search snippets and user-generated listings are not sufficient evidence for safety-critical emergency numbers."
+            }
+        ]
+    },
+    "knowledge_coverage": [
+        {
+            "knowledge_requirement": "KR-001: India national emergency number",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No live official source was verified."
+        },
+        {
+            "knowledge_requirement": "KR-002: Integrated emergency response number",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "Integrated-system identity, number, coverage, and operational status require live official verification."
+        },
+        {
+            "knowledge_requirement": "KR-003: Police emergency number",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No current official police number was verified."
+        },
+        {
+            "knowledge_requirement": "KR-004: Ambulance / medical emergency number",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No current official ambulance number was verified."
+        },
+        {
+            "knowledge_requirement": "KR-005: Fire emergency number",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No current official fire number was verified."
+        },
+        {
+            "knowledge_requirement": "KR-006: Women emergency services",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No current official source was verified."
+        },
+        {
+            "knowledge_requirement": "KR-007: Child emergency services",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No current official source was verified."
+        },
+        {
+            "knowledge_requirement": "KR-008: Disaster management emergency services",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No current official source was verified."
+        },
+        {
+            "knowledge_requirement": "KR-009: State-specific emergency numbers",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No state-level source set was live-verified."
+        },
+        {
+            "knowledge_requirement": "KR-010: Union Territory-specific emergency numbers",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No Union Territory-level source set was live-verified."
+        },
+        {
+            "knowledge_requirement": "KR-011: District-level emergency contacts",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No district-level directory was verified."
+        },
+        {
+            "knowledge_requirement": "KR-012: Local police control-room numbers",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No local police source was verified."
+        },
+        {
+            "knowledge_requirement": "KR-013: Government hospital emergency contacts",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No government-hospital source was verified."
+        },
+        {
+            "knowledge_requirement": "KR-014: State ambulance services",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No state ambulance source was verified."
+        },
+        {
+            "knowledge_requirement": "KR-015: State fire and rescue services",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No state fire-service source was verified."
+        },
+        {
+            "knowledge_requirement": "KR-016: Highway and road emergency assistance",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No highway-assistance source was verified in this pass."
+        },
+        {
+            "knowledge_requirement": "KR-017: National Highway emergency assistance",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "Current official National Highway assistance information was not live-verified."
+        },
+        {
+            "knowledge_requirement": "KR-018: Railway emergency services",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No railway emergency source was reviewed."
+        },
+        {
+            "knowledge_requirement": "KR-019: Emergency number applicability by location",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "Geographic scope has not been verified for any number."
+        },
+        {
+            "knowledge_requirement": "KR-020: Emergency number applicability by emergency type",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "Service-routing rules require official verification."
+        },
+        {
+            "knowledge_requirement": "KR-021: Whether emergency numbers are toll-free",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No toll-free status was verified."
+        },
+        {
+            "knowledge_requirement": "KR-022: Whether emergency numbers work from mobile phones",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No mobile-access claim was verified."
+        },
+        {
+            "knowledge_requirement": "KR-023: Balance and SIM conditions",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No official conditions were verified."
+        },
+        {
+            "knowledge_requirement": "KR-024: Multilingual and regional availability",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No language-availability claim was verified."
+        },
+        {
+            "knowledge_requirement": "KR-025: Emergency call routing through integrated systems",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No integrated-routing documentation was verified."
+        },
+        {
+            "knowledge_requirement": "KR-026: When to call police versus ambulance versus fire",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No official service-selection guidance was verified."
+        },
+        {
+            "knowledge_requirement": "KR-027: When to call the integrated emergency number",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No official integrated-number guidance was verified."
+        },
+        {
+            "knowledge_requirement": "KR-028: Emergency services for road accidents",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No official road-accident routing source was verified."
+        },
+        {
+            "knowledge_requirement": "KR-029: Emergency services for vehicle fire",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No official vehicle-fire routing source was verified."
+        },
+        {
+            "knowledge_requirement": "KR-030: Emergency services for serious medical emergencies",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No official medical-emergency routing source was verified."
+        },
+        {
+            "knowledge_requirement": "KR-031: Emergency service availability in rural areas",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No rural-coverage source was verified."
+        },
+        {
+            "knowledge_requirement": "KR-032: Emergency service availability in urban areas",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No urban-coverage source was verified."
+        },
+        {
+            "knowledge_requirement": "KR-033: State and Union Territory emergency-information verification",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No state or Union Territory verification set was reviewed."
+        },
+        {
+            "knowledge_requirement": "KR-034: Official emergency-service websites and directories",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No official directory was verified."
+        },
+        {
+            "knowledge_requirement": "KR-035: Outdated and legacy emergency numbers",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No legacy-number status was verified."
+        },
+        {
+            "knowledge_requirement": "KR-036: Conflicting emergency numbers",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No source comparison was completed."
+        },
+        {
+            "knowledge_requirement": "KR-037: Emergency number changes and migration",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "No migration documentation was verified."
+        },
+        {
+            "knowledge_requirement": "KR-038: Location-based emergency contact retrieval",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "Official location-routing requirements were not verified."
+        },
+        {
+            "knowledge_requirement": "KR-039: India-specific emergency-number data limitations",
+            "source_ids": [],
+            "coverage": "Partial",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "The need for freshness and official verification is established as a research limitation, but no source-backed operational details were reviewed."
+        },
+        {
+            "knowledge_requirement": "KR-040: Safe fallback when regional information cannot be verified",
+            "source_ids": [],
+            "coverage": "Gap",
+            "authority": "—",
+            "india_specific": true,
+            "notes": "A fallback must be defined only after the current national integrated emergency number is verified."
+        }
+    ],
+    "regional_emergency_directory": [],
+    "legacy_numbers": [],
+    "query_coverage": [
+        {
+            "query_id": "Q-001",
+            "query": "What is India's emergency number?",
+            "language": "English",
+            "topic": "National emergency number",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Provide the currently verified national integrated emergency number (not verified)",
+                "State its geographic coverage (not verified)",
+                "Do not provide an unverified number"
+            ]
+        },
+        {
+            "query_id": "Q-002",
+            "query": "What number should I call for an ambulance?",
+            "language": "English",
+            "topic": "Ambulance",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Provide the currently verified ambulance or integrated emergency number (not verified)",
+                "State whether the number is national or regional (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-003",
+            "query": "What is the police emergency number in India?",
+            "language": "English",
+            "topic": "Police",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Provide the currently verified police or integrated emergency number (not verified)",
+                "Do not rely on an unverified legacy number"
+            ]
+        },
+        {
+            "query_id": "Q-004",
+            "query": "What number do I call for a fire emergency?",
+            "language": "English",
+            "topic": "Fire",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Provide the currently verified fire or integrated emergency number (not verified)",
+                "State the applicable geographic scope (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-005",
+            "query": "I do not know which emergency service I need. What number should I call?",
+            "language": "English",
+            "topic": "Unknown emergency",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Provide the verified integrated emergency number if applicable (not verified)",
+                "Explain that the operator should route the call (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-006",
+            "query": "I have had a road accident. Who should I call?",
+            "language": "English",
+            "topic": "Road accident",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Use the verified integrated emergency number or the appropriate police and ambulance services (not verified)",
+                "State that service selection depends on injuries, traffic danger, and fire risk (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-007",
+            "query": "My car is on fire. Which emergency number should I use?",
+            "language": "English",
+            "topic": "Vehicle fire",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Contact the verified fire or integrated emergency service (not verified)",
+                "Request medical assistance if someone is injured (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-008",
+            "query": "What is the emergency number in my state?",
+            "language": "English",
+            "topic": "State emergency number",
+            "intent": "Navigation",
+            "severity": "High",
+            "region": "State",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Identify the user's state first",
+                "Return only a currently verified official state or national number (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-009",
+            "query": "How can I contact emergency services near me?",
+            "language": "English",
+            "topic": "Location-aware emergency contact",
+            "intent": "Navigation",
+            "severity": "Critical",
+            "region": "Specific region",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Use the verified national integrated number when applicable (not verified)",
+                "Regional numbers require confirmed location and current official data (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-010",
+            "query": "Is the national emergency number available across India?",
+            "language": "English",
+            "topic": "National coverage",
+            "intent": "Informational",
+            "severity": "High",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "State the verified coverage of the integrated system (not verified)",
+                "Mention any officially documented limitations (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-011",
+            "query": "Is the old police emergency number still valid?",
+            "language": "English",
+            "topic": "Legacy number",
+            "intent": "Informational",
+            "severity": "High",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "State the verified status of the number (not verified)",
+                "Provide its officially verified replacement if applicable (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-012",
+            "query": "Is the traditional ambulance number still used?",
+            "language": "English",
+            "topic": "Legacy ambulance number",
+            "intent": "Informational",
+            "severity": "High",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "State whether the number remains active in the user's region (not verified)",
+                "Do not assume national applicability (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-013",
+            "query": "Does the emergency number work from a mobile phone?",
+            "language": "English",
+            "topic": "Mobile access",
+            "intent": "Informational",
+            "severity": "High",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Provide only officially verified mobile-access conditions (not verified)",
+                "Do not claim balance or SIM exemptions without official evidence"
+            ]
+        },
+        {
+            "query_id": "Q-014",
+            "query": "Can I call emergency services without phone balance?",
+            "language": "English",
+            "topic": "Balance and SIM conditions",
+            "intent": "Informational",
+            "severity": "High",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "State the officially verified condition (not verified)",
+                "Do not guarantee access without source support"
+            ]
+        },
+        {
+            "query_id": "Q-015",
+            "query": "Which number should I call for police and ambulance after a crash?",
+            "language": "English",
+            "topic": "Road accident routing",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Provide the verified integrated or service-specific options (not verified)",
+                "Explain whether one call can request multiple services (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-016",
+            "query": "What should I call if there is a serious medical emergency in a rural area?",
+            "language": "English",
+            "topic": "Rural medical emergency",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "Rural India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Provide the verified national or state medical-emergency number (not verified)",
+                "State rural coverage limitations only if officially documented"
+            ]
+        },
+        {
+            "query_id": "Q-017",
+            "query": "How do I contact the fire service in my city?",
+            "language": "English",
+            "topic": "Local fire service",
+            "intent": "Navigation",
+            "severity": "Critical",
+            "region": "City",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Request the user's city or state",
+                "Return only an official, currently verified number (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-018",
+            "query": "What number should I call if I am stranded on a national highway?",
+            "language": "English",
+            "topic": "Highway emergency assistance",
+            "intent": "Emergency",
+            "severity": "High",
+            "region": "National Highway",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Provide the currently verified highway-assistance number (not verified)",
+                "State whether it applies to national highways only (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-019",
+            "query": "भारत में इमरजेंसी नंबर क्या है?",
+            "language": "Hindi",
+            "topic": "National emergency number",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "वर्तमान आधिकारिक राष्ट्रीय इमरजेंसी नंबर बताएं (not verified)",
+                "उसकी कवरेज बताएं (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-020",
+            "query": "एम्बुलेंस बुलाने के लिए कौन सा नंबर है?",
+            "language": "Hindi",
+            "topic": "Ambulance",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "वर्तमान आधिकारिक एम्बुलेंस या इंटीग्रेटेड नंबर बताएं (not verified)",
+                "राज्य या राष्ट्रीय लागू क्षेत्र स्पष्ट करें (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-021",
+            "query": "पुलिस को इमरजेंसी में किस नंबर पर कॉल करें?",
+            "language": "Hindi",
+            "topic": "Police",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "आधिकारिक रूप से सत्यापित पुलिस या इंटीग्रेटेड नंबर बताएं (not verified)",
+                "पुराने नंबर को बिना सत्यापन के न बताएं"
+            ]
+        },
+        {
+            "query_id": "Q-022",
+            "query": "आग लगने पर किस नंबर पर कॉल करें?",
+            "language": "Hindi",
+            "topic": "Fire",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "सत्यापित फायर या इंटीग्रेटेड इमरजेंसी नंबर बताएं (not verified)",
+                "घायल होने पर मेडिकल सहायता का विकल्प बताएं (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-023",
+            "query": "सड़क दुर्घटना में किसे फोन करना चाहिए?",
+            "language": "Hindi",
+            "topic": "Road accident routing",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "सत्यापित इंटीग्रेटेड या पुलिस और एम्बुलेंस सेवा बताएं (not verified)",
+                "आग या गंभीर चोट होने पर संबंधित सेवा जोड़ें (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-024",
+            "query": "अगर पता नहीं हो कि कौन सी इमरजेंसी सेवा चाहिए तो किस नंबर पर कॉल करें?",
+            "language": "Hindi",
+            "topic": "Unknown emergency",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "सत्यापित इंटीग्रेटेड इमरजेंसी नंबर का उपयोग करें (not verified)",
+                "ऑपरेटर को घटना और स्थान बताएं (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-025",
+            "query": "India mein emergency number kya hai?",
+            "language": "Hinglish",
+            "topic": "National emergency number",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Current official national number batayein (not verified)",
+                "Uski coverage batayein (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-026",
+            "query": "Ambulance ke liye kaunsa number call karein?",
+            "language": "Hinglish",
+            "topic": "Ambulance",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Verified ambulance ya integrated emergency number batayein (not verified)",
+                "State-specific applicability clear karein (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-027",
+            "query": "Police ko emergency mein kaise call karein?",
+            "language": "Hinglish",
+            "topic": "Police",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Current verified police ya integrated number batayein (not verified)",
+                "Legacy number ko bina verification recommend na karein"
+            ]
+        },
+        {
+            "query_id": "Q-028",
+            "query": "Road accident ho gaya hai, kis number par call karna chahiye?",
+            "language": "Hinglish",
+            "topic": "Road accident routing",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Verified integrated emergency number ya relevant police/ambulance service batayein (not verified)",
+                "Location clearly batane ko kahe (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-029",
+            "query": "Fire lag gayi hai, fire brigade ka number kya hai?",
+            "language": "Hinglish",
+            "topic": "Fire",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Verified fire ya integrated emergency number batayein (not verified)",
+                "Fire ki exact location batane ko kahe (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-030",
+            "query": "112 kya poore India mein kaam karta hai?",
+            "language": "Hinglish",
+            "topic": "Integrated-number coverage",
+            "intent": "Informational",
+            "severity": "High",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Current official coverage verify karke batayein (not verified)",
+                "State-wise limitations ho to explain karein (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-031",
+            "query": "108 abhi bhi ambulance ke liye valid hai kya?",
+            "language": "Hinglish",
+            "topic": "Legacy ambulance number",
+            "intent": "Informational",
+            "severity": "High",
+            "region": "State",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "State-specific active status verify karein (not verified)",
+                "National applicability assume na karein"
+            ]
+        },
+        {
+            "query_id": "Q-032",
+            "query": "Apne state ka emergency number kaise pata karein?",
+            "language": "Hinglish",
+            "topic": "State emergency information",
+            "intent": "Navigation",
+            "severity": "High",
+            "region": "State",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "State identify karein",
+                "Official state government or emergency-service source use karein (not verified)",
+                "Data freshness verify karein (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-033",
+            "query": "My vehicle is on fire in a rural area. Which service should I call?",
+            "language": "English",
+            "topic": "Rural vehicle fire",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "Rural India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Use the verified fire or integrated emergency number (not verified)",
+                "Provide the nearest identifiable location (not verified)",
+                "Request ambulance support if anyone is injured (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-034",
+            "query": "I need the emergency number for this district. Can you give it to me?",
+            "language": "English",
+            "topic": "District contact",
+            "intent": "Navigation",
+            "severity": "High",
+            "region": "District",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Ask for the district and state",
+                "Return a district number only from a current official source (not verified)",
+                "Use the verified national fallback if the district number cannot be confirmed (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-035",
+            "query": "Which emergency number works if I have no phone balance?",
+            "language": "English",
+            "topic": "Balance condition",
+            "intent": "Informational",
+            "severity": "High",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "State only officially verified balance/SIM rules (not verified)",
+                "Do not guarantee access without source support"
+            ]
+        },
+        {
+            "query_id": "Q-036",
+            "query": "क्या इमरजेंसी नंबर पर हिंदी में बात कर सकते हैं?",
+            "language": "Hindi",
+            "topic": "Language availability",
+            "intent": "Informational",
+            "severity": "Medium",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "बताई गई भाषा-सुविधा केवल आधिकारिक स्रोत के आधार पर दें (not verified)",
+                "राज्य या सेवा के अनुसार अंतर हो सकता है (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-037",
+            "query": "Is there one number for police, fire, and ambulance?",
+            "language": "English",
+            "topic": "Integrated emergency routing",
+            "intent": "Informational",
+            "severity": "High",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Identify the verified integrated system if applicable (not verified)",
+                "List the services officially covered (not verified)",
+                "State geographic limitations (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-038",
+            "query": "Highway par accident ho gaya, police ya ambulance ko kaise bulayein?",
+            "language": "Hinglish",
+            "topic": "Highway accident routing",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "National Highway",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Verified integrated emergency or police/ambulance number use karein (not verified)",
+                "Highway location, direction, and nearest landmark batayein (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-039",
+            "query": "What should I do if the official regional emergency number is unavailable or unclear?",
+            "language": "English",
+            "topic": "Fallback routing",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Use the currently verified national integrated emergency fallback (not verified)",
+                "Do not guess a regional number",
+                "State that local-number verification is required (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-040",
+            "query": "मेरे पास सिर्फ़ लोकेशन पता है, इमरजेंसी सेवा कैसे बुलाऊँ?",
+            "language": "Hindi",
+            "topic": "Location-based routing",
+            "intent": "Navigation",
+            "severity": "Critical",
+            "region": "India",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "सत्यापित राष्ट्रीय या क्षेत्रीय इमरजेंसी सेवा का उपयोग करें (not verified)",
+                "राज्य, जिला, सड़क, दिशा और नज़दीकी पहचान बताएं (not verified)"
+            ]
+        }
+    ],
+    "critical_knowledge_gaps": [
+        {
+            "gap_id": "GAP-001",
+            "topic": "National integrated emergency number",
+            "missing_information": "The current official number, system name, responsible authority, service coverage, and operational status were not live-verified.",
+            "importance": "Critical",
+            "status": "Unresolved"
+        },
+        {
+            "gap_id": "GAP-002",
+            "topic": "Police, ambulance, and fire numbers",
+            "missing_information": "Current national and service-specific numbers were not verified from official sources.",
+            "importance": "Critical",
+            "status": "Unresolved"
+        },
+        {
+            "gap_id": "GAP-003",
+            "topic": "State and Union Territory directory",
+            "missing_information": "No complete official state and Union Territory emergency directory was reviewed.",
+            "importance": "Critical",
+            "status": "Unresolved"
+        },
+        {
+            "gap_id": "GAP-004",
+            "topic": "District and local contacts",
+            "missing_information": "No evidence was reviewed to determine whether district and local numbers are stable enough for static RAG storage.",
+            "importance": "High",
+            "status": "Unresolved"
+        },
+        {
+            "gap_id": "GAP-005",
+            "topic": "Legacy emergency numbers",
+            "missing_information": "No official source comparison was completed for legacy numbers, replacements, redirections, or continued regional operation.",
+            "importance": "Critical",
+            "status": "Unresolved"
+        },
+        {
+            "gap_id": "GAP-006",
+            "topic": "Mobile, balance, and SIM conditions",
+            "missing_information": "No official information was reviewed about mobile access, no-balance access, inactive SIM conditions, or network limitations.",
+            "importance": "High",
+            "status": "Unresolved"
+        },
+        {
+            "gap_id": "GAP-007",
+            "topic": "Language and call-routing capabilities",
+            "missing_information": "No official documentation was reviewed for multilingual support or routing among police, fire, ambulance, and disaster services.",
+            "importance": "High",
+            "status": "Unresolved"
+        },
+        {
+            "gap_id": "GAP-008",
+            "topic": "Highway emergency assistance",
+            "missing_information": "Current national-highway and expressway emergency contacts were not live-verified.",
+            "importance": "High",
+            "status": "Unresolved"
+        },
+        {
+            "gap_id": "GAP-009",
+            "topic": "Freshness and maintenance",
+            "missing_information": "No official source-maintenance schedule or update frequency was reviewed.",
+            "importance": "High",
+            "status": "Unresolved"
+        }
+    ],
+    "conflicting_guidance": [],
+    "implementation_notes": [
+        "Do not ingest any emergency number until the exact official source page or document has been opened and verified.",
+        "Every emergency-number record should include service_type, emergency_type, phone_number, region, state, district, jurisdiction, source_id, authority_level, active_status, verification_date, last_updated, review_due_date, language, and legacy_status.",
+        "National emergency numbers should be represented separately from state, Union Territory, district, local police, ambulance, fire, and highway numbers.",
+        "A regional number must never be returned without confirming the user's state and, where necessary, district or route.",
+        "If a regional number is unavailable or stale, RAAHAT should use only a currently verified national fallback; it should not invent or infer a local number.",
+        "Legacy numbers should be stored separately from active numbers and must never be returned as the primary contact unless current official operation is explicitly verified.",
+        "District and local contacts should preferably be retrieved from actively maintained official sources rather than stored permanently as static RAG facts.",
+        "Emergency-number records require periodic refresh and visible verification timestamps.",
+        "International emergency numbers should not be included in the Indian emergency-number corpus.",
+        "The current dataset contains no production-ready emergency-number records because no live official sources were verified in this pass."
+    ]
+}

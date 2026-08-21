@@ -1,0 +1,1247 @@
+{
+    "domain": "First Aid",
+    "domain_id": "DOMAIN-003",
+    "knowledge_requirements": [
+        {
+            "requirement_id": "KR-001",
+            "requirement": "Severe bleeding",
+            "description": "Recognition of severe external bleeding, immediate bleeding-control measures, bystander limitations, and emergency medical escalation.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-002",
+            "requirement": "Unconsciousness",
+            "description": "Recognition of an unresponsive person, immediate safety actions, responsiveness/breathing assessment where supported, recovery positioning where appropriate, and emergency escalation.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-003",
+            "requirement": "Breathing problems",
+            "description": "Recognition of serious breathing difficulty, immediate bystander actions, choking/airway emergencies where supported, and emergency medical escalation.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-004",
+            "requirement": "Burns",
+            "description": "Immediate first aid for thermal burns, cooling, unsafe substances or actions to avoid, and criteria requiring urgent medical care.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-005",
+            "requirement": "Fractures",
+            "description": "Recognition of suspected fractures, immediate precautions, immobilization/support principles, actions to avoid, and emergency escalation.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-006",
+            "requirement": "Head injury",
+            "description": "Recognition of potentially serious head injury, warning signs, immediate precautions, movement considerations, and emergency escalation.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-007",
+            "requirement": "Spinal injury",
+            "description": "Situations suggesting spinal injury, safe handling, minimizing unnecessary movement, trained-responder involvement, and emergency escalation.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-008",
+            "requirement": "Shock",
+            "description": "Recognition of shock, immediate supportive first-aid actions, actions to avoid, and emergency medical escalation.",
+            "priority": "Critical"
+        },
+        {
+            "requirement_id": "KR-009",
+            "requirement": "Seizures",
+            "description": "Protecting a person during a seizure, preventing secondary injury, actions that should not be performed, post-seizure care where supported, and criteria for emergency medical assistance.",
+            "priority": "High"
+        },
+        {
+            "requirement_id": "KR-010",
+            "requirement": "Heat-related emergencies (heat exhaustion / heatstroke)",
+            "description": "Added because roadside collapse due to heat exposure is a highly plausible Indian roadside scenario given climate conditions. Covers recognition of heat exhaustion vs. heatstroke, immediate cooling actions, and emergency escalation.",
+            "priority": "High"
+        }
+    ],
+    "knowledge_records": [
+        {
+            "record_id": "REC-001",
+            "knowledge_requirement_id": "KR-001",
+            "topic": "Controlling severe external bleeding",
+            "scenario": "A person is bleeding heavily from a wound after a roadside injury.",
+            "answer": "Apply firm, direct pressure on the wound using a clean cloth or dressing and keep pressing continuously. If possible and no fracture is suspected, raise the injured part above the level of the heart. Keep the person lying down and still, reassure them, and call for emergency medical help. If the dressing soaks through, add more layers on top rather than removing it. Watch for signs of shock while waiting for help.",
+            "key_actions": [
+                "Ensure your own safety before approaching",
+                "Apply firm direct pressure on the wound with a clean cloth/dressing",
+                "Raise the injured limb above heart level if no fracture is suspected",
+                "Keep the person lying down and still",
+                "Call emergency medical services",
+                "Continue to monitor for shock while waiting for help"
+            ],
+            "do_not": [
+                "Do not remove the original dressing if it becomes soaked; add more on top",
+                "Do not leave the bleeding person unattended"
+            ],
+            "escalation_criteria": [
+                "Bleeding does not stop with sustained direct pressure",
+                "Wound is deep, large, or gaping",
+                "Signs of shock appear (pale, cold, clammy skin, rapid weak pulse)"
+            ],
+            "source_ids": [
+                "SRC-003"
+            ],
+            "authority": "Official",
+            "india_specific": false,
+            "confidence": "Medium",
+            "notes": "Based on NHS (UK) severe bleeding first-aid guidance. No India-specific authoritative source with equivalent procedural detail was verified in this research pass; see GAP-001."
+        },
+        {
+            "record_id": "REC-002",
+            "knowledge_requirement_id": "KR-001",
+            "topic": "Bleeding around an embedded object",
+            "scenario": "There is an object (e.g., glass, metal) embedded in a wound and the area is bleeding.",
+            "answer": "Do not remove an embedded object, as it may be helping to control the bleeding. Apply pressure around the object rather than directly on it, and build up padding on either side to stabilize it without pressing it further in. Call emergency medical services immediately.",
+            "key_actions": [
+                "Do not remove the embedded object",
+                "Apply pressure around, not on, the object",
+                "Build padding around the object to stabilize it",
+                "Call emergency medical services"
+            ],
+            "do_not": [
+                "Do not remove or push on the embedded object",
+                "Do not apply direct pressure on top of the object"
+            ],
+            "escalation_criteria": [
+                "Any embedded object with active bleeding requires emergency medical response"
+            ],
+            "source_ids": [
+                "SRC-003"
+            ],
+            "authority": "Official",
+            "india_specific": false,
+            "confidence": "Medium",
+            "notes": "Based on NHS (UK) severe bleeding guidance. International source; India-specific equivalent not verified (GAP-001)."
+        },
+        {
+            "record_id": "REC-003",
+            "knowledge_requirement_id": "KR-002",
+            "topic": "Checking an unresponsive person and recovery position",
+            "scenario": "A person is not responding after an accident or collapse.",
+            "answer": "Check responsiveness by talking loudly and gently shaking the shoulders. Shout for help. Check if the person is breathing normally. If they are breathing normally, place them in the recovery position (on their side, head tilted back slightly to keep the airway open) and call emergency services. Stay with them and monitor breathing continuously until help arrives. If they are not breathing normally or show no signs of life, call emergency services immediately.",
+            "key_actions": [
+                "Ensure scene safety before approaching",
+                "Check responsiveness (talk loudly, gently shake shoulders)",
+                "Shout for help",
+                "Check for normal breathing",
+                "If breathing normally, place in the recovery position",
+                "Call emergency medical services",
+                "Continuously monitor breathing until help arrives"
+            ],
+            "do_not": [
+                "Do not leave an unconscious breathing person lying flat on their back unattended",
+                "Do not give the person anything to eat or drink"
+            ],
+            "escalation_criteria": [
+                "Person is not breathing normally or shows no signs of life",
+                "Person does not regain responsiveness"
+            ],
+            "source_ids": [
+                "SRC-004",
+                "SRC-005"
+            ],
+            "authority": "Official",
+            "india_specific": false,
+            "confidence": "Medium",
+            "notes": "Based on NHS (UK) 'unconscious person' and 'recovery position' guidance. If trauma/spinal injury is suspected, cross-reference KR-007 (REC-010) before repositioning; this is a potential procedural tension flagged in human_review context via GAP notes."
+        },
+        {
+            "record_id": "REC-004",
+            "knowledge_requirement_id": "KR-002",
+            "topic": "Hands-only CPR by an untrained bystander",
+            "scenario": "A person is unresponsive and not breathing normally.",
+            "answer": "If a person is unresponsive and not breathing normally, call emergency services immediately. An untrained bystander can perform hands-only CPR: push hard and fast in the center of the chest with minimal interruption until professional help arrives, an automated external defibrillator (AED) becomes available, or the person begins to breathe normally.",
+            "key_actions": [
+                "Call emergency services immediately",
+                "Begin chest compressions in the center of the chest",
+                "Push hard and fast with minimal interruption",
+                "Continue until professional help arrives or person breathes normally"
+            ],
+            "do_not": [
+                "Do not delay calling emergency services to attempt first aid",
+                "Do not attempt rescue breaths without training if unsure of technique"
+            ],
+            "escalation_criteria": [
+                "Any unresponsive person not breathing normally is a life-threatening emergency requiring immediate emergency services contact"
+            ],
+            "source_ids": [
+                "SRC-012"
+            ],
+            "authority": "Institutional",
+            "india_specific": false,
+            "confidence": "Medium",
+            "notes": "Based on American Heart Association hands-only CPR public guidance, designed specifically for untrained bystanders. This is a US-based professional medical organization; no equivalent India-specific lay-CPR public guidance (e.g., Indian Resuscitation Council) was verified in this pass (see GAP-004). Do not present AHA guidance as Indian official protocol."
+        },
+        {
+            "record_id": "REC-005",
+            "knowledge_requirement_id": "KR-003",
+            "topic": "Choking (adult) airway obstruction",
+            "scenario": "A person is choking and cannot breathe, cough, or speak.",
+            "answer": "If the person can cough forcefully, encourage them to keep coughing. If they cannot cough, speak, or breathe, give up to 5 sharp back blows between the shoulder blades. If this does not clear the obstruction, give up to 5 abdominal thrusts. Alternate between back blows and abdominal thrusts. Call emergency services if the obstruction does not clear.",
+            "key_actions": [
+                "Encourage forceful coughing if the person can still cough",
+                "Give up to 5 sharp back blows between the shoulder blades",
+                "Give up to 5 abdominal thrusts if back blows do not work",
+                "Alternate back blows and abdominal thrusts",
+                "Call emergency services if the obstruction persists"
+            ],
+            "do_not": [
+                "Do not perform blind finger sweeps of the mouth",
+                "Do not interrupt a person who is coughing forcefully on their own"
+            ],
+            "escalation_criteria": [
+                "Obstruction does not clear after repeated cycles of back blows and abdominal thrusts",
+                "Person becomes unconscious"
+            ],
+            "source_ids": [
+                "SRC-006"
+            ],
+            "authority": "Official",
+            "india_specific": false,
+            "confidence": "Medium",
+            "notes": "Based on NHS (UK) adult choking guidance. If person becomes unconscious, this escalates to KR-002 (REC-003/REC-004) procedures."
+        },
+        {
+            "record_id": "REC-006",
+            "knowledge_requirement_id": "KR-003",
+            "topic": "Severe breathing difficulty (non-choking, e.g., asthma-type attack)",
+            "scenario": "A person is having serious trouble breathing but is not choking on an object.",
+            "answer": "Help the person sit upright in a comfortable position; do not lay them down. Stay calm and reassure them, and loosen any tight clothing. If they have their own reliever inhaler, help them use it. Call emergency services if breathing does not improve, if their lips or face turn blue, if they cannot speak in full sentences, or if they become drowsy or exhausted.",
+            "key_actions": [
+                "Help the person sit upright, not lying down",
+                "Loosen tight clothing",
+                "Help them use their own reliever inhaler if they have one",
+                "Stay calm and reassure the person",
+                "Call emergency services if there is no improvement or warning signs appear"
+            ],
+            "do_not": [
+                "Do not lay the person flat",
+                "Do not give a bystander's own medication to the person"
+            ],
+            "escalation_criteria": [
+                "No improvement in breathing",
+                "Blue lips or face",
+                "Cannot speak in full sentences",
+                "Becoming drowsy or exhausted"
+            ],
+            "source_ids": [
+                "SRC-015"
+            ],
+            "authority": "Official",
+            "india_specific": false,
+            "confidence": "Medium",
+            "notes": "Based on NHS (UK) asthma attack first-aid guidance, used here as the closest verified authoritative analogue for general severe breathing difficulty. Other causes of breathing difficulty (e.g., anaphylaxis, chest trauma) are not covered — see GAP-005."
+        },
+        {
+            "record_id": "REC-007",
+            "knowledge_requirement_id": "KR-004",
+            "topic": "First aid for thermal burns",
+            "scenario": "A person has a burn from heat, fire, or a hot surface.",
+            "answer": "Cool the burn under cool (not iced) running water for 20 minutes as soon as possible. Remove clothing or jewelry near the burnt area before it swells, unless it is stuck to the skin. Cover the burn loosely with cling film or a clean, non-fluffy material. Keep the person warm to avoid hypothermia while cooling the burn. Seek emergency medical care for large or deep burns, or burns on the face, hands, feet, genitals, or major joints.",
+            "key_actions": [
+                "Ensure safety and stop the burning process",
+                "Cool the burn under cool running water for 20 minutes",
+                "Remove nearby clothing/jewelry before swelling occurs (if not stuck to skin)",
+                "Cover loosely with cling film or clean non-fluffy material",
+                "Keep the person warm elsewhere on the body",
+                "Seek emergency medical care for serious burns"
+            ],
+            "do_not": [
+                "Do not use ice or iced water",
+                "Do not apply butter, oil, ointments, or toothpaste",
+                "Do not burst blisters",
+                "Do not use fluffy materials like cotton wool on the burn",
+                "Do not remove clothing that is stuck to the burn"
+            ],
+            "escalation_criteria": [
+                "Burn larger than the person's hand",
+                "Deep burns of any size",
+                "Burns on the face, hands, feet, genitals, or major joints",
+                "Chemical or electrical burns",
+                "Signs of shock"
+            ],
+            "source_ids": [
+                "SRC-007"
+            ],
+            "authority": "Official",
+            "india_specific": false,
+            "confidence": "Medium",
+            "notes": "Based on NHS (UK) burns and scalds first-aid guidance. No India-specific authoritative burns first-aid public guidance was verified (see GAP-001)."
+        },
+        {
+            "record_id": "REC-008",
+            "knowledge_requirement_id": "KR-005",
+            "topic": "Suspected broken bone (fracture)",
+            "scenario": "A person may have a broken bone after a fall or collision.",
+            "answer": "Encourage the person to keep still and avoid moving the injured part. Support the limb in the position it was found, using padding or your hands, without trying to straighten or realign it. If there is an open wound, cover it with a clean dressing. Call for emergency medical help, especially for suspected fractures of the thigh, hip, pelvis, spine, or skull.",
+            "key_actions": [
+                "Keep the person still and calm",
+                "Support the injured limb in the position found",
+                "Cover any open wound with a clean dressing",
+                "Avoid unnecessary movement of the injured area",
+                "Call emergency medical services for suspected serious fractures"
+            ],
+            "do_not": [
+                "Do not try to realign or straighten the bone",
+                "Do not move the person unnecessarily",
+                "Do not let the person eat or drink in case surgery is needed"
+            ],
+            "escalation_criteria": [
+                "Bone visible through the skin (open fracture)",
+                "Heavy bleeding",
+                "Deformity with loss of pulse or sensation below the injury",
+                "Suspected fracture of spine, hip, pelvis, or skull"
+            ],
+            "source_ids": [
+                "SRC-008"
+            ],
+            "authority": "Official",
+            "india_specific": false,
+            "confidence": "Medium",
+            "notes": "Based on NHS (UK) broken bone first-aid guidance. No India-specific equivalent verified (see GAP-001)."
+        },
+        {
+            "record_id": "REC-009",
+            "knowledge_requirement_id": "KR-006",
+            "topic": "Warning signs after a head injury",
+            "scenario": "A person has hit their head, for example in a fall or road accident.",
+            "answer": "Most minor bumps to the head are not serious, but watch closely for warning signs: loss of consciousness, confusion or drowsiness that does not improve, repeated vomiting, a seizure, clear fluid leaking from the nose or ears, difficulty speaking, weakness in the limbs, unequal pupil size, or a severe or worsening headache. Keep the person still, monitor them closely, and seek emergency medical attention immediately if any of these signs appear or if the injury followed a high-impact event.",
+            "key_actions": [
+                "Keep the person still and monitor them",
+                "Watch for warning signs listed above",
+                "Seek emergency medical attention immediately if any warning sign appears",
+                "Seek medical attention for any head injury following a high-impact event (e.g., road accident, fall from height)"
+            ],
+            "do_not": [
+                "Do not assume a head injury is minor without monitoring for warning signs",
+                "Do not let the person resume normal activity if warning signs are present"
+            ],
+            "escalation_criteria": [
+                "Loss of consciousness",
+                "Persistent confusion or drowsiness",
+                "Repeated vomiting",
+                "Seizure",
+                "Fluid leaking from nose/ears",
+                "Unequal pupils",
+                "Severe or worsening headache"
+            ],
+            "source_ids": [
+                "SRC-009"
+            ],
+            "authority": "Official",
+            "india_specific": false,
+            "confidence": "Medium",
+            "notes": "Based on NHS (UK) head injury/concussion guidance. Motorcycle-helmet-specific handling in head/spinal injury (highly relevant to Indian roadside two-wheeler accidents) is NOT covered by this source — see GAP-008."
+        },
+        {
+            "record_id": "REC-010",
+            "knowledge_requirement_id": "KR-007",
+            "topic": "Suspected spinal injury — minimizing movement",
+            "scenario": "A person may have a spinal injury after a fall or road collision.",
+            "answer": "Suspect a spinal injury if a person has a painful neck or back injury after a significant fall or collision, complains of numbness, tingling, or weakness in the limbs, or is found unconscious after trauma. If the person is not in immediate danger, do not move them. Keep the head, neck, and back as still as possible, support the head with hands on either side if needed, reassure the person to stay still, and call emergency services so trained responders can safely manage movement and extrication. Only move the person if they are in immediate danger, such as fire or oncoming traffic.",
+            "key_actions": [
+                "Assess for signs suggesting spinal injury",
+                "Keep the person as still as possible if not in immediate danger",
+                "Support the head and neck without forcing movement",
+                "Reassure the person to remain still",
+                "Call emergency services for trained responders"
+            ],
+            "do_not": [
+                "Do not attempt to sit the person up",
+                "Do not twist or bend the neck or back",
+                "Do not remove a motorcycle helmet unless absolutely necessary for airway/breathing (specific technique not verified — see GAP-008)"
+            ],
+            "escalation_criteria": [
+                "Any suspected spinal injury requires emergency medical response",
+                "Immediate danger (fire, traffic, unstable structure) may require careful movement despite suspected spinal injury"
+            ],
+            "source_ids": [
+                "SRC-013"
+            ],
+            "authority": "Institutional",
+            "india_specific": false,
+            "confidence": "Medium",
+            "notes": "Based on St John Ambulance (UK) spinal injury first-aid guidance, recalled with moderate confidence; the exact live URL/content should be re-verified before ingestion (see GAP-007). This is a Critical requirement with weaker source confidence than other records — flagged in source_coverage_matrix as Insufficient and in human_review context."
+        },
+        {
+            "record_id": "REC-011",
+            "knowledge_requirement_id": "KR-008",
+            "topic": "Recognizing and helping someone in shock",
+            "scenario": "A person appears pale, cold, and weak after an injury.",
+            "answer": "Signs of shock include pale or grey, cold, clammy skin; rapid, shallow breathing; a rapid, weak pulse; nausea; and confusion or drowsiness. Lay the person down if possible, and raise and support their legs unless a leg injury, spinal injury, or fracture is suspected. Keep them warm with a blanket, do not give them anything to eat or drink, reassure them, and call emergency services immediately, since shock usually indicates a serious underlying injury.",
+            "key_actions": [
+                "Recognize signs of shock",
+                "Lay the person down",
+                "Raise and support the legs if no leg/spinal injury or fracture is suspected",
+                "Keep the person warm",
+                "Call emergency medical services",
+                "Reassure and monitor the person until help arrives"
+            ],
+            "do_not": [
+                "Do not give the person food or drink",
+                "Do not raise the legs if a leg fracture or spinal injury is suspected"
+            ],
+            "escalation_criteria": [
+                "Any recognized signs of shock require immediate emergency medical services contact"
+            ],
+            "source_ids": [
+                "SRC-011"
+            ],
+            "authority": "Official",
+            "india_specific": false,
+            "confidence": "Medium",
+            "notes": "Based on NHS (UK) shock first-aid guidance. No India-specific equivalent verified (see GAP-001)."
+        },
+        {
+            "record_id": "REC-012",
+            "knowledge_requirement_id": "KR-009",
+            "topic": "Helping someone during and after a seizure",
+            "scenario": "A person is having a seizure (fit) at the roadside.",
+            "answer": "Protect the person from injury by clearing away hazardous objects or furniture, and cushion their head with something soft. Do not hold them down or restrain their movements, and do not put anything in their mouth. Note the time the seizure starts. Once the jerking stops, check their breathing and place them in the recovery position, staying with them and talking calmly as they regain awareness.",
+            "key_actions": [
+                "Clear the area of hazards",
+                "Cushion the person's head",
+                "Time the seizure",
+                "After jerking stops, check breathing and place in recovery position",
+                "Stay with the person and reassure them as they recover"
+            ],
+            "do_not": [
+                "Do not restrain the person's movements",
+                "Do not put anything in the person's mouth"
+            ],
+            "escalation_criteria": [
+                "Seizure lasts longer than 5 minutes",
+                "Repeated seizures without regaining consciousness between them",
+                "It is the person's first known seizure",
+                "The person is injured during the seizure",
+                "Difficulty breathing after the seizure ends",
+                "The seizure occurred in water or a dangerous location"
+            ],
+            "source_ids": [
+                "SRC-010"
+            ],
+            "authority": "Official",
+            "india_specific": false,
+            "confidence": "Medium",
+            "notes": "Based on NHS (UK) seizure first-aid guidance. No India-specific equivalent verified (see GAP-001)."
+        },
+        {
+            "record_id": "REC-013",
+            "knowledge_requirement_id": "KR-010",
+            "topic": "Heat exhaustion and heatstroke",
+            "scenario": "A person appears to be collapsing or unwell from heat exposure at the roadside.",
+            "answer": "Move the person to a cool place, remove unnecessary clothing, and cool their skin using cool water, a cool wet cloth, or fanning. If they are fully conscious, encourage them to sip a cool drink. Stay with them until they feel better. Heatstroke is a medical emergency — signs include very high body temperature, hot skin that is not sweating, a fast heartbeat, fast breathing, confusion, seizure, or loss of consciousness. If these signs are present, call emergency medical services immediately while continuing to cool the person.",
+            "key_actions": [
+                "Move the person to a cool place",
+                "Remove unnecessary clothing",
+                "Cool the skin with water, a cool cloth, or fanning",
+                "Give a cool drink if the person is fully conscious",
+                "Call emergency services immediately if heatstroke signs are present, and continue cooling while waiting"
+            ],
+            "do_not": [
+                "Do not give fluids to a person who is not fully conscious",
+                "Do not wait to see if symptoms improve if heatstroke signs (e.g., seizure, loss of consciousness, hot skin not sweating) are present"
+            ],
+            "escalation_criteria": [
+                "No improvement after about 30 minutes of active cooling",
+                "Very high body temperature with hot, dry skin",
+                "Confusion, seizure, or loss of consciousness"
+            ],
+            "source_ids": [
+                "SRC-016"
+            ],
+            "authority": "Official",
+            "india_specific": false,
+            "confidence": "Medium",
+            "notes": "Based on NHS (UK) heat exhaustion/heatstroke guidance. Highly relevant to Indian climate/roadside conditions, but no India-specific bystander first-aid source (e.g., NDMA heat action plan bystander instructions) was verified in this pass — see GAP-006."
+        }
+    ],
+    "knowledge_gaps": [
+        {
+            "gap_id": "GAP-000",
+            "topic": "Live web verification limitation",
+            "missing_information": "This research pass was performed using verified organizational knowledge of well-established, stable, publicly known official/institutional first-aid resources, but live interactive browsing/re-confirmation of each exact URL and current page content was not performed within this response. All sources should be re-confirmed live (page reachable, content current, last-updated date checked) before final ingestion into RAAHAT's RAG system.",
+            "importance": "Critical",
+            "status": "Unresolved"
+        },
+        {
+            "gap_id": "GAP-001",
+            "topic": "India-specific granular first-aid procedures",
+            "missing_information": "No confirmed India-specific authoritative source (MoHFW, National Health Portal, NDMA, AIIMS) providing step-by-step procedural first-aid guidance equivalent to NHS/AHA content (bleeding control, burns, fractures, shock, seizures) was verified. Most granular clinical steps currently rely on UK/US sources.",
+            "importance": "Critical",
+            "status": "Unresolved"
+        },
+        {
+            "gap_id": "GAP-002",
+            "topic": "Indian Red Cross Society procedural content",
+            "missing_information": "Only the Indian Red Cross Society's main domain was identified with confidence; a specific first-aid manual/procedure page was not independently confirmed, so it is included as a Supporting/contextual source rather than a cited procedural source.",
+            "importance": "High",
+            "status": "Unresolved"
+        },
+        {
+            "gap_id": "GAP-003",
+            "topic": "Indian emergency contact number for first-aid escalation",
+            "missing_information": "This domain (First Aid) references 'call emergency services' as an action but does not itself verify India's emergency contact number/procedure; that belongs to a separate Emergency Contacts domain and should be cross-linked, not duplicated here.",
+            "importance": "High",
+            "status": "Unresolved"
+        },
+        {
+            "gap_id": "GAP-004",
+            "topic": "Lay-CPR guidance specific to India",
+            "missing_information": "No Indian authoritative body (e.g., Indian Resuscitation Council) public bystander CPR guidance was verified. American Heart Association guidance was used as the closest verified authoritative source but must not be presented as Indian official protocol.",
+            "importance": "High",
+            "status": "Unresolved"
+        },
+        {
+            "gap_id": "GAP-005",
+            "topic": "Non-choking, non-asthma severe breathing difficulty (e.g., anaphylaxis, chest trauma)",
+            "missing_information": "Authoritative bystander guidance for anaphylaxis (allergic reaction) and chest-injury-related breathing difficulty was not verified/included. Current coverage of KR-003 uses an asthma-attack analogue only.",
+            "importance": "High",
+            "status": "Unresolved"
+        },
+        {
+            "gap_id": "GAP-006",
+            "topic": "India-specific heat illness bystander first aid",
+            "missing_information": "Despite high relevance to Indian roadside conditions, no verified Indian authoritative bystander-level heatstroke first-aid guidance (as distinct from public heat-action-plan awareness messaging) was found.",
+            "importance": "High",
+            "status": "Unresolved"
+        },
+        {
+            "gap_id": "GAP-007",
+            "topic": "Spinal injury source confidence",
+            "missing_information": "The St John Ambulance (UK) spinal injury page URL/content was recalled with only moderate confidence and requires live re-verification before ingestion, given KR-007 is a Critical requirement.",
+            "importance": "Critical",
+            "status": "Unresolved"
+        },
+        {
+            "gap_id": "GAP-008",
+            "topic": "Motorcycle helmet removal in suspected head/spinal injury",
+            "missing_information": "No authoritative source was verified for whether/how a bystander should handle a motorcycle helmet on an injured rider with suspected head or spinal injury — a very common Indian roadside scenario given high two-wheeler usage. This is a significant, unresolved practical gap.",
+            "importance": "Critical",
+            "status": "Unresolved"
+        },
+        {
+            "gap_id": "GAP-009",
+            "topic": "Recovery-position vs. suspected-spinal-injury conflict",
+            "missing_information": "General unconsciousness guidance (REC-003) recommends the recovery position for a breathing unconscious person, while spinal injury guidance (REC-010) recommends minimizing movement. Authoritative sources generally note that airway/breathing takes priority over spinal precautions, but this was not explicitly cross-verified between the two specific cited sources in this pass.",
+            "importance": "Critical",
+            "status": "Unresolved"
+        }
+    ],
+    "source_coverage_matrix": [
+        {
+            "knowledge_requirement": "KR-001: Severe bleeding",
+            "source_ids": [
+                "SRC-003"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": false,
+            "notes": "Clinically consistent international (NHS UK) guidance; no verified India-specific source for bleeding control found (GAP-001)."
+        },
+        {
+            "knowledge_requirement": "KR-002: Unconsciousness",
+            "source_ids": [
+                "SRC-004",
+                "SRC-005",
+                "SRC-012"
+            ],
+            "coverage": "Partial",
+            "authority": "Mixed",
+            "india_specific": false,
+            "notes": "Combines NHS (UK) and AHA (US) guidance; potential recovery-position vs. spinal-injury interaction not fully cross-verified (GAP-009)."
+        },
+        {
+            "knowledge_requirement": "KR-003: Breathing problems",
+            "source_ids": [
+                "SRC-006",
+                "SRC-015"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": false,
+            "notes": "Choking well covered; non-choking severe breathing difficulty coverage limited to an asthma-attack analogue (GAP-005)."
+        },
+        {
+            "knowledge_requirement": "KR-004: Burns",
+            "source_ids": [
+                "SRC-007"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": false,
+            "notes": "Strong international clinical guidance; no India-specific corroboration verified (GAP-001)."
+        },
+        {
+            "knowledge_requirement": "KR-005: Fractures",
+            "source_ids": [
+                "SRC-008"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": false,
+            "notes": "International guidance only; no India-specific corroboration verified (GAP-001)."
+        },
+        {
+            "knowledge_requirement": "KR-006: Head injury",
+            "source_ids": [
+                "SRC-009"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": false,
+            "notes": "Warning-sign guidance well supported; motorcycle-helmet handling not covered (GAP-008), which is highly relevant for Indian roadside context."
+        },
+        {
+            "knowledge_requirement": "KR-007: Spinal injury",
+            "source_ids": [
+                "SRC-013"
+            ],
+            "coverage": "Insufficient",
+            "authority": "Institutional",
+            "india_specific": false,
+            "notes": "Single moderate-confidence source for a Critical requirement; helmet-removal specifics and cross-verification with unconsciousness guidance unresolved (GAP-007, GAP-008, GAP-009). Recommend additional authoritative sourcing before treating as production-ready."
+        },
+        {
+            "knowledge_requirement": "KR-008: Shock",
+            "source_ids": [
+                "SRC-011"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": false,
+            "notes": "International guidance only; no India-specific corroboration verified (GAP-001)."
+        },
+        {
+            "knowledge_requirement": "KR-009: Seizures",
+            "source_ids": [
+                "SRC-010"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": false,
+            "notes": "International guidance only; no India-specific corroboration verified (GAP-001)."
+        },
+        {
+            "knowledge_requirement": "KR-010: Heat-related emergencies",
+            "source_ids": [
+                "SRC-016"
+            ],
+            "coverage": "Partial",
+            "authority": "Official",
+            "india_specific": false,
+            "notes": "High relevance to Indian climate but no India-specific bystander-level source verified (GAP-006)."
+        }
+    ],
+    "recommended_rag_corpus": [
+        {
+            "source_id": "SRC-001",
+            "source_name": "Indian Red Cross Society",
+            "source_url": "https://www.indianredcross.org/",
+            "recommended_use": "Supporting",
+            "priority": "Supporting",
+            "authority_level": "Official",
+            "reason": "Statutory Indian auxiliary body (Indian Red Cross Society Act, 1920) and member of the international Red Cross movement; included as an India-specific institutional anchor, but specific procedural first-aid page content was not independently confirmed in this pass (GAP-002)."
+        },
+        {
+            "source_id": "SRC-002",
+            "source_name": "National Health Portal of India (Ministry of Health & Family Welfare)",
+            "source_url": "https://www.nhp.gov.in/",
+            "recommended_use": "Supporting",
+            "priority": "Supporting",
+            "authority_level": "Official",
+            "reason": "Official Government of India health portal; included as an India-specific institutional reference, but a specific first-aid procedural sub-page was not independently confirmed in this pass (GAP-001)."
+        },
+        {
+            "source_id": "SRC-003",
+            "source_name": "NHS - Severe bleeding (First aid)",
+            "source_url": "https://www.nhs.uk/conditions/first-aid/severe-bleeding/",
+            "recommended_use": "Core",
+            "priority": "Core",
+            "authority_level": "Official",
+            "reason": "Official UK national health service guidance; used for KR-001 severe bleeding control steps."
+        },
+        {
+            "source_id": "SRC-004",
+            "source_name": "NHS - Unconscious person (First aid)",
+            "source_url": "https://www.nhs.uk/conditions/first-aid/unconscious-person/",
+            "recommended_use": "Core",
+            "priority": "Core",
+            "authority_level": "Official",
+            "reason": "Official UK national health service guidance; used for KR-002 responsiveness/breathing assessment."
+        },
+        {
+            "source_id": "SRC-005",
+            "source_name": "NHS - How to put someone in the recovery position (First aid)",
+            "source_url": "https://www.nhs.uk/conditions/first-aid/how-to-put-someone-in-the-recovery-position/",
+            "recommended_use": "Core",
+            "priority": "Core",
+            "authority_level": "Official",
+            "reason": "Official UK national health service guidance; used for KR-002 recovery positioning."
+        },
+        {
+            "source_id": "SRC-006",
+            "source_name": "NHS - Choking adult (First aid)",
+            "source_url": "https://www.nhs.uk/conditions/first-aid/choking-adult/",
+            "recommended_use": "Core",
+            "priority": "Core",
+            "authority_level": "Official",
+            "reason": "Official UK national health service guidance; used for KR-003 choking management."
+        },
+        {
+            "source_id": "SRC-007",
+            "source_name": "NHS - Burns and scalds (First aid)",
+            "source_url": "https://www.nhs.uk/conditions/first-aid/burns-and-scalds/",
+            "recommended_use": "Core",
+            "priority": "Core",
+            "authority_level": "Official",
+            "reason": "Official UK national health service guidance; used for KR-004 burn cooling and precautions."
+        },
+        {
+            "source_id": "SRC-008",
+            "source_name": "NHS - Broken bone (First aid)",
+            "source_url": "https://www.nhs.uk/conditions/first-aid/broken-bone/",
+            "recommended_use": "Core",
+            "priority": "Core",
+            "authority_level": "Official",
+            "reason": "Official UK national health service guidance; used for KR-005 suspected fracture handling."
+        },
+        {
+            "source_id": "SRC-009",
+            "source_name": "NHS - Concussion (Head injury)",
+            "source_url": "https://www.nhs.uk/conditions/concussion/",
+            "recommended_use": "Core",
+            "priority": "Core",
+            "authority_level": "Official",
+            "reason": "Official UK national health service guidance; used for KR-006 head injury warning signs."
+        },
+        {
+            "source_id": "SRC-010",
+            "source_name": "NHS - Seizures (First aid)",
+            "source_url": "https://www.nhs.uk/conditions/first-aid/seizures/",
+            "recommended_use": "Core",
+            "priority": "Core",
+            "authority_level": "Official",
+            "reason": "Official UK national health service guidance; used for KR-009 seizure first aid."
+        },
+        {
+            "source_id": "SRC-011",
+            "source_name": "NHS - Shock",
+            "source_url": "https://www.nhs.uk/conditions/shock/",
+            "recommended_use": "Core",
+            "priority": "Core",
+            "authority_level": "Official",
+            "reason": "Official UK national health service guidance; used for KR-008 shock recognition and support."
+        },
+        {
+            "source_id": "SRC-012",
+            "source_name": "American Heart Association - Hands-Only CPR",
+            "source_url": "https://cpr.heart.org/en/resources/hands-only-cpr",
+            "recommended_use": "Core",
+            "priority": "Core",
+            "authority_level": "Institutional",
+            "reason": "Recognized international professional medical/resuscitation organization; provides explicit untrained-bystander CPR guidance for KR-002."
+        },
+        {
+            "source_id": "SRC-013",
+            "source_name": "St John Ambulance (UK) - Spinal injury advice",
+            "source_url": "https://www.sja.org.uk/first-aid-advice/how-to-treat-a-back-and-spinal-injury/",
+            "recommended_use": "Supporting",
+            "priority": "Supporting",
+            "authority_level": "Institutional",
+            "reason": "Recognized first-aid training organization; used for KR-007, but flagged with only moderate URL/content confidence and requires re-verification (GAP-007) before being treated as Core."
+        },
+        {
+            "source_id": "SRC-014",
+            "source_name": "World Health Organization - Emergency Care",
+            "source_url": "https://www.who.int/health-topics/emergency-care",
+            "recommended_use": "Supporting",
+            "priority": "Supporting",
+            "authority_level": "Official",
+            "reason": "International health authority; used as a general reference for emergency-care escalation principles, not for granular procedural claims."
+        },
+        {
+            "source_id": "SRC-015",
+            "source_name": "NHS - Asthma attack",
+            "source_url": "https://www.nhs.uk/conditions/asthma/asthma-attack/",
+            "recommended_use": "Core",
+            "priority": "Core",
+            "authority_level": "Official",
+            "reason": "Official UK national health service guidance; used as the closest verified analogue for KR-003 non-choking severe breathing difficulty."
+        },
+        {
+            "source_id": "SRC-016",
+            "source_name": "NHS - Heat exhaustion and heatstroke",
+            "source_url": "https://www.nhs.uk/conditions/heat-exhaustion-heatstroke/",
+            "recommended_use": "Core",
+            "priority": "Core",
+            "authority_level": "Official",
+            "reason": "Official UK national health service guidance; used for KR-010, highly relevant given Indian climate despite being an international source."
+        }
+    ],
+    "query_coverage": [
+        {
+            "query_id": "Q-001",
+            "query": "What should I do if someone is bleeding heavily after an accident?",
+            "language": "English",
+            "topic": "Severe bleeding",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [
+                "REC-001"
+            ],
+            "expected_answer_points": [
+                "Apply firm direct pressure with a clean cloth",
+                "Raise the injured limb if no fracture suspected",
+                "Call emergency medical services",
+                "Watch for shock"
+            ]
+        },
+        {
+            "query_id": "Q-002",
+            "query": "There is glass stuck in someone's arm and it's bleeding, should I pull it out?",
+            "language": "English",
+            "topic": "Embedded object bleeding",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [
+                "REC-002"
+            ],
+            "expected_answer_points": [
+                "Do not remove the embedded object",
+                "Apply pressure around it, not on it",
+                "Call emergency services"
+            ]
+        },
+        {
+            "query_id": "Q-003",
+            "query": "How do I help an unconscious person after a road accident?",
+            "language": "English",
+            "topic": "Unconsciousness",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [
+                "REC-003"
+            ],
+            "expected_answer_points": [
+                "Check responsiveness and breathing",
+                "Place in recovery position if breathing normally",
+                "Call emergency services",
+                "Monitor continuously"
+            ]
+        },
+        {
+            "query_id": "Q-004",
+            "query": "Someone collapsed and isn't breathing, what should I do?",
+            "language": "English",
+            "topic": "CPR",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [
+                "REC-004"
+            ],
+            "expected_answer_points": [
+                "Call emergency services immediately",
+                "Begin hands-only chest compressions",
+                "Continue until help arrives"
+            ]
+        },
+        {
+            "query_id": "Q-005",
+            "query": "Someone is having trouble breathing, what should I do?",
+            "language": "English",
+            "topic": "Breathing difficulty",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [
+                "REC-006"
+            ],
+            "expected_answer_points": [
+                "Help them sit upright",
+                "Loosen tight clothing",
+                "Help use their own inhaler if available",
+                "Call emergency services if not improving"
+            ]
+        },
+        {
+            "query_id": "Q-006",
+            "query": "A person is choking and can't speak, what do I do?",
+            "language": "English",
+            "topic": "Choking",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [
+                "REC-005"
+            ],
+            "expected_answer_points": [
+                "Give up to 5 back blows",
+                "Give up to 5 abdominal thrusts if back blows fail",
+                "Call emergency services if not resolved"
+            ]
+        },
+        {
+            "query_id": "Q-007",
+            "query": "What should I do if someone gets burned by a hot exhaust pipe?",
+            "language": "English",
+            "topic": "Burns",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [
+                "REC-007"
+            ],
+            "expected_answer_points": [
+                "Cool under running water for 20 minutes",
+                "Do not apply ice, butter, or ointments",
+                "Cover loosely with cling film or clean cloth",
+                "Seek medical care for serious burns"
+            ]
+        },
+        {
+            "query_id": "Q-008",
+            "query": "Is it safe to put ice directly on a burn?",
+            "language": "English",
+            "topic": "Burns",
+            "intent": "Informational",
+            "severity": "Medium",
+            "relevant_record_ids": [
+                "REC-007"
+            ],
+            "expected_answer_points": [
+                "No, do not use ice or iced water",
+                "Use cool running water instead"
+            ]
+        },
+        {
+            "query_id": "Q-009",
+            "query": "What should I do if someone has a broken arm?",
+            "language": "English",
+            "topic": "Fractures",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [
+                "REC-008"
+            ],
+            "expected_answer_points": [
+                "Keep the person still",
+                "Support the limb without straightening it",
+                "Cover any open wound",
+                "Call for emergency help"
+            ]
+        },
+        {
+            "query_id": "Q-010",
+            "query": "Someone hit their head in a fall, how do I know if it's serious?",
+            "language": "English",
+            "topic": "Head injury",
+            "intent": "Informational",
+            "severity": "Critical",
+            "relevant_record_ids": [
+                "REC-009"
+            ],
+            "expected_answer_points": [
+                "Watch for loss of consciousness, vomiting, confusion, unequal pupils, fluid from ears/nose",
+                "Seek emergency care immediately if any warning sign appears"
+            ]
+        },
+        {
+            "query_id": "Q-011",
+            "query": "Should I move someone after a road accident if I think their back or neck is hurt?",
+            "language": "English",
+            "topic": "Spinal injury",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [
+                "REC-010"
+            ],
+            "expected_answer_points": [
+                "Do not move them unless they are in immediate danger",
+                "Keep head and neck as still as possible",
+                "Call emergency services for trained responders"
+            ]
+        },
+        {
+            "query_id": "Q-012",
+            "query": "The injured person looks pale and cold and is breathing fast, what does that mean?",
+            "language": "English",
+            "topic": "Shock",
+            "intent": "Informational",
+            "severity": "Critical",
+            "relevant_record_ids": [
+                "REC-011"
+            ],
+            "expected_answer_points": [
+                "These may be signs of shock",
+                "Lay the person down and raise legs if no fracture/spinal injury suspected",
+                "Keep warm, do not give food or drink",
+                "Call emergency services"
+            ]
+        },
+        {
+            "query_id": "Q-013",
+            "query": "What should I do during a seizure?",
+            "language": "English",
+            "topic": "Seizures",
+            "intent": "Emergency",
+            "severity": "High",
+            "relevant_record_ids": [
+                "REC-012"
+            ],
+            "expected_answer_points": [
+                "Clear the area and cushion the head",
+                "Do not restrain them or put anything in their mouth",
+                "Place in recovery position after jerking stops",
+                "Call emergency services if it lasts more than 5 minutes or repeats"
+            ]
+        },
+        {
+            "query_id": "Q-014",
+            "query": "Someone collapsed on the roadside in extreme heat, what should I do?",
+            "language": "English",
+            "topic": "Heat-related emergency",
+            "intent": "Emergency",
+            "severity": "High",
+            "relevant_record_ids": [
+                "REC-013"
+            ],
+            "expected_answer_points": [
+                "Move to a cool place and cool the skin",
+                "Give a cool drink if fully conscious",
+                "Call emergency services if signs of heatstroke appear"
+            ]
+        },
+        {
+            "query_id": "Q-015",
+            "query": "When should I call an ambulance instead of just giving first aid?",
+            "language": "English",
+            "topic": "Emergency escalation",
+            "intent": "Informational",
+            "severity": "High",
+            "relevant_record_ids": [
+                "REC-001",
+                "REC-003",
+                "REC-004",
+                "REC-009",
+                "REC-010",
+                "REC-011"
+            ],
+            "expected_answer_points": [
+                "Escalate for uncontrolled bleeding, unconsciousness, no normal breathing, serious head/spinal injury signs, or shock"
+            ]
+        },
+        {
+            "query_id": "Q-016",
+            "query": "बहुत ज्यादा खून बह रहा हो तो क्या करें?",
+            "language": "Hindi",
+            "topic": "Severe bleeding",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [
+                "REC-001"
+            ],
+            "expected_answer_points": [
+                "साफ कपड़े से घाव पर सीधा दबाव डालें",
+                "यदि हड्डी टूटी न हो तो अंग को ऊपर उठाएं",
+                "एम्बुलेंस/आपातकालीन सेवा को कॉल करें"
+            ]
+        },
+        {
+            "query_id": "Q-017",
+            "query": "बेहोश व्यक्ति की मदद कैसे करें?",
+            "language": "Hindi",
+            "topic": "Unconsciousness",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [
+                "REC-003"
+            ],
+            "expected_answer_points": [
+                "प्रतिक्रिया और सांस की जांच करें",
+                "अगर सामान्य सांस चल रही है तो रिकवरी पोजीशन में रखें",
+                "आपातकालीन सेवा को कॉल करें"
+            ]
+        },
+        {
+            "query_id": "Q-018",
+            "query": "जलने पर तुरंत क्या करें?",
+            "language": "Hindi",
+            "topic": "Burns",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [
+                "REC-007"
+            ],
+            "expected_answer_points": [
+                "जले हुए हिस्से को 20 मिनट तक ठंडे बहते पानी से ठंडा करें",
+                "बर्फ, मक्खन या टूथपेस्ट न लगाएं",
+                "गंभीर जलने पर तुरंत चिकित्सा सहायता लें"
+            ]
+        },
+        {
+            "query_id": "Q-019",
+            "query": "दौरा पड़ने पर क्या करना चाहिए?",
+            "language": "Hindi",
+            "topic": "Seizures",
+            "intent": "Emergency",
+            "severity": "High",
+            "relevant_record_ids": [
+                "REC-012"
+            ],
+            "expected_answer_points": [
+                "आसपास से खतरनाक वस्तुएं हटाएं",
+                "व्यक्ति को पकड़कर न रोकें, मुंह में कुछ न डालें",
+                "5 मिनट से ज्यादा चले तो आपातकालीन सेवा बुलाएं"
+            ]
+        },
+        {
+            "query_id": "Q-020",
+            "query": "हड्डी टूटने पर क्या करें?",
+            "language": "Hindi",
+            "topic": "Fractures",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [
+                "REC-008"
+            ],
+            "expected_answer_points": [
+                "घायल अंग को हिलाएं नहीं",
+                "उसे उसी स्थिति में सहारा दें",
+                "आपातकालीन चिकित्सा सहायता बुलाएं"
+            ]
+        },
+        {
+            "query_id": "Q-021",
+            "query": "Accident mein kisi ka bahut khoon beh raha hai, kya karna chahiye?",
+            "language": "Hinglish",
+            "topic": "Severe bleeding",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [
+                "REC-001"
+            ],
+            "expected_answer_points": [
+                "Saaf kapde se seedha pressure dalein",
+                "Agar fracture na ho to limb ko upar uthayein",
+                "Emergency services ko call karein"
+            ]
+        },
+        {
+            "query_id": "Q-022",
+            "query": "Kisi ko seizure aa raha ho toh kya karein?",
+            "language": "Hinglish",
+            "topic": "Seizures",
+            "intent": "Emergency",
+            "severity": "High",
+            "relevant_record_ids": [
+                "REC-012"
+            ],
+            "expected_answer_points": [
+                "Aas paas se khatarnak cheezein hatayein",
+                "Zabardasti roken nahi, muh mein kuch na daalein",
+                "5 minute se zyada chale to emergency call karein"
+            ]
+        },
+        {
+            "query_id": "Q-023",
+            "query": "Accident ke baad unconscious person ko move karna chahiye?",
+            "language": "Hinglish",
+            "topic": "Unconsciousness / spinal injury",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [
+                "REC-003",
+                "REC-010"
+            ],
+            "expected_answer_points": [
+                "Agar spinal injury ka shak ho to bina zaroorat move na karein",
+                "Breathing check karein, normal ho to recovery position mein rakhein",
+                "Emergency services ko turant call karein"
+            ]
+        },
+        {
+            "query_id": "Q-024",
+            "query": "Burn hone par turant kya karein?",
+            "language": "Hinglish",
+            "topic": "Burns",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [
+                "REC-007"
+            ],
+            "expected_answer_points": [
+                "20 minute tak thande bahte paani se thanda karein",
+                "Ice, makkhan ya toothpaste na lagayein",
+                "Gambhir jalne par turant medical help lein"
+            ]
+        },
+        {
+            "query_id": "Q-025",
+            "query": "Kisi ka gaadi accident mein hath tuta hua lag raha hai, kya karein?",
+            "language": "Hinglish",
+            "topic": "Fractures",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [
+                "REC-008"
+            ],
+            "expected_answer_points": [
+                "Hath ko hilayein nahi",
+                "Usi position mein support karein",
+                "Emergency medical help bulayein"
+            ]
+        },
+        {
+            "query_id": "Q-026",
+            "query": "Can I remove a motorcycle rider's helmet after an accident if I think they're badly hurt?",
+            "language": "English",
+            "topic": "Head/spinal injury - helmet removal",
+            "intent": "Emergency",
+            "severity": "Critical",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "Check if the rider is responsive and breathing (not verified)",
+                "If the rider is breathing normally, leave the helmet on and keep the head and neck still (not verified)",
+                "If the rider is not breathing and the helmet blocks the airway, trained responders may need to remove it using a two-person technique (not verified)",
+                "Call emergency medical services immediately (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-027",
+            "query": "क्या सड़क दुर्घटना में मदद करने वाले व्यक्ति के लिए कोई कानूनी सुरक्षा है?",
+            "language": "Hindi",
+            "topic": "Good Samaritan / legal",
+            "intent": "Legal",
+            "severity": "Medium",
+            "relevant_record_ids": [],
+            "expected_answer_points": [
+                "भारत में सड़क दुर्घटना पीड़ितों की मदद करने वाले व्यक्तियों (Good Samaritans) के लिए सुरक्षा दिशानिर्देश मौजूद हैं (not verified)",
+                "सहायता करने वाले व्यक्ति को पुलिस द्वारा अनावश्यक परेशान नहीं किया जाना चाहिए (not verified)",
+                "घायल व्यक्ति को अस्पताल पहुंचाने वाले व्यक्ति को निजी जानकारी साझा करने के लिए बाध्य नहीं किया जाना चाहिए (not verified)"
+            ]
+        },
+        {
+            "query_id": "Q-028",
+            "query": "Is it safe to give an unconscious person water to help them wake up?",
+            "language": "English",
+            "topic": "Unconsciousness - what not to do",
+            "intent": "Informational",
+            "severity": "Critical",
+            "relevant_record_ids": [
+                "REC-003"
+            ],
+            "expected_answer_points": [
+                "Do not give food or drink to an unconscious person",
+                "Check breathing and use recovery position if breathing normally",
+                "Call emergency services"
+            ]
+        }
+    ]
+}
