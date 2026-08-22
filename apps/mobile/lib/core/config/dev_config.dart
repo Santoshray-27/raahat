@@ -18,5 +18,4 @@
 /// Development-only flag that bypasses the backend `/users/me`
 /// synchronisation in [AuthGate].
 ///
-/// **MUST be `false` before any production build or release.**
-const bool kDevelopmentUiBypass = true; // ← flip to false for production
+const bool kDevelopmentUiBypass = false; // ← flip to false for production

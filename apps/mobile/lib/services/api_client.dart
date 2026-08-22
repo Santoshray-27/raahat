@@ -36,7 +36,7 @@ class ApiClient {
 
   ApiClient._internal({
     http.Client? client,
-  }) : baseUrl = 'http://10.0.2.2:8000/api/v1',
+  }) : baseUrl = 'http://127.0.0.1:8000/api/v1',
        _client = client ?? http.Client();
 
   factory ApiClient() {
@@ -120,14 +120,14 @@ class ApiClient {
   ) async {
     try {
       final response = await requestAction().timeout(
-        const Duration(seconds: 15),
+        const Duration(seconds: 45),
       );
 
       return _processResponse(response);
     } on TimeoutException {
       throw ApiException(
         code: 'TIMEOUT_ERROR',
-        message: 'Request timed out after 15 seconds.',
+        message: 'Request timed out after 45 seconds.',
       );
     } on SocketException catch (e) {
       throw ApiException(

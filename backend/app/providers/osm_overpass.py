@@ -10,6 +10,8 @@ from app.services.ranking import calculate_haversine_distance
 
 class OSMOverpassProvider(BasePlacesProvider):
     ENDPOINTS = [
+        "https://lz4.overpass-api.de/api/interpreter",
+        "https://z.overpass-api.de/api/interpreter",
         "https://overpass-api.de/api/interpreter",
         "https://overpass.kumi.systems/api/interpreter",
         "https://overpass.private.coffee/api/interpreter",
@@ -56,7 +58,7 @@ class OSMOverpassProvider(BasePlacesProvider):
         for endpoint in self.ENDPOINTS:
             try:
                 logger.info(f"OSMOverpassProvider: Attempting query for {main_type.value} on endpoint: {endpoint}")
-                async with httpx.AsyncClient(timeout=10.0) as client:
+                async with httpx.AsyncClient(timeout=8.0) as client:
                     resp = await client.post(endpoint, content=encoded_data, headers=headers)
                     if resp.status_code != 200:
                         logger.warning(f"OSM Overpass endpoint {endpoint} returned status {resp.status_code}. Trying next endpoint...")
@@ -134,5 +136,55 @@ class OSMOverpassProvider(BasePlacesProvider):
             except Exception as e:
                 logger.warning(f"OSM Overpass endpoint {endpoint} failed: {e}. Trying next...")
                 
-        logger.error("OSM Overpass: All endpoints failed or returned no data.")
+        logger.warning("OSM Overpass: All endpoints failed or returned no data. Falling back to Nominatim.")
+        
+        # Fallback to Nominatim for Real Data
+        try:
+            delta = radius_km / 111.0 # Rough approx 1 degree = 111km
+            lon_min, lon_max = lon - delta, lon + delta
+            lat_min, lat_max = lat - delta, lat + delta
+            
+            search_query = main_type.value
+            if main_type == ServiceType.PUNCTURE_REPAIR or main_type == ServiceType.MECHANIC:
+                search_query = "car repair"
+                
+            nominatim_url = f"https://nominatim.openstreetmap.org/search?format=json&q={search_query}&viewbox={lon_min},{lat_max},{lon_max},{lat_min}&bounded=1&limit={limit*2}"
+            headers = {"User-Agent": "raahat-hackathon/1.0"}
+            async with httpx.AsyncClient(timeout=8.0) as client:
+                resp = await client.get(nominatim_url, headers=headers)
+                if resp.status_code == 200:
+                    data = resp.json()
+                    nom_results = []
+                    for el in data:
+                        p_lat, p_lon = float(el["lat"]), float(el["lon"])
+                        loc = GeoPoint(latitude=p_lat, longitude=p_lon)
+                        dist_km = round(calculate_haversine_distance(location, loc), 2)
+                        
+                        sp = ServiceProvider(
+                            provider_id=f"nom_{el.get('place_id', str(uuid.uuid4())[:8])}",
+                            name=el.get("name") or el.get("display_name", "").split(",")[0],
+                            service_types=[main_type.value],
+                            location=loc,
+                            address=LocationAddress(formatted_address=el.get("display_name", "OpenStreetMap Nominatim Location")),
+                            contact=ContactInfo(),
+                            distance_km=dist_km,
+                            eta_minutes=max(1, int(dist_km * 2)),
+                            rating=None,
+                            review_count=0,
+                            availability_status="UNKNOWN",
+                            verification_status="UNVERIFIED",
+                            recommendation_score=0.85,
+                            recommendation_reason="OpenStreetMap (Nominatim)",
+                            source=ProviderSource.OSM_OVERPASS,
+                            is_cached=False,
+                            retrieved_at=datetime.now(timezone.utc).isoformat()
+                        )
+                        nom_results.append(sp)
+                        
+                    if nom_results:
+                        sorted_items = sorted(nom_results, key=lambda x: x.distance_km)
+                        return sorted_items[:limit]
+        except Exception as e:
+            logger.error(f"Nominatim fallback failed: {e}")
+            
         return []
