@@ -14,6 +14,10 @@ class Settings(BaseSettings):
     GEOAPIFY_API_KEY: str = ""
     GOOGLE_MAPS_JS_KEY: str = ""
     GEMINI_API_KEY: str = ""
+    SARVAM_API_KEY: str = ""
+    GROQ_API_KEY: str = ""
+    LLM_PROVIDER_ORDER: str = "gemini,sarvam,groq"
+    LLM_PROVIDER_TIMEOUT: float = 8.0
     FIREBASE_CREDENTIALS_PATH: str = "./firebase-key.json"
     ENVIRONMENT: str = "development"
     AUTH_DISABLED: bool = True

@@ -123,10 +123,16 @@ def _bool_or_none(raw: Dict, key: str) -> Optional[bool]:
 
 def _extract_requirement_id(raw: Dict) -> Optional[str]:
     """
-    Extract the knowledge requirement identifier from either schema:
-      Schema A: knowledge_requirement_id → "KR-001"
-      Schema B: knowledge_requirement    → "KR-001" or "KR-001: topic text"
+    Extract the knowledge requirement identifier from any schema:
+      Schema A (DOMAIN-003/004): knowledge_requirement_id -> "KR-001"
+      Schema B (DOMAIN-005):     knowledge_requirement    -> "KR-001" or "KR-001: topic text"
+      Schema C (DOMAIN-001/002): requirement_id           -> "KR-001"
     """
+    # Schema C — plain requirement_id field (DOMAIN-001, DOMAIN-002)
+    val = raw.get("requirement_id")
+    if isinstance(val, str) and val.strip():
+        return val.strip()
+
     # Schema A
     val = raw.get("knowledge_requirement_id")
     if isinstance(val, str) and val.strip():
@@ -145,25 +151,33 @@ def _extract_requirement_id(raw: Dict) -> Optional[str]:
     return None
 
 
+
 def _extract_answer(raw: Dict) -> Optional[str]:
     """
-    Schema A: answer field
-    Schema B: evidence_summary field
+    Schema A (DOMAIN-003/004): answer field
+    Schema B (DOMAIN-005):     evidence_summary field
+    Schema C (DOMAIN-001/002): content field
     """
-    return _str_or_none(raw, "answer", "evidence_summary")
+    return _str_or_none(raw, "answer", "evidence_summary", "content")
 
 
 def _extract_safe_actions(raw: Dict) -> List[str]:
     """
-    Schema A: key_actions (list)
-    Schema B: safe_action (string describing all safe actions)
+    Schema A (DOMAIN-003/004): key_actions (list)
+    Schema B (DOMAIN-005):     safe_action (single prose string)
+    Schema C (DOMAIN-001/002): safe_actions (direct list)
     """
-    # Schema A
+    # Schema C — direct safe_actions list (DOMAIN-001, DOMAIN-002)
+    actions = _list_of_str(raw, "safe_actions")
+    if actions:
+        return actions
+
+    # Schema A — key_actions list (DOMAIN-003, DOMAIN-004)
     actions = _list_of_str(raw, "key_actions")
     if actions:
         return actions
 
-    # Schema B — safe_action is typically a paragraph
+    # Schema B — safe_action is typically a paragraph (DOMAIN-005)
     val = _str_or_none(raw, "safe_action")
     if val:
         return [val]  # Preserve as single item; chunker handles it as prose
@@ -172,15 +186,21 @@ def _extract_safe_actions(raw: Dict) -> List[str]:
 
 def _extract_prohibited_actions(raw: Dict) -> List[str]:
     """
-    Schema A: do_not (list)
-    Schema B: unsafe_action (string)
+    Schema A (DOMAIN-003/004): do_not (list)
+    Schema B (DOMAIN-005):     unsafe_action (string)
+    Schema C (DOMAIN-001/002): unsafe_actions (direct list)
     """
-    # Schema A
+    # Schema C — direct unsafe_actions list (DOMAIN-001, DOMAIN-002)
+    prohibited = _list_of_str(raw, "unsafe_actions")
+    if prohibited:
+        return prohibited
+
+    # Schema A — do_not list (DOMAIN-003, DOMAIN-004)
     prohibited = _list_of_str(raw, "do_not")
     if prohibited:
         return prohibited
 
-    # Schema B
+    # Schema B — unsafe_action prose (DOMAIN-005)
     val = _str_or_none(raw, "unsafe_action")
     if val:
         return [val]

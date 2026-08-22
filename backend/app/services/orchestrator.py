@@ -128,29 +128,37 @@ class EmergencyOrchestrator:
                 logger.error(f"Persistence error: {e}", exc_info=True)
                 pass
         
-        # 3. Get Structured Guidance (deterministic fallback always available)
-        guidance = guidance_engine.get_guidance(category, severity)
+        # 3. Build RAG Prompt & Generate Structured LLM Guidance
+        from app.services.rag_context_builder import rag_context_builder
+        from app.services.llm_orchestrator import llm_orchestrator
+        
+        is_life_threatening = (severity == SeverityLevel.CRITICAL)
+        
+        # We need to construct a BuiltContext manually since _retrieve_rag_context just unpacks it
+        from app.services.rag_context_builder import BuiltContext
+        b_context = BuiltContext(
+            context_text=rag_context, 
+            chunks_used=rag_chunks_used, 
+            top_score=rag_top_score, 
+            has_content=bool(rag_context)
+        )
+        
+        generation_prompt = rag_context_builder.build_generation_prompt(
+            query=req.user_query,
+            category=category.value,
+            severity=severity.value,
+            life_threatening=is_life_threatening,
+            built_context=b_context,
+            language=req.language if hasattr(req, 'language') and req.language else "english"
+        )
 
-        # M3-E: If we retrieved grounded knowledge, augment the guidance summary.
-        # The original summary is ALWAYS preserved; we prepend a grounded note.
-        if rag_context:
-            try:
-                grounded_summary = (
-                    f"{guidance.summary}\n\n"
-                    f"[Grounded guidance based on RAAHAT verified knowledge — "
-                    f"{rag_chunks_used} relevant knowledge chunks retrieved]"
-                )
-                # Re-create with augmented summary (original schema preserved)
-                from app.schemas.emergency import EmergencyGuidance
-                guidance = EmergencyGuidance(
-                    summary=grounded_summary,
-                    immediate_do_not_do=guidance.immediate_do_not_do,
-                    steps=guidance.steps,
-                    first_aid_included=guidance.first_aid_included,
-                )
-            except Exception as e:
-                logger.warning(f"Failed to inject RAG context into guidance: {e}")
-                # Keep original guidance on failure
+        guidance, llm_provider_used, llm_latency = await llm_orchestrator.generate_emergency_guidance(
+            prompt=generation_prompt,
+            language=req.language if hasattr(req, 'language') and req.language else "english",
+            category=category.value,
+            severity=severity.value
+        )
+
         
         # 4. Retrieve Nearby Services via ProviderManager (with fallback)
         raw_providers, provider_source = await provider_manager.get_nearby_services(
@@ -216,7 +224,7 @@ class EmergencyOrchestrator:
         ai_meta = AIAnalysisMeta(
             classifier_used=classifier_model,
             confidence_score=confidence,
-            model_version="v1.0"
+            model_version=f"v1.0 (gen: {llm_provider_used})"
         )
         
         limitations = None

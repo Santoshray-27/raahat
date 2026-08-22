@@ -42,7 +42,7 @@ class RagRepository(BaseRepository[RagDocument]):
             
         # Create new
         new_doc = RagDocument(
-            title=domain.domain_name,
+            title=domain.domain_name or domain.domain_id,
             source_type="corpus",
             version=domain.version,
             content_hash=domain.file_hash,

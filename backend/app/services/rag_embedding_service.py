@@ -25,9 +25,9 @@ class RagEmbeddingService:
     
     MODEL = getattr(settings, "RAG_EMBEDDING_MODEL", "models/gemini-embedding-001")
     DIMENSION = getattr(settings, "RAG_EMBEDDING_DIMENSION", 1536)
-    BATCH_SIZE = 100
+    BATCH_SIZE = 5  # Strict constraint: 5-10 chunks max per batch
     MAX_RETRIES = 3
-    RETRY_BASE_DELAY = 1.0
+    RETRY_BASE_DELAY = 2.0  # Backoff: 2s -> 4s -> 8s
 
     def __init__(self):
         # We rely on gemini_service.py having already called genai.configure() 
@@ -51,6 +51,9 @@ class RagEmbeddingService:
         delay = self.RETRY_BASE_DELAY
         for attempt in range(1, self.MAX_RETRIES + 1):
             try:
+                # Enforce a 30-second timeout at the RPC layer if supported
+                if "request_options" not in kwargs:
+                    kwargs["request_options"] = {"timeout": 30.0}
                 return await func(*args, **kwargs)
             except (ResourceExhausted, ServiceUnavailable) as e:
                 if attempt == self.MAX_RETRIES:

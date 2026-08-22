@@ -288,10 +288,18 @@ def parse_domain_file(filepath: str | Path) -> ParsedDomainFile:
         )
 
     # ── 4. Extract structured fields ─────────────────────────────────────
-    raw_domain_name: Optional[str] = data.get("domain") or data.get("domain_name")
+    domain_obj = data.get("domain")
+    if isinstance(domain_obj, dict):
+        raw_domain_name = domain_obj.get("name") or data.get("domain_name")
+        json_domain_id = domain_obj.get("domain_id") or data.get("domain_id")
+    else:
+        raw_domain_name = data.get("domain_name") or (domain_obj if isinstance(domain_obj, str) else None)
+        json_domain_id = data.get("domain_id")
+
+    if not isinstance(raw_domain_name, str):
+        raw_domain_name = None
 
     # Prefer domain_id from JSON if present, otherwise use filename-derived value
-    json_domain_id: Optional[str] = data.get("domain_id")
     if json_domain_id and isinstance(json_domain_id, str):
         domain_id = json_domain_id.strip().upper()
 
