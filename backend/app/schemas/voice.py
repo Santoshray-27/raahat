@@ -15,3 +15,4 @@ class VoiceAssistResponseData(BaseModel):
     language_detected: str
     triage_result: EmergencyResponseData
     response_audio_base64: Optional[str] = None
+    location_used: Optional[str] = None

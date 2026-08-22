@@ -31,8 +31,14 @@ async def voice_assist(req: VoiceAssistRequest):
     
     # Resolve location from request or fallback to LocationService via user_id
     resolved_location = req.location
+    location_used = "GPS" if resolved_location else None
     if not resolved_location and req.user_id:
         resolved_location = location_service.get_latest_location(req.user_id)
+        if resolved_location:
+            location_used = "GPS"
+            
+    if not location_used:
+        location_used = "CURATED_FALLBACK"
         
     emergency_req = EmergencyRequest(
         user_query=transcript,
@@ -47,6 +53,7 @@ async def voice_assist(req: VoiceAssistRequest):
         transcript_recognized=transcript,
         language_detected=req.language,
         triage_result=triage_result,
-        response_audio_base64=None
+        response_audio_base64=None,
+        location_used=location_used
     )
     return success_response(data=data.model_dump())
