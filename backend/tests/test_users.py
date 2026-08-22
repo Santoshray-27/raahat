@@ -2,6 +2,27 @@ import sys, os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import pytest
+
+def is_db_unreachable() -> bool:
+    from app.core.config import settings
+    if not settings.DATABASE_URL or ("postgres://" not in settings.DATABASE_URL and "postgresql://" not in settings.DATABASE_URL):
+        return True
+    import socket
+    from urllib.parse import urlparse
+    try:
+        url = urlparse(settings.DATABASE_URL)
+        host = url.hostname or "localhost"
+        port = url.port or 5432
+        with socket.create_connection((host, port), timeout=1.0):
+            return False
+    except Exception:
+        return True
+
+pytestmark = pytest.mark.skipif(
+    is_db_unreachable(),
+    reason="DATABASE_URL not configured"
+)
+
 import httpx
 from sqlalchemy import text
 from app.main import app

@@ -51,6 +51,22 @@ if str(_BACKEND_DIR) not in sys.path:
 _REPO_ROOT = _BACKEND_DIR.parent
 _RAG_DIR = _REPO_ROOT / "RAG"
 
+def _is_corpus_empty() -> bool:
+    for path in [_REPO_ROOT / "data" / "raw", _REPO_ROOT / "ai" / "rag" / "data", _RAG_DIR]:
+        if path.exists():
+            try:
+                if any(f.is_file() and f.stat().st_size > 0 for f in path.iterdir()):
+                    return False
+            except Exception:
+                pass
+    return True
+
+pytestmark = pytest.mark.skipif(
+    _is_corpus_empty(),
+    reason="RAG corpus not present (Satwik's scope)"
+)
+
+
 from app.services.rag_parser import (
     ParseStatus,
     extract_domain_and_version,

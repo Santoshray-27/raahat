@@ -56,4 +56,5 @@ class ProviderSource(str, Enum):
     GEOAPIFY = "GEOAPIFY"
     OSM_OVERPASS = "OSM_OVERPASS"
     OSRM = "OSRM"
+    CURATED = "CURATED"
     MOCK = "MOCK"

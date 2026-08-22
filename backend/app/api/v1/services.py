@@ -25,10 +25,29 @@ async def get_services_nearby(
     
     st_list = [ServiceType.MECHANIC, ServiceType.PUNCTURE_REPAIR, ServiceType.TOWING, ServiceType.HOSPITAL]
     if category:
-        try:
-            st_list = [ServiceType(category.upper())]
-        except ValueError:
-            pass
+        cat_str = category.upper()
+        alias_map = {
+            "FUEL": ServiceType.FUEL_DELIVERY,
+            "FUEL_STATION": ServiceType.FUEL_DELIVERY,
+            "FUEL_DELIVERY": ServiceType.FUEL_DELIVERY,
+            "FIRE": ServiceType.FIRE_BRIGADE,
+            "FIRE_STATION": ServiceType.FIRE_BRIGADE,
+            "FIRE_BRIGADE": ServiceType.FIRE_BRIGADE,
+            "PUNCTURE": ServiceType.PUNCTURE_REPAIR,
+            "PUNCTURE_REPAIR": ServiceType.PUNCTURE_REPAIR,
+            "POLICE": ServiceType.POLICE,
+            "AMBULANCE": ServiceType.AMBULANCE,
+            "HOSPITAL": ServiceType.HOSPITAL,
+            "TOWING": ServiceType.TOWING,
+            "MECHANIC": ServiceType.MECHANIC,
+        }
+        if cat_str in alias_map:
+            st_list = [alias_map[cat_str]]
+        else:
+            try:
+                st_list = [ServiceType(cat_str)]
+            except ValueError:
+                pass
 
     providers, provider_source = await provider_manager.get_nearby_services(
         location=loc,

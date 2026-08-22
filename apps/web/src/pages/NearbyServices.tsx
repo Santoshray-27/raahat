@@ -34,8 +34,18 @@ export const NearbyServices: React.FC = () => {
   const [lastUpdated, setLastUpdated] = useState<string>('');
   const [isFromCache, setIsFromCache] = useState(false);
 
-  const [location, setLocation] = useState<{ latitude: number; longitude: number; isManual: boolean }>({
-    latitude: 22.7196, longitude: 75.8577, isManual: false
+  const [location, setLocation] = useState<{
+    latitude: number;
+    longitude: number;
+    isManual: boolean;
+    gpsAttempted: boolean;
+    gpsSuccess: boolean;
+  }>({
+    latitude: 22.7196,
+    longitude: 75.8577,
+    isManual: false,
+    gpsAttempted: false,
+    gpsSuccess: false
   });
   const [showManual, setShowManual] = useState(false);
   const [manualLat, setManualLat] = useState('');
@@ -98,9 +108,11 @@ export const NearbyServices: React.FC = () => {
   useEffect(() => {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
-        (pos) => setLocation({ latitude: pos.coords.latitude, longitude: pos.coords.longitude, isManual: false }),
-        () => {} // keep defaults
+        (pos) => setLocation({ latitude: pos.coords.latitude, longitude: pos.coords.longitude, isManual: false, gpsAttempted: true, gpsSuccess: true }),
+        () => setLocation(prev => ({ ...prev, gpsAttempted: true, gpsSuccess: false }))
       );
+    } else {
+      setLocation(prev => ({ ...prev, gpsAttempted: true, gpsSuccess: false }));
     }
   }, []);
 
@@ -109,7 +121,7 @@ export const NearbyServices: React.FC = () => {
   const applyManualCoords = () => {
     const lat = parseFloat(manualLat); const lng = parseFloat(manualLng);
     if (!isNaN(lat) && !isNaN(lng)) {
-      setLocation({ latitude: lat, longitude: lng, isManual: true });
+      setLocation({ latitude: lat, longitude: lng, isManual: true, gpsAttempted: true, gpsSuccess: false });
       setShowManual(false);
     }
   };
@@ -125,13 +137,33 @@ export const NearbyServices: React.FC = () => {
         </p>
       </div>
 
+      {location.gpsAttempted && !location.gpsSuccess && !location.isManual && (
+        <div style={{
+          background: '#FFFBEB',
+          border: '1px solid #FDE68A',
+          borderRadius: '8px',
+          padding: '12px 16px',
+          color: '#B45309',
+          fontSize: '0.88rem',
+          marginBottom: '20px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px'
+        }}>
+          <span>📍 Location unavailable — showing Indore demo area (22.7196, 75.8577). Allow location or enter coordinates manually.</span>
+        </div>
+      )}
+
       {/* GPS bar */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px', flexWrap: 'wrap' }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#F1F5F9', padding: '6px 14px', borderRadius: '9999px', border: '1px solid #E2E8F0', fontSize: '0.82rem' }}>
           <Crosshair size={14} color="#2563EB" />
           <span style={{ color: '#475569' }}>{location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}</span>
-          <span className={location.isManual ? 'badge badge-fallback' : 'badge badge-live'} style={{ fontSize: '0.65rem', padding: '2px 6px' }}>
-            {location.isManual ? 'MANUAL' : 'GPS'}
+          <span 
+            className={location.isManual ? 'badge badge-fallback' : location.gpsSuccess ? 'badge badge-live' : 'badge badge-cached'} 
+            style={{ fontSize: '0.65rem', padding: '2px 6px' }}
+          >
+            {location.isManual ? 'MANUAL' : location.gpsSuccess ? 'REAL GPS' : 'DEMO (INDORE)'}
           </span>
         </div>
         <button className="btn btn-ghost" onClick={() => setShowManual(!showManual)} style={{ fontSize: '0.78rem' }}>

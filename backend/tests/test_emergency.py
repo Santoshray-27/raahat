@@ -23,7 +23,7 @@ async def test_emergency_puncture():
         assert len(data["guidance"]["steps"]) > 0
         assert len(data["services"]) > 0
         assert data["services"][0]["availability_status"] == "UNKNOWN"
-        assert data["services"][0]["source"] in ["GOOGLE_PLACES", "GEOAPIFY", "OSM_OVERPASS"]
+        assert data["services"][0]["source"] in ["GOOGLE_PLACES", "GEOAPIFY", "OSM_OVERPASS", "CURATED"]
         assert data["services"][0]["source"] != "MOCK"
         
         # Extra Check: Ensure relevant categories for Puncture (Not Hospital first)

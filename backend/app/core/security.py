@@ -47,7 +47,7 @@ async def get_current_user(
     token = auth_credentials.credentials
     
     try:
-        decoded_token = auth.verify_id_token(token)
+        decoded_token = auth.verify_id_token(token, clock_skew_seconds=10)
         return UserProfile(
             uid=decoded_token.get("uid", "user_unknown"),
             email=decoded_token.get("email"),
@@ -86,7 +86,7 @@ async def get_optional_current_user(
     token = auth_credentials.credentials
     
     try:
-        decoded_token = auth.verify_id_token(token)
+        decoded_token = auth.verify_id_token(token, clock_skew_seconds=10)
         return UserProfile(
             uid=decoded_token.get("uid", "user_unknown"),
             email=decoded_token.get("email"),

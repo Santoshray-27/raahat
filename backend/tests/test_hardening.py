@@ -1,5 +1,9 @@
+import sys, os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 import pytest
 import asyncio
+import httpx
 from fastapi.testclient import TestClient
 from app.main import app
 from app.schemas.common import GeoPoint
@@ -7,7 +11,7 @@ from app.schemas.enums import ServiceType
 from app.providers.manager import provider_manager
 from unittest.mock import patch, AsyncMock
 
-client = TestClient(app, raise_server_exceptions=False)
+# client = TestClient(app)
 
 from app.main import generic_exception_handler
 import json
@@ -50,34 +54,32 @@ async def test_provider_manager_global_timeout():
         return []
 
     # Mock all providers to take 13 seconds (exceeding SLA)
-    with patch.object(provider_manager.google_places, "search_nearby", side_effect=slow_mock_provider), \
-         patch.object(provider_manager.geoapify_places, "search_nearby", side_effect=slow_mock_provider), \
+    with patch.object(provider_manager.geoapify_places, "search_nearby", side_effect=slow_mock_provider), \
          patch.object(provider_manager.osm_overpass, "search_nearby", side_effect=slow_mock_provider):
         
-        # This should hit the asyncio.TimeoutError and return gracefully
+        # This should hit the asyncio.TimeoutError and return gracefully (curated fallback)
         results, source = await provider_manager.get_nearby_services(location, service_types)
         
-        assert results == []
-        assert source == "TIMEOUT_FALLBACK"
+        assert source == "CURATED"
 
 @pytest.mark.asyncio
 async def test_provider_manager_first_timeout_fallback_works():
     """
-    Test that if Google times out internally, fallback to Geoapify still happens within global SLA.
+    Test that if Geoapify fails, fallback to OSM Overpass happens.
     """
     location = GeoPoint(latitude=22.7196, longitude=75.8577)
     service_types = [ServiceType.HOSPITAL]
     
-    async def google_timeout(*args, **kwargs):
-        raise Exception("ReadTimeout")
+    async def geoapify_fail(*args, **kwargs):
+        raise Exception("Geoapify failed")
         
-    async def geoapify_success(*args, **kwargs):
+    async def osm_success(*args, **kwargs):
         from app.schemas.common import ServiceProvider, LocationAddress, ContactInfo
         from datetime import datetime, timezone
         return [
             ServiceProvider(
                 provider_id="fake_1",
-                name="Fake Geoapify",
+                name="Fake OSM",
                 service_types=[ServiceType.HOSPITAL.value],
                 location=location,
                 address=LocationAddress(formatted_address="Fake Address"),
@@ -85,16 +87,16 @@ async def test_provider_manager_first_timeout_fallback_works():
                 distance_km=1.0,
                 eta_minutes=2,
                 availability_status="UNKNOWN",
-                source="GEOAPIFY",
+                source="OSM_OVERPASS",
                 is_cached=False,
                 retrieved_at=datetime.now(timezone.utc).isoformat()
             )
         ]
 
-    with patch.object(provider_manager.google_places, "search_nearby", side_effect=google_timeout), \
-         patch.object(provider_manager.geoapify_places, "search_nearby", side_effect=geoapify_success):
+    with patch.object(provider_manager.geoapify_places, "search_nearby", side_effect=geoapify_fail), \
+         patch.object(provider_manager.osm_overpass, "search_nearby", side_effect=osm_success):
         
         results, source = await provider_manager.get_nearby_services(location, service_types)
         
         assert len(results) == 1
-        assert source == "GEOAPIFY"
+        assert source == "OSM_OVERPASS"

@@ -43,59 +43,48 @@ async def _check_geoapify_status():
 async def get_health(db: AsyncSession = Depends(get_db)):
     health_repo = HealthRepository(db)
     is_db_healthy = await health_repo.check_database_health()
-    
-    if not is_db_healthy:
-        return JSONResponse(
-            status_code=503,
-            content=error_response(
-                code="SERVICE_UNAVAILABLE",
-                message="Database connection failed"
-            )
-        )
 
     return success_response(
         data={
-            "status": "healthy",
+            "status": "healthy" if is_db_healthy else "degraded",
             "service": settings.PROJECT_NAME,
             "version": settings.VERSION,
             "mode": "mock" if settings.USE_MOCKS else "live",
             "auth_disabled": settings.AUTH_DISABLED,
-            "database": "connected"
+            "database": "connected" if is_db_healthy else "disconnected"
         }
     )
 
 @router.get("/providers/status")
 async def get_providers_status():
-    exhausted, expiry_time = google_circuit_breaker.is_exhausted()
-    if exhausted:
-        gp_status = f"QUOTA_EXHAUSTED (skipping until {expiry_time})"
-        gr_status = f"QUOTA_EXHAUSTED (skipping until {expiry_time})"
-    else:
-        gp_status = "OPERATIONAL" if settings.GOOGLE_PLACES_API_KEY else "DISABLED"
-        gr_status = "OPERATIONAL" if settings.GOOGLE_ROUTES_API_KEY else "DISABLED"
-
-    return success_response(
-        data={
-            "active_mode": "MOCK" if settings.USE_MOCKS else "LIVE",
-            "google_places": {
-                "configured": bool(settings.GOOGLE_PLACES_API_KEY),
-                "status": gp_status
-            },
-            "google_routes": {
-                "configured": bool(settings.GOOGLE_ROUTES_API_KEY),
-                "status": gr_status
-            },
-            "geoapify": {
-                "configured": bool(settings.GEOAPIFY_API_KEY),
-                "status": await _check_geoapify_status()
-            },
-            "fallback_providers": ["OSM_OVERPASS", "OSRM"],
-            "gemini_ai": {
-                "configured": bool(settings.GEMINI_API_KEY),
-                "model": "gemini-1.5-flash" if settings.GEMINI_API_KEY else "rule-fallback"
-            }
+    geo_status = await _check_geoapify_status()
+    from app.services.gemini_service import gemini_enhancer
+    gemini_model_name = gemini_enhancer.get_active_model()
+    
+    data = {
+        "active_mode": "MOCK" if settings.USE_MOCKS else "LIVE",
+        "primary_places_provider": "GEOAPIFY",
+        "primary_routing_provider": "GEOAPIFY",
+        "geoapify": {
+            "configured": bool(settings.GEOAPIFY_API_KEY),
+            "status": geo_status
+        },
+        "fallback_providers": ["OSM_OVERPASS", "OSRM", "CURATED"],
+        "gemini_ai": {
+            "configured": bool(settings.GEMINI_API_KEY),
+            "model": gemini_model_name
         }
-    )
+    }
+    if settings.GOOGLE_PLACES_API_KEY or settings.GOOGLE_ROUTES_API_KEY:
+        data["google_places"] = {
+            "configured": bool(settings.GOOGLE_PLACES_API_KEY),
+            "status": "DISABLED"
+        }
+        data["google_routes"] = {
+            "configured": bool(settings.GOOGLE_ROUTES_API_KEY),
+            "status": "DISABLED"
+        }
+    return success_response(data=data)
 
 @router.get("/diagnostics")
 async def get_diagnostics():

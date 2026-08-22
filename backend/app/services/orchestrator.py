@@ -227,12 +227,19 @@ class EmergencyOrchestrator:
             model_version=f"v1.0 (gen: {llm_provider_used})"
         )
         
-        limitations = None
+        limitations = []
         if provider_source != "google_places":
-            limitations = [
+            limitations.extend([
                 f"Service directory served via {provider_source} fallback.",
                 "Vendor availability status is UNKNOWN — please call to confirm opening hours."
-            ]
+            ])
+        if not persisted_incident:
+            limitations.append("Database is offline. Incident history persistence is unavailable.")
+        if severity == SeverityLevel.CRITICAL or category.value in ["ACCIDENT", "MEDICAL", "FIRE"]:
+            limitations.append("CRITICAL: Dial 112 (National Emergency Helpline) or 108 (Ambulance) immediately for life-threatening support.")
+            
+        if not limitations:
+            limitations = None
             
         # Transaction 2: Incident Update
         if persisted_incident and db:

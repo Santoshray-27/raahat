@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { ShieldAlert, MapPin, Navigation, Download, Wifi, WifiOff, Menu, X } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { ShieldAlert, MapPin, Navigation, Download, Wifi, WifiOff, AlertTriangle, LogOut, User } from 'lucide-react';
 import { requestApi } from '../api/client';
+import { useAuth } from '../auth/AuthContext';
 
-interface NavbarProps {
-  activeTab: string;
-  setActiveTab: (tab: string) => void;
-}
+export const Navbar: React.FC = () => {
+  const { user, signOut, isDevAuth } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
-  const [apiOnline, setApiOnline] = useState<boolean | null>(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [apiStatus, setApiStatus] = useState<'live' | 'degraded' | 'offline' | 'checking'>('checking');
 
   useEffect(() => {
     const checkHealth = async () => {
       try {
-        await requestApi<any>('/health');
-        setApiOnline(true);
+        const res = await requestApi<any>('/health');
+        if (res && res.status === 'degraded') {
+          setApiStatus('degraded');
+        } else {
+          setApiStatus('live');
+        }
       } catch {
-        setApiOnline(false);
+        setApiStatus('offline');
       }
     };
     checkHealth();
@@ -25,11 +29,11 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
     return () => clearInterval(interval);
   }, []);
 
-  const tabs = [
-    { id: 'dashboard', label: 'Emergency', icon: ShieldAlert },
-    { id: 'services', label: 'Nearby Help', icon: MapPin },
-    { id: 'routes', label: 'Route Planner', icon: Navigation },
-    { id: 'offline', label: 'Offline Pack', icon: Download },
+  const navItems = [
+    { path: '/app', label: 'Emergency', icon: ShieldAlert },
+    { path: '/nearby', label: 'Nearby Help', icon: MapPin },
+    { path: '/route', label: 'Route Planner', icon: Navigation },
+    { path: '/offline', label: 'Offline Pack', icon: Download },
   ];
 
   return (
@@ -37,7 +41,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      padding: '0 32px',
+      padding: '0 24px',
       height: '64px',
       borderBottom: '1px solid #E2E8F0',
       backgroundColor: '#FFFFFF',
@@ -46,144 +50,156 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
       zIndex: 50,
       boxShadow: '0 1px 3px rgba(15, 23, 42, 0.04)'
     }}>
-      {/* Logo */}
-      <div
-        style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
-        onClick={() => { setActiveTab('dashboard'); setMobileOpen(false); }}
-        role="button"
-        aria-label="Go to home"
-      >
-        <div style={{
-          backgroundColor: '#EF4444',
-          width: '36px',
-          height: '36px',
-          borderRadius: '10px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <span style={{ fontSize: '1.2rem' }}>🚑</span>
-        </div>
+      {/* Brand Logo - Links to Landing page */}
+      <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
+        <img
+          src="/image/logo.png"
+          alt="RAAHAT"
+          style={{ width: '36px', height: '36px', borderRadius: '10px', objectFit: 'cover' }}
+        />
         <div>
           <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0F172A', letterSpacing: '0.3px' }}>RAAHAT</span>
           <span style={{ fontSize: '0.65rem', display: 'block', color: '#94A3B8', fontWeight: 500 }}>AI Emergency Navigator</span>
         </div>
-      </div>
+      </Link>
 
-      {/* Desktop Nav */}
-      <div style={{ display: 'flex', gap: '4px' }} className="nav-desktop">
-        {tabs.map((tab) => {
-          const Icon = tab.icon;
-          const isActive = activeTab === tab.id;
-          return (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              aria-label={tab.label}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '8px 16px',
-                borderRadius: '10px',
-                border: 'none',
-                backgroundColor: isActive ? '#EFF6FF' : 'transparent',
-                color: isActive ? '#2563EB' : '#64748B',
-                fontWeight: isActive ? 600 : 500,
-                fontSize: '0.88rem',
-                cursor: 'pointer',
-                transition: 'all 150ms ease',
-                fontFamily: 'inherit'
-              }}
-            >
-              <Icon size={16} />
-              {tab.label}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Right side: status pill + mobile menu */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '6px',
-          fontSize: '0.78rem',
-          fontWeight: 600,
-          padding: '5px 12px',
-          borderRadius: '9999px',
-          border: '1px solid',
-          borderColor: apiOnline ? '#BBF7D0' : apiOnline === false ? '#FECACA' : '#E2E8F0',
-          backgroundColor: apiOnline ? '#F0FDF4' : apiOnline === false ? '#FEF2F2' : '#F8FAFC',
-          color: apiOnline ? '#16A34A' : apiOnline === false ? '#EF4444' : '#94A3B8'
-        }}>
-          {apiOnline ? <Wifi size={12} /> : apiOnline === false ? <WifiOff size={12} /> : <div className="spinner" style={{ width: 12, height: 12, borderWidth: 2 }} />}
-          {apiOnline ? 'LIVE' : apiOnline === false ? 'Offline' : '...'}
-        </div>
-
-        {/* Mobile hamburger */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle menu"
-          style={{
-            display: 'none',
-            background: 'none',
-            border: 'none',
-            color: '#64748B',
-            cursor: 'pointer',
-            padding: '4px'
-          }}
-          className="nav-mobile-btn"
-        >
-          {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-
-      {/* Mobile dropdown - rendered but hidden via inline. Real hiding via CSS media query if needed. */}
-      {mobileOpen && (
-        <div style={{
-          position: 'absolute',
-          top: '64px',
-          left: 0,
-          right: 0,
-          backgroundColor: '#FFFFFF',
-          borderBottom: '1px solid #E2E8F0',
-          padding: '8px 16px',
-          boxShadow: '0 4px 12px rgba(15,23,42,0.08)',
-          zIndex: 49
-        }}>
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
+      {/* Main Protected Nav Tabs (Visible when logged in or viewing app) */}
+      {user && (
+        <div style={{ display: 'flex', gap: '4px' }}>
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = location.pathname === item.path;
             return (
-              <button
-                key={tab.id}
-                onClick={() => { setActiveTab(tab.id); setMobileOpen(false); }}
+              <Link
+                key={item.path}
+                to={item.path}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '10px',
-                  width: '100%',
-                  padding: '12px 16px',
-                  borderRadius: '10px',
-                  border: 'none',
+                  gap: '6px',
+                  padding: '8px 14px',
+                  borderRadius: '8px',
+                  textDecoration: 'none',
                   backgroundColor: isActive ? '#EFF6FF' : 'transparent',
-                  color: isActive ? '#2563EB' : '#475569',
+                  color: isActive ? '#1F4FD8' : '#64748B',
                   fontWeight: isActive ? 600 : 500,
-                  fontSize: '0.95rem',
-                  cursor: 'pointer',
-                  fontFamily: 'inherit',
-                  textAlign: 'left'
+                  fontSize: '0.88rem'
                 }}
               >
-                <Icon size={18} />
-                {tab.label}
-              </button>
+                <Icon size={16} />
+                {item.label}
+              </Link>
             );
           })}
         </div>
       )}
+
+      {/* Right Action Items & Status */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+        {/* System Health Indicator */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '6px',
+          fontSize: '0.75rem',
+          fontWeight: 600,
+          padding: '4px 10px',
+          borderRadius: '9999px',
+          border: '1px solid',
+          borderColor: 
+            apiStatus === 'live' ? '#BBF7D0' : 
+            apiStatus === 'degraded' ? '#FDE68A' : 
+            apiStatus === 'offline' ? '#FECACA' : '#E2E8F0',
+          backgroundColor: 
+            apiStatus === 'live' ? '#F0FDF4' : 
+            apiStatus === 'degraded' ? '#FFFBEB' : 
+            apiStatus === 'offline' ? '#FEF2F2' : '#F8FAFC',
+          color: 
+            apiStatus === 'live' ? '#16A34A' : 
+            apiStatus === 'degraded' ? '#D97706' : 
+            apiStatus === 'offline' ? '#EF4444' : '#94A3B8'
+        }}>
+          {apiStatus === 'live' ? <Wifi size={12} /> : 
+           apiStatus === 'degraded' ? <AlertTriangle size={12} /> : 
+           apiStatus === 'offline' ? <WifiOff size={12} /> : 
+           <div style={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#94A3B8' }} />}
+          {apiStatus === 'live' ? 'LIVE' : 
+           apiStatus === 'degraded' ? 'DEGRADED (DB DISCONNECTED)' : 
+           apiStatus === 'offline' ? 'OFFLINE' : 'Checking...'}
+        </div>
+
+        {/* User Auth Info / Logout */}
+        {user ? (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <span style={{
+              fontSize: '13px',
+              fontWeight: 600,
+              color: '#334155',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              backgroundColor: '#F1F5F9',
+              padding: '5px 10px',
+              borderRadius: '6px'
+            }}>
+              <User size={14} />
+              {user.displayName || user.email?.split('@')[0] || 'User'}
+              {isDevAuth && <span style={{ fontSize: '10px', color: '#D97706', marginLeft: '4px' }}>(DEV)</span>}
+            </span>
+            <button
+              onClick={async () => {
+                await signOut();
+                navigate('/');
+              }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                backgroundColor: 'transparent',
+                border: '1px solid #CBD5E1',
+                color: '#64748B',
+                padding: '6px 12px',
+                borderRadius: '6px',
+                fontSize: '13px',
+                fontWeight: 600,
+                cursor: 'pointer'
+              }}
+            >
+              <LogOut size={14} />
+              Logout
+            </button>
+          </div>
+        ) : (
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <Link
+              to="/login"
+              style={{
+                color: '#1F4FD8',
+                textDecoration: 'none',
+                padding: '6px 12px',
+                fontWeight: 600,
+                fontSize: '14px'
+              }}
+            >
+              Sign in
+            </Link>
+            <Link
+              to="/app"
+              style={{
+                backgroundColor: '#1F4FD8',
+                color: '#FFFFFF',
+                textDecoration: 'none',
+                padding: '6px 14px',
+                borderRadius: '6px',
+                fontWeight: 600,
+                fontSize: '14px'
+              }}
+            >
+              Open App
+            </Link>
+          </div>
+        )}
+      </div>
     </nav>
   );
 };

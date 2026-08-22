@@ -1,5 +1,7 @@
+import sys, os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 import pytest
-import os
 from unittest.mock import patch, AsyncMock, MagicMock
 from app.providers.geoapify import GeoapifyPlacesProvider, GeoapifyRoutingProvider, GeoapifyProviderError
 from app.providers.manager import provider_manager
@@ -95,12 +97,10 @@ async def test_manager_chain_order():
     
     # Test with Geoapify key present
     with patch("app.providers.manager.settings.USE_MOCKS", False), \
-         patch("app.providers.manager.settings.GOOGLE_PLACES_API_KEY", "dummy"), \
          patch("app.providers.manager.settings.GEOAPIFY_API_KEY", "dummy"):
         
-        # Google fails, Geoapify succeeds
-        with patch.object(provider_manager.google_places, "search_nearby", side_effect=Exception("Google fail")), \
-             patch.object(provider_manager.geoapify_places, "search_nearby", return_value=[AsyncMock(source="GEOAPIFY")]) as mock_geo, \
+        # Geoapify succeeds
+        with patch.object(provider_manager.geoapify_places, "search_nearby", return_value=[MagicMock(source="GEOAPIFY", location=location)]) as mock_geo, \
              patch.object(provider_manager.osm_overpass, "search_nearby") as mock_osm:
             
             res, src = await provider_manager.get_nearby_services(location, [ServiceType.HOSPITAL])
@@ -110,13 +110,11 @@ async def test_manager_chain_order():
 
     # Test with Geoapify key absent
     with patch("app.providers.manager.settings.USE_MOCKS", False), \
-         patch("app.providers.manager.settings.GOOGLE_PLACES_API_KEY", "dummy"), \
          patch("app.providers.manager.settings.GEOAPIFY_API_KEY", ""):
         
-        # Google fails, Geoapify is skipped, OSM succeeds
-        with patch.object(provider_manager.google_places, "search_nearby", side_effect=Exception("Google fail")), \
-             patch.object(provider_manager.geoapify_places, "search_nearby") as mock_geo, \
-             patch.object(provider_manager.osm_overpass, "search_nearby", return_value=[AsyncMock(source="OSM_OVERPASS")]) as mock_osm:
+        # Geoapify is skipped, OSM succeeds
+        with patch.object(provider_manager.geoapify_places, "search_nearby") as mock_geo, \
+             patch.object(provider_manager.osm_overpass, "search_nearby", return_value=[MagicMock(source="OSM_OVERPASS", location=location)]) as mock_osm:
             
             res, src = await provider_manager.get_nearby_services(location, [ServiceType.HOSPITAL])
             assert src == "OSM_OVERPASS"
