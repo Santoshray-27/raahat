@@ -30,7 +30,7 @@ pytestmark = pytest.mark.skipif(
 from app.main import app
 from app.core.security import get_optional_current_user
 from app.schemas.users import UserProfile
-from app.core.database import async_sessionmaker, engine, AsyncSessionLocal
+from app.core.database import get_engine, get_session_factory, get_db
 from app.models.incident import Incident, IncidentUpdate
 from app.models.user import User
 from sqlalchemy.exc import SQLAlchemyError
@@ -68,7 +68,8 @@ async def test_emergency_authenticated_persistence():
     except ValueError:
         pytest.fail(f"Returned incident_id {incident_id_str} is not a valid UUID")
         
-    async with AsyncSessionLocal() as session:
+    async_session_factory = get_session_factory()
+    async with async_session_factory() as session:
         # Check incident
         result = await session.execute(select(Incident).where(Incident.id == incident_id))
         incident = result.scalar_one_or_none()

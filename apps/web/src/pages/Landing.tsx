@@ -151,6 +151,7 @@ export const Landing: React.FC = () => {
   const videoSectionRef = useRef<HTMLElement | null>(null);
   const [isVideoVisible, setIsVideoVisible] = useState(false);
   const [videoError, setVideoError] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const [coordScrambleTrigger, setCoordScrambleTrigger] = useState(false);
   const scrambledCoord = useScrambledCoord(coordStr, coordScrambleTrigger);
 
@@ -559,15 +560,36 @@ export const Landing: React.FC = () => {
             }}
           >
             {!videoError ? (
-              <video
-                ref={videoRef}
-                src="/videos/raahat-ad.mp4"
-                autoPlay muted loop playsInline
-                preload="metadata"
-                controls
-                onError={() => { console.warn('[RAAHAT] Video not found at /videos/raahat-ad.mp4'); setVideoError(true); }}
-                style={{ width: '100%', maxHeight: '82vh', objectFit: 'cover', display: 'block' }}
-              />
+              <>
+                <video
+                  ref={videoRef}
+                  src="/videos/raahat-ad.mp4"
+                  autoPlay muted={isMuted} loop playsInline
+                  preload="metadata"
+                  onError={() => { console.warn('[RAAHAT] Video not found at /videos/raahat-ad.mp4'); setVideoError(true); }}
+                  style={{ width: '100%', maxHeight: '82vh', objectFit: 'cover', display: 'block' }}
+                />
+                <button
+                  onClick={() => {
+                    setIsMuted(!isMuted);
+                    if (videoRef.current) videoRef.current.muted = !isMuted;
+                  }}
+                  aria-label={isMuted ? 'Unmute video' : 'Mute video'}
+                  style={{
+                    position: 'absolute', bottom: '16px', right: '16px',
+                    width: '40px', height: '40px', borderRadius: '50%',
+                    backgroundColor: 'rgba(15,23,42,0.7)', border: '1px solid rgba(255,255,255,0.2)',
+                    color: '#FFFFFF', fontSize: '18px', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    backdropFilter: 'blur(8px)',
+                    transition: 'background-color 200ms ease',
+                  }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'rgba(15,23,42,0.9)'; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'rgba(15,23,42,0.7)'; }}
+                >
+                  {isMuted ? '🔇' : '🔊'}
+                </button>
+              </>
             ) : (
               <div style={{ padding: '60px 24px', textAlign: 'center', backgroundColor: '#F8FAFC', color: '#64748B' }}>
                 <div style={{ fontSize: '32px', marginBottom: '12px' }}>🎬</div>
@@ -873,7 +895,7 @@ export const Landing: React.FC = () => {
                         <div style={{ fontSize: '12px', color: '#9AA0A8', marginBottom: '10px' }}>
                           {svc.address?.formatted_address || 'Verified Corridor Provider'}
                         </div>
-                        {svc.contact?.phone_primary && (
+                        {svc.contact?.phone_primary ? (
                           <a
                             href={`tel:${svc.contact.phone_primary}`}
                             style={{
@@ -884,6 +906,16 @@ export const Landing: React.FC = () => {
                           >
                             📞 Call {svc.contact.phone_primary}
                           </a>
+                        ) : (
+                          <span
+                            style={{
+                              display: 'inline-block', backgroundColor: '#2C3137', color: '#64748B',
+                              padding: '6px 12px', borderRadius: '4px', fontSize: '12px',
+                              fontWeight: 600, border: '1px solid #3A4047',
+                            }}
+                          >
+                            📞 No phone listed
+                          </span>
                         )}
                       </div>
                     ))}
