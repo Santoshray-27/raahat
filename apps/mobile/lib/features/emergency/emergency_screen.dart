@@ -20,7 +20,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
   String? _validationError;
 
   final EmergencyService _emergencyService = EmergencyService(
-    apiClient: ApiClient(),
+    apiClient: ApiClient.instance,
     locationService: LocationService(),
   );
 

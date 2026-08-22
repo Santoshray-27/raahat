@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:http/http.dart' as http;
+import 'package:firebase_auth/firebase_auth.dart';
 
 /// Custom exception thrown by [ApiClient] for API and network failures.
 class ApiException implements Exception {
@@ -25,20 +26,22 @@ class ApiException implements Exception {
 
 /// Central API client abstraction responsible for HTTP operations in RAAHAT.
 class ApiClient {
+  static final ApiClient instance = ApiClient._internal();
+
   /// Base URL for the RAAHAT backend API (defaults to Android emulator routing).
   String baseUrl;
-
-  /// Placeholder for Firebase ID Token used for authenticated requests.
-  String? firebaseToken;
 
   /// Optional underlying HTTP client instance.
   final http.Client _client;
 
-  ApiClient({
-    this.baseUrl = 'http://10.0.2.2:8000/api/v1',
-    this.firebaseToken,
+  ApiClient._internal({
     http.Client? client,
-  }) : _client = client ?? http.Client();
+  }) : baseUrl = 'http://10.0.2.2:8000/api/v1',
+       _client = client ?? http.Client();
+
+  factory ApiClient() {
+    return instance;
+  }
 
   /// Sends a GET request to the specified [path] with optional [queryParams].
   Future<Map<String, dynamic>> get(
@@ -50,7 +53,8 @@ class ApiClient {
       uri = uri.replace(queryParameters: queryParams);
     }
 
-    return _sendRequest(() => _client.get(uri, headers: _buildHeaders()));
+    final headers = await _buildHeaders();
+    return _sendRequest(() => _client.get(uri, headers: headers));
   }
 
   /// Sends a POST request to the specified [path] with the given [body].
@@ -60,11 +64,12 @@ class ApiClient {
   ) async {
     final uri = Uri.parse(_buildUrl(path));
     final encodedBody = jsonEncode(body);
+    final headers = await _buildHeaders();
 
     return _sendRequest(
       () => _client.post(
         uri,
-        headers: _buildHeaders(),
+        headers: headers,
         body: encodedBody,
       ),
     );
@@ -79,15 +84,24 @@ class ApiClient {
   }
 
   /// Generates mandatory default headers for every API request.
-  Map<String, String> _buildHeaders() {
+  Future<Map<String, String>> _buildHeaders() async {
     final Map<String, String> headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'X-Request-ID': _generateRequestId(),
     };
 
-    if (firebaseToken != null && firebaseToken!.isNotEmpty) {
-      headers['Authorization'] = 'Bearer $firebaseToken';
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      try {
+        final token = await user.getIdToken();
+        if (token != null && token.isNotEmpty) {
+          headers['Authorization'] = 'Bearer $token';
+        }
+      } catch (e) {
+        // Ignore token fetch errors here to let the request fail normally 
+        // or proceed unauthenticated depending on backend endpoint.
+      }
     }
 
     return headers;

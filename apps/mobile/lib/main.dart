@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:raahat/core/theme/app_theme.dart';
-import 'package:raahat/features/home/main_navigation_shell.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+import 'package:raahat/core/theme/app_theme.dart';
+import 'package:raahat/features/auth/auth_gate.dart';
+import 'firebase_options.dart';
+
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const RaahatApp());
 }
 
@@ -15,7 +25,7 @@ class RaahatApp extends StatelessWidget {
       title: 'RAAHAT',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      home: const MainNavigationShell(),
+      home: const AuthGate(),
     );
   }
 }

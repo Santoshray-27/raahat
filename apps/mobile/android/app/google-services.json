@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "390519998127",
+    "project_id": "cirisi",
+    "storage_bucket": "cirisi.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:390519998127:android:6ec71597fb5fa5e3e4f65a",
+        "android_client_info": {
+          "package_name": "com.example.crisisai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDE7cmUoMiTJn9ZEEkpugGkEHXriaIFEs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:390519998127:android:38bad25bb1bf9e1ee4f65a",
+        "android_client_info": {
+          "package_name": "com.example.raahat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDE7cmUoMiTJn9ZEEkpugGkEHXriaIFEs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

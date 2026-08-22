@@ -32,7 +32,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
   void initState() {
     super.initState();
     _servicesService = ServicesService(
-      apiClient: ApiClient(),
+      apiClient: ApiClient.instance,
       locationService: LocationService(),
     );
     _fetchServices();
