@@ -141,8 +141,8 @@ class SarvamProvider(BaseLLMProvider):
         }
         
         try:
-            # Enforce 3.0s hard timeout on Sarvam since it's a fallback
-            async with httpx.AsyncClient(timeout=3.0) as client:
+            # Enforce dynamic timeout passed by the orchestrator
+            async with httpx.AsyncClient(timeout=timeout) as client:
                 response = await client.post(self.endpoint, headers=headers, json=payload)
                 response.raise_for_status()
                 data = response.json()

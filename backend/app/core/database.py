@@ -78,9 +78,3 @@ async def create_all_tables():
     import app.models.conversation
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
-
-    session = AsyncSessionLocal()
-    try:
-        yield session
-    finally:
-        await session.close()
