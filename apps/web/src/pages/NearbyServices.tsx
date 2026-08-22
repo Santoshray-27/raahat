@@ -254,7 +254,9 @@ export const NearbyServices: React.FC = () => {
                       <Phone size={14} /> Call
                     </a>
                   ) : (
-                    <span style={{ flex: 1, textAlign: 'center', color: '#94A3B8', fontSize: '0.8rem', padding: '10px' }}>No phone listed</span>
+                    <button disabled className="btn" style={{ flex: 1, fontSize: '0.82rem', padding: '10px', backgroundColor: '#F1F5F9', color: '#94A3B8', border: '1px solid #E2E8F0', cursor: 'not-allowed', opacity: 0.7 }}>
+                      <Phone size={14} /> No phone
+                    </button>
                   )}
                   <a
                     href={`https://www.google.com/maps/search/?api=1&query=${service.location.latitude},${service.location.longitude}`}

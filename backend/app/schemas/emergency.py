@@ -16,6 +16,7 @@ class EmergencyRequest(BaseModel):
     user_id: Optional[str] = "anonymous"
     language: Optional[str] = "en"
     vehicle_info: Optional[VehicleInfo] = None
+    conversation_id: Optional[str] = None
 
     @model_validator(mode="before")
     def validate_query(cls, values):
@@ -69,3 +70,4 @@ class EmergencyResponseData(BaseModel):
     recommended_actions: List[RecommendedAction]
     ai: AIAnalysisMeta
     limitations: Optional[List[str]] = None
+    conversation_id: Optional[str] = None

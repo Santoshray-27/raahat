@@ -1,5 +1,6 @@
 import uuid
 import logging
+import asyncio
 from typing import List, Optional, Tuple
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -88,30 +89,39 @@ class EmergencyOrchestrator:
         db: Optional[AsyncSession] = None, 
         user: Optional[UserProfile] = None
     ) -> EmergencyResponseData:
-        # 1. Classify Query (Primary Gemini 1.5 Flash server-side with rule fallback)
-        category, severity, confidence, req_services, classifier_model = await gemini_enhancer.analyze_emergency(req.user_query)
-        
-        # 2. Attempt RAG retrieval (M3) — fires concurrently safe since it only reads
-        #    NOTE: falls back silently on any error, including if the helper itself raises
-        try:
-            rag_context, rag_chunks_used, rag_top_score = await _retrieve_rag_context(
-                query=req.user_query,
-                db=db,
-            )
-        except Exception as e:
-            logger.warning(f"RAG context helper raised unexpectedly (falling back): {e}")
-            rag_context, rag_chunks_used, rag_top_score = "", 0, None
+        import time
+        t_start = time.time()
+        # 0. Sync User to get DB ID
+        db_user = None
+        if db and user and not user.is_anonymous:
+            try:
+                user_repo = UserRepository(db)
+                db_user = await user_repo.sync_user(user)
+            except Exception as e:
+                logger.error(f"User sync error: {e}", exc_info=True)
 
+        # 0.5. Load Conversation History
+        history = []
+        conversation_id_used = None
+        if req.conversation_id and db:
+            from app.repositories.conversation_repository import ConversationRepository
+            conv_repo = ConversationRepository(db)
+            conv = await conv_repo.get_or_create(req.conversation_id, db_user.id if db_user else None)
+            history = conv.history
+            conversation_id_used = str(conv.id)
+
+        # 1. Classify Query (Primary Gemini 1.5 Flash server-side with rule fallback)
+        t_classify_start = time.time()
+        category, severity, confidence, req_services, classifier_model = await gemini_enhancer.analyze_emergency(req.user_query, history)
+        t_classify_end = time.time()
+        
         # Persist Incident (Transaction 1)
         incident_id_str = f"inc_{str(uuid.uuid4())[:8]}"
         persisted_incident = None
 
-        if db and user and not user.is_anonymous:
+        if db and db_user:
             try:
-                user_repo = UserRepository(db)
                 inc_repo = IncidentRepository(db)
-                db_user = await user_repo.sync_user(user)
-                
                 new_incident = Incident(
                     user_id=db_user.id,
                     incident_type=category.value,
@@ -127,6 +137,7 @@ class EmergencyOrchestrator:
                 # Critical resilience: do not block emergency response
                 logger.error(f"Persistence error: {e}", exc_info=True)
                 pass
+        t_db_end = time.time()
         
         # 3. Build RAG Prompt & Generate Structured LLM Guidance
         from app.services.rag_context_builder import rag_context_builder
@@ -134,39 +145,59 @@ class EmergencyOrchestrator:
         
         is_life_threatening = (severity == SeverityLevel.CRITICAL)
         
-        # We need to construct a BuiltContext manually since _retrieve_rag_context just unpacks it
-        from app.services.rag_context_builder import BuiltContext
-        b_context = BuiltContext(
-            context_text=rag_context, 
-            chunks_used=rag_chunks_used, 
-            top_score=rag_top_score, 
-            has_content=bool(rag_context)
-        )
-        
-        generation_prompt = rag_context_builder.build_generation_prompt(
-            query=req.user_query,
-            category=category.value,
-            severity=severity.value,
-            life_threatening=is_life_threatening,
-            built_context=b_context,
-            language=req.language if hasattr(req, 'language') and req.language else "english"
-        )
+        async def guidance_pipeline():
+            # Attempt RAG retrieval concurrently
+            try:
+                rag_context, rag_chunks_used, rag_top_score = await _retrieve_rag_context(
+                    query=req.user_query,
+                    db=db,
+                )
+            except Exception as e:
+                logger.warning(f"RAG context helper raised unexpectedly (falling back): {e}")
+                rag_context, rag_chunks_used, rag_top_score = "", 0, None
+                
+            from app.services.rag_context_builder import BuiltContext
+            b_context = BuiltContext(
+                context_text=rag_context, 
+                chunks_used=rag_chunks_used, 
+                top_score=rag_top_score, 
+                has_content=bool(rag_context)
+            )
+            
+            generation_prompt = rag_context_builder.build_generation_prompt(
+                query=req.user_query,
+                category=category.value,
+                severity=severity.value,
+                life_threatening=is_life_threatening,
+                built_context=b_context,
+                language=req.language if hasattr(req, 'language') and req.language else "english",
+                history=history
+            )
 
-        guidance, llm_provider_used, llm_latency = await llm_orchestrator.generate_emergency_guidance(
-            prompt=generation_prompt,
-            language=req.language if hasattr(req, 'language') and req.language else "english",
-            category=category.value,
-            severity=severity.value
-        )
+            # Generate Guidance
+            result = await llm_orchestrator.generate_emergency_guidance(
+                prompt=generation_prompt,
+                language=req.language if hasattr(req, 'language') and req.language else "english",
+                category=category.value,
+                severity=severity.value
+            )
+            # Append RAG metrics to the result for the profiler
+            return result, b_context
 
-        
-        # 4. Retrieve Nearby Services via ProviderManager (with fallback)
-        raw_providers, provider_source = await provider_manager.get_nearby_services(
+        # 3. & 4. Run LLM Guidance Generation AND Service Lookup CONCURRENTLY
+        provider_coro = provider_manager.get_nearby_services(
             location=req.location,
             service_types=req_services,
             radius_km=15.0 if severity == SeverityLevel.CRITICAL else 10.0,
             limit=6
         )
+        
+        t_gather_start = time.time()
+        guidance_result, (raw_providers, provider_source) = await asyncio.gather(
+            guidance_pipeline(), provider_coro
+        )
+        (guidance, llm_provider_used, llm_latency), b_context = guidance_result
+        t_gather_end = time.time()
         
         # 5. Rank Services with human-readable rationale
         ranked_services = service_ranker.rank_providers(raw_providers, req.location, category)
@@ -226,6 +257,8 @@ class EmergencyOrchestrator:
             confidence_score=confidence,
             model_version=f"v1.0 (gen: {llm_provider_used})"
         )
+        t_end = time.time()
+        print(f"PROFILE: Classify: {(t_classify_end - t_classify_start)*1000:.2f}ms, RAG: (Concurrent), DB: {(t_db_end - t_classify_end)*1000:.2f}ms, Gather(LLM+Provider): {(t_gather_end - t_gather_start)*1000:.2f}ms, Assemble: {(t_end - t_gather_end)*1000:.2f}ms, Total: {(t_end - t_start)*1000:.2f}ms")
         
         limitations = []
         if provider_source != "google_places":
@@ -241,18 +274,37 @@ class EmergencyOrchestrator:
         if not limitations:
             limitations = None
             
-        # Transaction 2: Incident Update
-        if persisted_incident and db:
+        if db:
             try:
-                inc_repo = IncidentRepository(db)
-                update = IncidentUpdate(
-                    incident_id=persisted_incident.id,
-                    status="active",
-                    message="Services retrieved and actions recommended."
+                from app.repositories.conversation_repository import ConversationRepository
+                conv_repo = ConversationRepository(db)
+                if not conversation_id_used:
+                    new_conv = await conv_repo.get_or_create(None, db_user.id if db_user else None)
+                    conversation_id_used = str(new_conv.id)
+                await conv_repo.add_message(
+                    conversation_id_used,
+                    user_message=req.user_query,
+                    detected_category=category.value,
+                    severity=severity.value,
+                    guidance_summary=guidance.summary,
+                    service_ids=[s.provider_id for s in ranked_services],
+                    provider_sources=list(set([s.source for s in ranked_services]))
                 )
-                await inc_repo.create_incident_update(update)
-            except Exception:
-                pass
+            except Exception as e:
+                logger.error(f"Failed to persist conversation: {e}", exc_info=True)
+            
+            # Transaction 2: Incident Update
+            if persisted_incident:
+                try:
+                    inc_repo = IncidentRepository(db)
+                    update = IncidentUpdate(
+                        incident_id=persisted_incident.id,
+                        status="active",
+                        message="Services retrieved and actions recommended."
+                    )
+                    await inc_repo.create_incident_update(update)
+                except Exception:
+                    pass
             
         return EmergencyResponseData(
             incident=incident,
@@ -260,7 +312,8 @@ class EmergencyOrchestrator:
             services=ranked_services,
             recommended_actions=actions,
             ai=ai_meta,
-            limitations=limitations
+            limitations=limitations,
+            conversation_id=conversation_id_used
         )
 
 orchestrator = EmergencyOrchestrator()

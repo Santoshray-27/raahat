@@ -9,10 +9,7 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
 
     USE_MOCKS: bool = False
-    GOOGLE_PLACES_API_KEY: str = ""
-    GOOGLE_ROUTES_API_KEY: str = ""
     GEOAPIFY_API_KEY: str = ""
-    GOOGLE_MAPS_JS_KEY: str = ""
     GEMINI_API_KEY: str = ""
     SARVAM_API_KEY: str = ""
     GROQ_API_KEY: str = ""
@@ -40,11 +37,17 @@ class Settings(BaseSettings):
     @property
     def cors_origins_list(self) -> List[str]:
         if isinstance(self.CORS_ORIGINS, str):
-            return [
+            origins = [
                 origin.strip()
                 for origin in self.CORS_ORIGINS.split(",")
                 if origin.strip()
             ]
+            # Automatically add 127.0.0.1 for localhost origins to fix CORS issues
+            extra_origins = []
+            for o in origins:
+                if "localhost" in o:
+                    extra_origins.append(o.replace("localhost", "127.0.0.1"))
+            return list(set(origins + extra_origins))
         return ["*"]
 
 

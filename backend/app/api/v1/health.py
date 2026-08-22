@@ -50,7 +50,7 @@ async def get_health(db: AsyncSession = Depends(get_db)):
             "service": settings.PROJECT_NAME,
             "version": settings.VERSION,
             "mode": "mock" if settings.USE_MOCKS else "live",
-            "auth_disabled": settings.AUTH_DISABLED,
+            "auth": "disabled" if settings.AUTH_DISABLED else "enabled",
             "database": "connected" if is_db_healthy else "disconnected"
         }
     )
@@ -75,15 +75,6 @@ async def get_providers_status():
             "model": gemini_model_name
         }
     }
-    if settings.GOOGLE_PLACES_API_KEY or settings.GOOGLE_ROUTES_API_KEY:
-        data["google_places"] = {
-            "configured": bool(settings.GOOGLE_PLACES_API_KEY),
-            "status": "DISABLED"
-        }
-        data["google_routes"] = {
-            "configured": bool(settings.GOOGLE_ROUTES_API_KEY),
-            "status": "DISABLED"
-        }
     return success_response(data=data)
 
 @router.get("/diagnostics")
