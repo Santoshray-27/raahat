@@ -28,13 +28,8 @@ async def get_db():
         yield None
         return
 
+    session = AsyncSessionLocal()
     try:
-        async with AsyncSessionLocal() as session:
-            try:
-                yield session
-            finally:
-                await session.close()
-    except Exception as e:
-        from app.core.logging import logger
-        logger.warning(f"Database connection offline: {e}")
-        yield None
+        yield session
+    finally:
+        await session.close()
