@@ -1,17 +1,6 @@
 import React, { useState } from 'react';
-import { Download, CheckCircle, Package, Trash2, RefreshCw } from 'lucide-react';
-import { requestApi } from '../api/client';
-
-interface OfflinePackData {
-  manifest: {
-    pack_id: string;
-    total_providers: number;
-    sha256_checksum: string;
-    version?: string;
-    created_at?: string;
-    expires_at?: string;
-  };
-}
+import { Download, CheckCircle, Package } from 'lucide-react';
+import { requestApi, getDownloadUrl, OfflinePackData } from '../api/client';
 
 export const OfflinePack: React.FC = () => {
   const [region, setRegion] = useState('Indore Highway Corridor');
@@ -130,7 +119,7 @@ export const OfflinePack: React.FC = () => {
           </div>
 
           <a
-            href={`http://localhost:8000/api/v1/offline-packs/${pack.manifest.pack_id}/download`}
+            href={getDownloadUrl(pack.manifest.pack_id)}
             target="_blank"
             rel="noreferrer"
             className="btn btn-primary"
@@ -152,7 +141,7 @@ export const OfflinePack: React.FC = () => {
                 <span style={{ fontSize: '0.78rem', color: '#64748B', marginLeft: '12px' }}>{p.manifest.total_providers} providers</span>
               </div>
               <a
-                href={`http://localhost:8000/api/v1/offline-packs/${p.manifest.pack_id}/download`}
+                href={getDownloadUrl(p.manifest.pack_id)}
                 target="_blank" rel="noreferrer"
                 className="btn btn-outline" style={{ fontSize: '0.78rem', padding: '6px 12px' }}
               >

@@ -1,4 +1,5 @@
-import time, uuid
+import os, time, uuid
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -8,16 +9,30 @@ from fastapi.encoders import jsonable_encoder
 from app.core.config import settings
 from app.core.logging import logger
 from app.core.response import error_response
+from app.core.database import engine
+from sqlalchemy import text
 
 from app.api.v1 import (
     health, users, emergency, services, routes, rag, voice, offline, actions
 )
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    try:
+        async with engine.connect() as conn:
+            await conn.execute(text("SELECT 1"))
+            logger.info("Startup check: Database connected successfully.")
+    except Exception as e:
+        logger.error(f"Startup check: Database connection failed. Service may be degraded. Error: {e}")
+    yield
+    await engine.dispose()
+
 app = FastAPI(
     title=settings.PROJECT_NAME,
     version=settings.VERSION,
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
+    lifespan=lifespan
 )
 
 # CORS Setup
@@ -70,7 +85,7 @@ async def generic_exception_handler(request: Request, exc: Exception):
         content=error_response(
             code="INTERNAL_SERVER_ERROR",
             message="An unexpected server error occurred",
-            details={"error": str(exc)},
+            details={"error": "A server error was recorded and will be investigated."},
             status_code=500,
             request_id=req_id
         )
@@ -90,4 +105,6 @@ app.include_router(actions.router, prefix=settings.API_V1_STR, tags=["Actions Di
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    port = int(os.getenv("PORT", 8000))
+    reload_mode = (settings.ENVIRONMENT == "development")
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=reload_mode)
