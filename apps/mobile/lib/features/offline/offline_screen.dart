@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:raahat/core/theme/design_tokens.dart';
+import 'package:raahat/core/theme/raahat_widgets.dart';
 
 /// Screen for managing simulated offline packs and on-device AI status.
 class OfflineScreen extends StatefulWidget {
@@ -68,33 +70,60 @@ class _OfflineScreenState extends State<OfflineScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final mediaQuery = MediaQuery.of(context);
+    final isSmallScreen = mediaQuery.size.width < 380;
 
     return Scaffold(
+      backgroundColor: RaahatColors.canvasBackground,
       appBar: AppBar(
-        title: const Text('Offline Packs'),
+        backgroundColor: RaahatColors.whiteCard,
+        elevation: 0,
+        title: Text(
+          'Offline Safety Engine',
+          style: RaahatTypography.cardTitle(
+            color: RaahatColors.textPrimary,
+          ),
+        ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Demo Notice Banner
-              _buildDemoNoticeBanner(theme),
-              const SizedBox(height: 16),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 720),
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(
+                horizontal: isSmallScreen ? RaahatSpacing.base : RaahatSpacing.lg,
+                vertical: RaahatSpacing.base,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Offline Status Strip
+                  RaahatStatusStrip(
+                    statusText: _isInstalled
+                        ? 'LOCAL RAG READY — ZERO CONNECTIVITY ACTIVE'
+                        : 'STANDALONE ENGINE READY FOR DOWNLOAD',
+                    isOnline: true,
+                  ),
+                  const SizedBox(height: RaahatSpacing.base),
 
-              // On-Device AI Status Board
-              _buildAiStatusBoard(theme),
-              const SizedBox(height: 16),
+                  // Demo Notice Banner
+                  _buildDemoNoticeBanner(theme),
+                  const SizedBox(height: RaahatSpacing.base),
 
-              // Download / Manifest Section
-              if (_isDownloading)
-                _buildDownloadProgressCard(theme)
-              else if (_isInstalled)
-                _buildManifestCard(theme)
-              else
-                _buildInitialPackCard(theme),
-            ],
+                  // On-Device AI Status Board
+                  _buildAiStatusBoard(theme, isSmallScreen),
+                  const SizedBox(height: RaahatSpacing.base),
+
+                  // Download / Manifest Section
+                  if (_isDownloading)
+                    _buildDownloadProgressCard(theme, isSmallScreen)
+                  else if (_isInstalled)
+                    _buildManifestCard(theme)
+                  else
+                    _buildInitialPackCard(theme),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -103,27 +132,28 @@ class _OfflineScreenState extends State<OfflineScreen> {
 
   Widget _buildDemoNoticeBanner(ThemeData theme) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      padding: const EdgeInsets.symmetric(
+        horizontal: RaahatSpacing.base,
+        vertical: RaahatSpacing.md,
+      ),
       decoration: BoxDecoration(
-        color: theme.colorScheme.primaryContainer,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: theme.colorScheme.primary.withAlpha(50),
-        ),
+        color: RaahatColors.blueLight,
+        borderRadius: BorderRadius.circular(RaahatRadius.card),
+        border: Border.all(color: RaahatColors.blueBorder),
       ),
       child: Row(
         children: [
-          Icon(
-            Icons.info_outline,
+          const Icon(
+            Icons.info_outline_rounded,
             size: 20,
-            color: theme.colorScheme.onPrimaryContainer,
+            color: RaahatColors.primaryBlue,
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: RaahatSpacing.md),
           Expanded(
             child: Text(
-              'Demo Mode — On-device AI and offline packs are simulated locally.',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onPrimaryContainer,
+              'Demo Mode — On-device AI and offline packs are simulated locally for testing.',
+              style: RaahatTypography.bodySmall(
+                color: RaahatColors.primaryBlue,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -133,105 +163,143 @@ class _OfflineScreenState extends State<OfflineScreen> {
     );
   }
 
-  Widget _buildAiStatusBoard(ThemeData theme) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.memory,
-                  color: theme.colorScheme.primary,
+  Widget _buildAiStatusBoard(ThemeData theme, bool isSmallScreen) {
+    return RaahatConsoleCard(
+      padding: EdgeInsets.all(isSmallScreen ? RaahatSpacing.base : RaahatSpacing.lg2),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: RaahatColors.primaryBlue.withValues(alpha: 0.2),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.memory_rounded,
+                        color: RaahatColors.primaryBlue,
+                        size: 20,
+                      ),
+                    ),
+                    const SizedBox(width: RaahatSpacing.sm2),
+                    Expanded(
+                      child: Text(
+                        'ON-DEVICE ENGINE',
+                        style: RaahatTypography.mono(
+                          fontSize: 11,
+                          color: RaahatColors.darkGold,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 8),
-                Text(
-                  'On-Device AI & Engine Status',
-                  style: theme.textTheme.titleLarge,
-                ),
-              ],
+              ),
+              const SizedBox(width: RaahatSpacing.xs),
+              const RaahatLiveBadge(label: 'EMBEDDED'),
+            ],
+          ),
+          const SizedBox(height: RaahatSpacing.md),
+          Text(
+            'Local AI & Telemetry Board',
+            style: RaahatTypography.displayH3(
+              color: RaahatColors.darkText,
+              fontSize: isSmallScreen ? 18 : 20,
             ),
-            const SizedBox(height: 16),
+          ),
+          const SizedBox(height: RaahatSpacing.base),
 
-            // Gemma Model Status
-            _buildStatusItem(
-              theme: theme,
-              label: 'Gemma Model Status',
-              status: 'MODEL_READY',
-              isGreen: true,
-              icon: Icons.check_circle_outline,
-            ),
-            const SizedBox(height: 12),
+          // Gemma Model Status
+          _buildStatusItem(
+            label: 'Gemma 2B Quantized',
+            status: 'MODEL READY',
+            isGreen: true,
+            icon: Icons.check_circle_outline_rounded,
+          ),
+          const SizedBox(height: RaahatSpacing.sm2),
 
-            // Local RAG Index
-            _buildStatusItem(
-              theme: theme,
-              label: 'Local RAG Index',
-              status: 'OFFLINE_RAG_READY',
-              isGreen: true,
-              icon: Icons.storage_outlined,
-            ),
-            const SizedBox(height: 12),
+          // Local RAG Index
+          _buildStatusItem(
+            label: 'Local Vector Store',
+            status: 'SQLITE RAG OK',
+            isGreen: true,
+            icon: Icons.storage_rounded,
+          ),
+          const SizedBox(height: RaahatSpacing.sm2),
 
-            // Storage
-            _buildStatusItem(
-              theme: theme,
-              label: 'Mobile Storage Used',
-              status: '1.6 GB / 64 GB',
-              isGreen: false,
-              icon: Icons.sd_card_outlined,
-            ),
-          ],
-        ),
+          // Storage
+          _buildStatusItem(
+            label: 'Corridor Cache Used',
+            status: '1.6 GB / 64 GB',
+            isGreen: false,
+            icon: Icons.sd_card_outlined,
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildStatusItem({
-    required ThemeData theme,
     required String label,
     required String status,
     required bool isGreen,
     required IconData icon,
   }) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      padding: const EdgeInsets.symmetric(
+        horizontal: RaahatSpacing.md,
+        vertical: RaahatSpacing.sm2,
+      ),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: theme.colorScheme.outlineVariant,
-        ),
+        color: RaahatColors.darkSurface,
+        borderRadius: BorderRadius.circular(RaahatRadius.card),
+        border: Border.all(color: RaahatColors.darkBorder),
       ),
       child: Row(
         children: [
-          Icon(icon, size: 20, color: theme.colorScheme.onSurfaceVariant),
-          const SizedBox(width: 10),
+          Icon(
+            icon,
+            size: 18,
+            color: isGreen ? RaahatColors.green : RaahatColors.darkMuted,
+          ),
+          const SizedBox(width: RaahatSpacing.md),
           Expanded(
             child: Text(
               label,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w600,
+              style: RaahatTypography.bodySmall(
+                color: RaahatColors.darkText,
+                fontWeight: FontWeight.w500,
               ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
+          const SizedBox(width: RaahatSpacing.xs),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            padding: const EdgeInsets.symmetric(
+              horizontal: RaahatSpacing.sm,
+              vertical: RaahatSpacing.xs2,
+            ),
             decoration: BoxDecoration(
-              color: isGreen ? const Color(0xFFE8F5E9) : theme.colorScheme.surface,
-              borderRadius: BorderRadius.circular(6),
-              border: Border.all(
-                color: isGreen ? const Color(0xFF2E7D32) : theme.colorScheme.outline,
-              ),
+              color: isGreen
+                  ? RaahatColors.liveBadgeBg
+                  : RaahatColors.darkElevated,
+              borderRadius: BorderRadius.circular(RaahatRadius.badge),
             ),
             child: Text(
               status,
-              style: TextStyle(
-                color: isGreen ? const Color(0xFF2E7D32) : theme.colorScheme.onSurface,
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
+              style: RaahatTypography.monoBadge(
+                color: isGreen
+                    ? RaahatColors.liveBadgeText
+                    : RaahatColors.darkMuted,
               ),
             ),
           ),
@@ -241,101 +309,143 @@ class _OfflineScreenState extends State<OfflineScreen> {
   }
 
   Widget _buildInitialPackCard(ThemeData theme) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              'Indore ➔ Bhopal Corridor Pack',
-              style: theme.textTheme.headlineMedium?.copyWith(fontSize: 20),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              'Includes offline map data, emergency providers, and vector RAG indices for zero-connectivity situations.',
-              style: theme.textTheme.bodyMedium,
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                Chip(
-                  avatar: const Icon(Icons.data_usage, size: 16),
-                  label: const Text('Size: 36.4 MB'),
-                  backgroundColor: theme.colorScheme.surfaceContainerHighest,
+    return RaahatLightCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  'Indore ➔ Bhopal Corridor',
+                  style: RaahatTypography.cardTitle(
+                    color: RaahatColors.textPrimary,
+                  ).copyWith(fontSize: 17),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(width: 8),
-                Chip(
-                  avatar: const Icon(Icons.offline_pin_outlined, size: 16),
-                  label: const Text('Pre-packaged'),
-                  backgroundColor: theme.colorScheme.surfaceContainerHighest,
+              ),
+              const SizedBox(width: RaahatSpacing.xs),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: RaahatSpacing.sm,
+                  vertical: RaahatSpacing.xs,
                 ),
-              ],
+                decoration: BoxDecoration(
+                  color: RaahatColors.blueLight,
+                  borderRadius: BorderRadius.circular(RaahatRadius.badge),
+                ),
+                child: Text(
+                  '36.4 MB',
+                  style: RaahatTypography.mono(
+                    fontSize: 11,
+                    color: RaahatColors.primaryBlue,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: RaahatSpacing.xs),
+          Text(
+            'Includes offline map data, emergency providers, and vector RAG indices for zero-connectivity situations.',
+            style: RaahatTypography.bodySmall(
+              color: RaahatColors.textMuted,
             ),
-            const SizedBox(height: 16),
-            ElevatedButton.icon(
-              onPressed: _startDownloadSimulation,
-              icon: const Icon(Icons.download),
-              label: const Text('DOWNLOAD SAFETY PACK'),
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(height: RaahatSpacing.base),
+          Wrap(
+            spacing: RaahatSpacing.sm,
+            runSpacing: RaahatSpacing.xs,
+            children: [
+              Chip(
+                avatar: const Icon(Icons.data_usage_rounded, size: 16, color: RaahatColors.textSecondary),
+                label: Text('Map & POIs', style: RaahatTypography.bodySmall().copyWith(fontSize: 11)),
+                backgroundColor: RaahatColors.mutedBackground,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(RaahatRadius.badge)),
+                side: BorderSide.none,
+              ),
+              Chip(
+                avatar: const Icon(Icons.offline_pin_rounded, size: 16, color: RaahatColors.verifiedGreen),
+                label: Text('Pre-compiled', style: RaahatTypography.bodySmall().copyWith(fontSize: 11)),
+                backgroundColor: RaahatColors.mutedBackground,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(RaahatRadius.badge)),
+                side: BorderSide.none,
+              ),
+            ],
+          ),
+          const SizedBox(height: RaahatSpacing.lg),
+          ElevatedButton.icon(
+            onPressed: _startDownloadSimulation,
+            icon: const Icon(Icons.download_rounded),
+            label: const Text('DOWNLOAD OFFLINE SAFETY PACK'),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildDownloadProgressCard(ThemeData theme) {
+  Widget _buildDownloadProgressCard(ThemeData theme, bool isSmallScreen) {
     final progressPct = (_downloadProgress * 100).toInt();
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              children: [
-                const SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(strokeWidth: 2.5),
+    return RaahatConsoleCard(
+      padding: EdgeInsets.all(isSmallScreen ? RaahatSpacing.base : RaahatSpacing.lg2),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              const SizedBox(
+                width: 18,
+                height: 18,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  color: RaahatColors.primaryBlue,
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    'Installing Offline Pack...',
-                    style: theme.textTheme.titleMedium,
-                  ),
-                ),
-                Text(
-                  '$progressPct%',
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: theme.colorScheme.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: LinearProgressIndicator(
-                value: _downloadProgress,
-                minHeight: 10,
-                backgroundColor: theme.colorScheme.surfaceContainerHighest,
-                color: theme.colorScheme.primary,
               ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              _downloadStatusText,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontStyle: FontStyle.italic,
-                color: theme.colorScheme.onSurfaceVariant,
+              const SizedBox(width: RaahatSpacing.md),
+              Expanded(
+                child: Text(
+                  'Installing Safety Pack...',
+                  style: RaahatTypography.cardTitle(
+                    color: RaahatColors.darkText,
+                  ).copyWith(fontSize: 14),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
+              Text(
+                '$progressPct%',
+                style: RaahatTypography.mono(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: RaahatColors.darkGold,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: RaahatSpacing.base),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(RaahatRadius.badge),
+            child: LinearProgressIndicator(
+              value: _downloadProgress,
+              minHeight: 8,
+              backgroundColor: RaahatColors.darkSurface,
+              color: RaahatColors.primaryBlue,
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: RaahatSpacing.md),
+          Text(
+            _downloadStatusText,
+            style: RaahatTypography.mono(
+              fontSize: 12,
+              color: RaahatColors.darkMuted,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
       ),
     );
   }
@@ -346,114 +456,93 @@ class _OfflineScreenState extends State<OfflineScreen> {
       children: [
         // Success Banner
         Container(
-          padding: const EdgeInsets.all(14),
+          padding: const EdgeInsets.all(RaahatSpacing.base),
           decoration: BoxDecoration(
-            color: const Color(0xFFE8F5E9),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: const Color(0xFF2E7D32)),
+            color: const Color(0xFFECFDF5),
+            borderRadius: BorderRadius.circular(RaahatRadius.mainCard),
+            border: Border.all(color: RaahatColors.verifiedGreen.withValues(alpha: 0.3)),
           ),
           child: Row(
             children: [
               const Icon(
-                Icons.check_circle,
-                color: Color(0xFF2E7D32),
-                size: 24,
+                Icons.check_circle_rounded,
+                color: RaahatColors.verifiedGreen,
+                size: 22,
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: RaahatSpacing.md),
               Expanded(
                 child: Text(
-                  'Offline Safety Pack Installed Successfully!',
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: const Color(0xFF2E7D32),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                  ),
+                  'Offline Safety Pack Ready For Field Operation',
+                  style: RaahatTypography.cardTitle(
+                    color: RaahatColors.verifiedGreen,
+                  ).copyWith(fontSize: 13),
                 ),
               ),
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: RaahatSpacing.base),
 
         // Manifest Details Card
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'PACK MANIFEST',
-                      style: theme.textTheme.labelLarge?.copyWith(
-                        color: theme.colorScheme.primary,
-                        letterSpacing: 0.5,
-                        fontSize: 11,
-                      ),
+        RaahatLightCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'PACK MANIFEST',
+                    style: RaahatTypography.mono(
+                      color: RaahatColors.primaryBlue,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 3,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE8F5E9),
-                        borderRadius: BorderRadius.circular(4),
-                        border: Border.all(color: const Color(0xFF2E7D32)),
-                      ),
-                      child: const Text(
-                        'ACTIVE',
-                        style: TextStyle(
-                          color: Color(0xFF2E7D32),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 11,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  'Indore ➔ Bhopal Corridor (15km radius)',
-                  style: theme.textTheme.titleLarge?.copyWith(fontSize: 18),
-                ),
-                const SizedBox(height: 16),
-                const Divider(),
-                const SizedBox(height: 12),
+                  ),
+                  const RaahatLiveBadge(label: 'ACTIVE PACK'),
+                ],
+              ),
+              const SizedBox(height: RaahatSpacing.sm),
+              Text(
+                'Indore ➔ Bhopal Corridor (15km radius)',
+                style: RaahatTypography.cardTitle(
+                  color: RaahatColors.textPrimary,
+                ).copyWith(fontSize: 16),
+              ),
+              const SizedBox(height: RaahatSpacing.base),
+              const Divider(color: RaahatColors.border),
+              const SizedBox(height: RaahatSpacing.sm2),
 
-                _buildManifestRow(
-                  theme,
-                  icon: Icons.sd_storage_outlined,
-                  label: 'Package Size',
-                  value: '36.4 MB',
-                ),
-                const SizedBox(height: 10),
+              _buildManifestRow(
+                theme,
+                icon: Icons.sd_storage_outlined,
+                label: 'Package Size',
+                value: '36.4 MB',
+              ),
+              const SizedBox(height: RaahatSpacing.md),
 
-                _buildManifestRow(
-                  theme,
-                  icon: Icons.local_hospital_outlined,
-                  label: 'Included Data',
-                  value: '8 Hospitals, 4 Police Stations, 12 Mechanics, 6 Puncture Shops',
-                ),
-                const SizedBox(height: 10),
+              _buildManifestRow(
+                theme,
+                icon: Icons.local_hospital_outlined,
+                label: 'Included Data',
+                value: '8 Hospitals, 4 Police Stations, 12 Mechanics, 6 Puncture Shops',
+              ),
+              const SizedBox(height: RaahatSpacing.md),
 
-                _buildManifestRow(
-                  theme,
-                  icon: Icons.sync,
-                  label: 'Last Sync',
-                  value: 'Just Now',
-                ),
-                const SizedBox(height: 20),
+              _buildManifestRow(
+                theme,
+                icon: Icons.sync_rounded,
+                label: 'Last Sync',
+                value: 'Just Now (Verified)',
+              ),
+              const SizedBox(height: RaahatSpacing.lg2),
 
-                OutlinedButton.icon(
-                  onPressed: _startDownloadSimulation,
-                  icon: const Icon(Icons.sync),
-                  label: const Text('RE-SYNC SAFETY PACK'),
-                ),
-              ],
-            ),
+              OutlinedButton.icon(
+                onPressed: _startDownloadSimulation,
+                icon: const Icon(Icons.sync_rounded),
+                label: const Text('RE-SYNC SAFETY PACK'),
+              ),
+            ],
           ),
         ),
       ],
@@ -469,25 +558,25 @@ class _OfflineScreenState extends State<OfflineScreen> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, size: 20, color: theme.colorScheme.primary),
-        const SizedBox(width: 10),
+        Icon(icon, size: 18, color: RaahatColors.primaryBlue),
+        const SizedBox(width: RaahatSpacing.sm2),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 label,
-                style: theme.textTheme.labelLarge?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                  fontSize: 12,
-                ),
+                style: RaahatTypography.eyebrow(
+                  color: RaahatColors.textMuted,
+                ).copyWith(fontSize: 11),
               ),
-              const SizedBox(height: 2),
+              const SizedBox(height: RaahatSpacing.xs2),
               Text(
                 value,
-                style: theme.textTheme.bodyLarge?.copyWith(
+                style: RaahatTypography.bodyRegular(
+                  color: RaahatColors.textPrimary,
                   fontWeight: FontWeight.w600,
-                ),
+                ).copyWith(fontSize: 13),
               ),
             ],
           ),

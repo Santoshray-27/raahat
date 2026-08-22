@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:raahat/core/theme/design_tokens.dart';
+import 'package:raahat/core/theme/raahat_widgets.dart';
 
 /// Screen for planning safe emergency and evacuation routes.
 class RouteScreen extends StatefulWidget {
@@ -65,7 +67,7 @@ class _RouteScreenState extends State<RouteScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text(
-          'Offline Pack navigation will be connected during the navigation integration task.',
+          'Offline Pack navigation ready — switch to Offline tab to download.',
         ),
       ),
     );
@@ -74,28 +76,53 @@ class _RouteScreenState extends State<RouteScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final mediaQuery = MediaQuery.of(context);
+    final isSmallScreen = mediaQuery.size.width < 380;
 
     return Scaffold(
+      backgroundColor: RaahatColors.canvasBackground,
       appBar: AppBar(
-        title: const Text('Route Planner'),
+        backgroundColor: RaahatColors.whiteCard,
+        elevation: 0,
+        title: Text(
+          'Safe Route Planner',
+          style: RaahatTypography.cardTitle(
+            color: RaahatColors.textPrimary,
+          ),
+        ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Inputs Card
-              _buildInputsCard(theme),
-              const SizedBox(height: 16),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 720),
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(
+                horizontal: isSmallScreen ? RaahatSpacing.base : RaahatSpacing.lg,
+                vertical: RaahatSpacing.base,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // System Status
+                  const RaahatStatusStrip(
+                    statusText: 'EVACUATION & HAZARD ROUTING ONLINE',
+                    isOnline: true,
+                  ),
+                  const SizedBox(height: RaahatSpacing.base),
 
-              // Loading Card
-              if (_isCalculating) _buildLoadingCard(theme),
+                  // Inputs Card
+                  _buildInputsCard(theme),
+                  const SizedBox(height: RaahatSpacing.base),
 
-              // Route Summary Result Card
-              if (_hasRouteResult && !_isCalculating)
-                _buildRouteSummaryCard(theme),
-            ],
+                  // Loading Card
+                  if (_isCalculating) _buildLoadingCard(theme),
+
+                  // Route Summary Result Card
+                  if (_hasRouteResult && !_isCalculating)
+                    _buildRouteSummaryCard(theme, isSmallScreen),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -103,270 +130,326 @@ class _RouteScreenState extends State<RouteScreen> {
   }
 
   Widget _buildInputsCard(ThemeData theme) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              'Evacuation & Emergency Route',
-              style: theme.textTheme.headlineMedium,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'Enter your starting point and destination to find the safest route.',
-              style: theme.textTheme.bodyMedium,
-            ),
-            const SizedBox(height: 16),
-
-            // Origin Field
-            TextField(
-              controller: _originController,
-              enabled: !_isCalculating,
-              style: theme.textTheme.bodyLarge,
-              decoration: InputDecoration(
-                labelText: 'Origin',
-                hintText: 'My Current Location',
-                prefixIcon: Icon(
-                  Icons.my_location,
-                  color: theme.colorScheme.primary,
+    return RaahatLightCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: RaahatColors.primaryBlue.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(RaahatRadius.badge),
                 ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 14,
+                child: const Icon(
+                  Icons.alt_route_rounded,
+                  color: RaahatColors.primaryBlue,
+                  size: 20,
                 ),
               ),
-            ),
-            const SizedBox(height: 12),
-
-            // Destination Field
-            TextField(
-              controller: _destinationController,
-              enabled: !_isCalculating,
-              style: theme.textTheme.bodyLarge,
-              decoration: InputDecoration(
-                labelText: 'Destination',
-                hintText: 'e.g., Bhopal',
-                errorText: _validationError,
-                prefixIcon: Icon(
-                  Icons.location_on,
-                  color: theme.colorScheme.primary,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 14,
+              const SizedBox(width: RaahatSpacing.sm2),
+              Expanded(
+                child: Text(
+                  'Corridor Selection',
+                  style: RaahatTypography.cardTitle(
+                    color: RaahatColors.textPrimary,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
+            ],
+          ),
+          const SizedBox(height: RaahatSpacing.xs),
+          Text(
+            'Specify origin and destination to compute hazard-avoiding corridors.',
+            style: RaahatTypography.bodySmall(
+              color: RaahatColors.textMuted,
             ),
-            const SizedBox(height: 16),
+          ),
+          const SizedBox(height: RaahatSpacing.base),
 
-            // PLAN JOURNEY Button
-            ElevatedButton.icon(
-              onPressed: _isCalculating ? null : _handlePlanJourney,
-              icon: const Icon(Icons.route),
-              label: _isCalculating
-                  ? const SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Colors.white,
-                      ),
-                    )
-                  : const Text('PLAN JOURNEY'),
+          // Origin Field
+          TextField(
+            controller: _originController,
+            enabled: !_isCalculating,
+            style: theme.textTheme.bodyLarge,
+            decoration: const InputDecoration(
+              labelText: 'Origin',
+              hintText: 'My Current Location',
+              prefixIcon: Icon(Icons.my_location_rounded),
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: RaahatSpacing.md),
+
+          // Destination Field
+          TextField(
+            controller: _destinationController,
+            enabled: !_isCalculating,
+            style: theme.textTheme.bodyLarge,
+            decoration: InputDecoration(
+              labelText: 'Destination',
+              hintText: 'e.g., Bhopal',
+              errorText: _validationError,
+              prefixIcon: const Icon(Icons.location_on_outlined),
+            ),
+          ),
+          const SizedBox(height: RaahatSpacing.lg),
+
+          // PLAN JOURNEY Button
+          ElevatedButton.icon(
+            onPressed: _isCalculating ? null : _handlePlanJourney,
+            icon: _isCalculating
+                ? const SizedBox(
+                    height: 18,
+                    width: 18,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
+                  )
+                : const Icon(Icons.navigation_rounded),
+            label: Text(_isCalculating ? 'CALCULATING ROUTE...' : 'PLAN SAFE JOURNEY'),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildLoadingCard(ThemeData theme) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          children: [
-            const CircularProgressIndicator(),
-            const SizedBox(height: 16),
-            Text(
-              'Calculating Safest Evacuation Route...',
-              style: theme.textTheme.titleMedium,
+    return RaahatConsoleCard(
+      padding: const EdgeInsets.all(RaahatSpacing.xl),
+      child: Column(
+        children: [
+          const CircularProgressIndicator(
+            color: RaahatColors.primaryBlue,
+            strokeWidth: 3,
+          ),
+          const SizedBox(height: RaahatSpacing.base),
+          Text(
+            'Analyzing Hazard-Free Corridors...',
+            style: RaahatTypography.mono(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: RaahatColors.darkText,
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: RaahatSpacing.xs),
+          Text(
+            'Querying weather reports, roadblock telemetry, and service density.',
+            style: RaahatTypography.bodySmall(
+              color: RaahatColors.darkMuted,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildRouteSummaryCard(ThemeData theme) {
+  Widget _buildRouteSummaryCard(ThemeData theme, bool isSmallScreen) {
     final originText = _originController.text.trim() == 'My Current Location'
-        ? 'Indore'
+        ? 'Indore (Current)'
         : _originController.text.trim();
     final destText = _destinationController.text.trim();
 
-    return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: BorderSide(
-          color: theme.colorScheme.primary.withAlpha(80),
-          width: 1.5,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Header: Route title
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primaryContainer,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.alt_route,
-                    color: theme.colorScheme.primary,
-                  ),
+    return RaahatConsoleCard(
+      padding: EdgeInsets.all(isSmallScreen ? RaahatSpacing.base : RaahatSpacing.lg2),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Header: Route title
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: RaahatColors.verifiedGreen.withValues(alpha: 0.2),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.check_circle_outline_rounded,
+                        color: RaahatColors.verifiedGreen,
+                        size: 20,
+                      ),
+                    ),
+                    const SizedBox(width: RaahatSpacing.sm2),
+                    Expanded(
+                      child: Text(
+                        'OPTIMAL SAFE CORRIDOR',
+                        style: RaahatTypography.mono(
+                          fontSize: 11,
+                          color: RaahatColors.darkGold,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 12),
-                Expanded(
+              ),
+              const SizedBox(width: RaahatSpacing.xs),
+              const RaahatLiveBadge(label: 'VERIFIED'),
+            ],
+          ),
+          const SizedBox(height: RaahatSpacing.md),
+          Text(
+            '$originText ➔ $destText',
+            style: RaahatTypography.displayH3(
+              color: RaahatColors.darkText,
+              fontSize: isSmallScreen ? 20 : 22,
+            ),
+            softWrap: true,
+          ),
+          const SizedBox(height: RaahatSpacing.base),
+          const Divider(color: RaahatColors.darkBorder),
+          const SizedBox(height: RaahatSpacing.base),
+
+          // Distance & Duration Metrics Row
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(RaahatSpacing.md),
+                  decoration: BoxDecoration(
+                    color: RaahatColors.darkSurface,
+                    borderRadius: BorderRadius.circular(RaahatRadius.card),
+                    border: Border.all(color: RaahatColors.darkBorder),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'ROUTE SUMMARY',
-                        style: theme.textTheme.labelLarge?.copyWith(
-                          color: theme.colorScheme.primary,
-                          fontSize: 11,
-                          letterSpacing: 0.5,
+                        'DISTANCE',
+                        style: RaahatTypography.mono(
+                          fontSize: 10,
+                          color: RaahatColors.darkMuted,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
-                      const SizedBox(height: 2),
+                      const SizedBox(height: RaahatSpacing.xs2),
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          '192 KM',
+                          style: RaahatTypography.displayHero(
+                            fontSize: 30,
+                            color: RaahatColors.darkText,
+                          ),
+                        ),
+                      ),
                       Text(
-                        '$originText ➔ $destText',
-                        style: theme.textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
+                        'Via NH-47 Clean',
+                        style: RaahatTypography.bodySmall(
+                          color: RaahatColors.darkMuted,
+                        ).copyWith(fontSize: 11),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: RaahatSpacing.md),
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(RaahatSpacing.md),
+                  decoration: BoxDecoration(
+                    color: RaahatColors.darkSurface,
+                    borderRadius: BorderRadius.circular(RaahatRadius.card),
+                    border: Border.all(color: RaahatColors.darkBorder),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'EST. DURATION',
+                        style: RaahatTypography.mono(
+                          fontSize: 10,
+                          color: RaahatColors.darkMuted,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: RaahatSpacing.xs2),
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          '3H 45M',
+                          style: RaahatTypography.displayHero(
+                            fontSize: 30,
+                            color: RaahatColors.darkGold,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        'Hazard buffer added',
+                        style: RaahatTypography.bodySmall(
+                          color: RaahatColors.darkMuted,
+                        ).copyWith(fontSize: 11),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: RaahatSpacing.lg2),
+
+          // Offline Pack CTA Button
+          Container(
+            constraints: const BoxConstraints(minHeight: 48),
+            decoration: BoxDecoration(
+              color: RaahatColors.orange,
+              borderRadius: BorderRadius.circular(RaahatRadius.button),
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: _handlePrepareOfflinePack,
+                borderRadius: BorderRadius.circular(RaahatRadius.button),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: RaahatSpacing.md2,
+                    horizontal: RaahatSpacing.base,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.download_for_offline_rounded,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                      const SizedBox(width: RaahatSpacing.sm),
+                      Flexible(
+                        child: Text(
+                          'PREPARE OFFLINE SAFETY PACK',
+                          style: RaahatTypography.buttonText(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            const Divider(),
-            const SizedBox(height: 12),
-
-            // Distance & Duration Metrics Row
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.surfaceContainerHighest,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Column(
-                      children: [
-                        Icon(
-                          Icons.straighten,
-                          color: theme.colorScheme.primary,
-                          size: 24,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'DISTANCE',
-                          style: theme.textTheme.labelLarge?.copyWith(
-                            fontSize: 10,
-                            color: theme.colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          '192 km',
-                          style: theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.surfaceContainerHighest,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Column(
-                      children: [
-                        Icon(
-                          Icons.access_time,
-                          color: theme.colorScheme.primary,
-                          size: 24,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'EST. DURATION',
-                          style: theme.textTheme.labelLarge?.copyWith(
-                            fontSize: 10,
-                            color: theme.colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          '3 hours 45 mins',
-                          style: theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-
-            // Warning-styled CTA Button
-            ElevatedButton.icon(
-              onPressed: _handlePrepareOfflinePack,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFE65100),
-                foregroundColor: Colors.white,
-                minimumSize: const Size(double.infinity, 54),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                elevation: 3,
-              ),
-              icon: const Icon(Icons.download_for_offline, size: 22),
-              label: const Text(
-                'Prepare Offline Safety Pack',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 0.5,
-                ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

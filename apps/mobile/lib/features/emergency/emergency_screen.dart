@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-
 import 'package:raahat/services/api_client.dart';
 import 'package:raahat/core/location/location_service.dart';
 import 'package:raahat/services/emergency_service.dart';
 import 'package:raahat/core/constants/enums.dart';
+import 'package:raahat/core/theme/design_tokens.dart';
+import 'package:raahat/core/theme/raahat_widgets.dart';
 
-/// Interactive emergency reporting screen using mock-driven analysis.
+/// Interactive emergency reporting screen using situation-aware AI analysis.
 class EmergencyScreen extends StatefulWidget {
   const EmergencyScreen({super.key});
 
@@ -69,7 +70,8 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
     });
 
     try {
-      final responseMap = await _emergencyService.submitEmergency(text, NetworkMode.ONLINE);
+      final responseMap =
+          await _emergencyService.submitEmergency(text, NetworkMode.ONLINE);
 
       if (!mounted) return;
       setState(() {
@@ -82,10 +84,11 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
         _isLoading = false;
         _validationError = 'Error: ${e.toString()}';
       });
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Failed to submit emergency: ${e.toString()}'),
-          backgroundColor: Theme.of(context).colorScheme.error,
+          backgroundColor: RaahatColors.emergencyRed,
         ),
       );
     }
@@ -102,380 +105,637 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final mediaQuery = MediaQuery.of(context);
+    final isSmallScreen = mediaQuery.size.width < 380;
+    final bool hasResponse = _response != null && !_isLoading;
 
     return Scaffold(
+      backgroundColor: RaahatColors.canvasBackground,
       appBar: AppBar(
-        title: const Text('Emergency'),
+        backgroundColor: RaahatColors.whiteCard,
+        elevation: 0,
+        title: Text(
+          'Emergency Triage',
+          style: RaahatTypography.cardTitle(
+            color: RaahatColors.textPrimary,
+          ),
+        ),
         actions: [
-          if (_response != null)
-            IconButton(
+          if (hasResponse)
+            TextButton.icon(
               onPressed: _resetReport,
-              icon: const Icon(Icons.refresh),
-              tooltip: 'New Report',
+              icon: const Icon(Icons.refresh, size: 18),
+              label: const Text('New Report'),
+              style: TextButton.styleFrom(
+                foregroundColor: RaahatColors.primaryBlue,
+              ),
             ),
         ],
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Emergency Input Card
-              _buildInputCard(theme),
-              const SizedBox(height: 16),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 720),
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(
+                horizontal: isSmallScreen ? RaahatSpacing.base : RaahatSpacing.lg,
+                vertical: RaahatSpacing.base,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Status Strip
+                  RaahatStatusStrip(
+                    statusText: hasResponse
+                        ? 'INCIDENT ACTIVE — DISPATCH QUEUED'
+                        : 'GPS LOCATION LOCKED — READY TO TRIAGE',
+                    isOnline: true,
+                  ),
+                  const SizedBox(height: RaahatSpacing.base),
 
-              // Mock Response Results
-              if (_isLoading) _buildLoadingCard(theme),
-              if (_response != null && !_isLoading)
-                _buildResponseCard(theme, _response!),
-            ],
+                  // Input section — hidden once a response is received
+                  if (!hasResponse) ...[
+                    _buildConsoleInputSection(theme, isSmallScreen),
+                    const SizedBox(height: RaahatSpacing.base),
+                  ],
+
+                  // Loading state
+                  if (_isLoading) _buildLoadingState(theme),
+
+                  // Response sections
+                  if (hasResponse) _buildResponseSections(theme, _response!),
+                ],
+              ),
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildInputCard(ThemeData theme) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              'Report Emergency',
-              style: theme.textTheme.headlineMedium,
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _inputController,
-              maxLines: 4,
-              enabled: !_isLoading,
-              style: theme.textTheme.bodyLarge,
-              decoration: InputDecoration(
-                hintText: 'Tell RAAHAT what happened...',
-                hintStyle: TextStyle(color: theme.colorScheme.onSurfaceVariant),
-                errorText: _validationError,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: theme.colorScheme.outline),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(
-                    color: theme.colorScheme.primary,
-                    width: 2,
+  // ─── CONSOLE INPUT SECTION ──────────────────────────────────────────────────
+
+  Widget _buildConsoleInputSection(ThemeData theme, bool isSmallScreen) {
+    return RaahatConsoleCard(
+      padding: EdgeInsets.all(isSmallScreen ? RaahatSpacing.base : RaahatSpacing.lg2),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: RaahatColors.emergencyRed.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(RaahatRadius.badge),
+                    ),
+                    child: const Icon(
+                      Icons.edit_note_rounded,
+                      color: RaahatColors.emergencyRed,
+                      size: 20,
+                    ),
                   ),
-                ),
-                contentPadding: const EdgeInsets.all(16),
+                  const SizedBox(width: RaahatSpacing.sm2),
+                  Text(
+                    'INCIDENT REPORT',
+                    style: RaahatTypography.mono(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: RaahatColors.darkGold,
+                    ),
+                  ),
+                ],
               ),
+              const RaahatLiveBadge(label: 'AI READY'),
+            ],
+          ),
+          const SizedBox(height: RaahatSpacing.base),
+          Text(
+            'Describe Your Emergency',
+            style: RaahatTypography.displayH3(
+              color: RaahatColors.darkText,
+              fontSize: isSmallScreen ? 20 : 22,
             ),
-            const SizedBox(height: 12),
-            Text(
-              'Quick Select Examples:',
-              style: theme.textTheme.labelLarge,
+          ),
+          const SizedBox(height: RaahatSpacing.xs),
+          Text(
+            'Provide details: vehicle condition, injuries, landmarks, or immediate hazards.',
+            style: RaahatTypography.bodySmall(
+              color: RaahatColors.darkMuted,
             ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: _quickSelectExamples.map((example) {
-                return ActionChip(
-                  label: Text(example),
-                  onPressed: _isLoading ? null : () => _onQuickSelectTap(example),
-                  backgroundColor: theme.colorScheme.surfaceContainerHighest,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                );
-              }).toList(),
+          ),
+          const SizedBox(height: RaahatSpacing.base),
+
+          // Dark Console Input
+          RaahatConsoleInput(
+            controller: _inputController,
+            maxLines: 4,
+            enabled: !_isLoading,
+            hintText: 'e.g. Broken axle on NH-52, 2 passengers, need roadside assistance...',
+            errorText: _validationError,
+          ),
+          const SizedBox(height: RaahatSpacing.base),
+
+          // Quick Select Pills
+          Text(
+            'Quick select presets:',
+            style: RaahatTypography.mono(
+              fontSize: 11,
+              color: RaahatColors.darkMuted,
+              fontWeight: FontWeight.w500,
             ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _isLoading ? null : _handleSubmit,
-              child: _isLoading
-                  ? const SizedBox(
-                      height: 24,
-                      width: 24,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2.5,
-                        color: Colors.white,
-                      ),
-                    )
-                  : const Text('SUBMIT'),
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(height: RaahatSpacing.sm),
+          Wrap(
+            spacing: RaahatSpacing.sm,
+            runSpacing: RaahatSpacing.sm,
+            children: _quickSelectExamples.map((example) {
+              final isMatch = _inputController.text == example;
+              return RaahatCategoryChip(
+                label: example,
+                isSelected: isMatch,
+                onTap: _isLoading ? null : () => _onQuickSelectTap(example),
+              );
+            }).toList(),
+          ),
+          const SizedBox(height: RaahatSpacing.lg),
+
+          // SOS Submit Button
+          RaahatSosButton(
+            label: _isLoading ? 'SUBMITTING REPORT...' : 'REQUEST EMERGENCY HELP',
+            isLoading: _isLoading,
+            onPressed: _isLoading ? null : _handleSubmit,
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildLoadingCard(ThemeData theme) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          children: [
-            const CircularProgressIndicator(),
-            const SizedBox(height: 16),
-            Text(
-              'Analyzing Emergency Situation...',
-              style: theme.textTheme.titleMedium,
+  // ─── LOADING ───────────────────────────────────────────────────────────────
+
+  Widget _buildLoadingState(ThemeData theme) {
+    return RaahatConsoleCard(
+      padding: const EdgeInsets.symmetric(
+        horizontal: RaahatSpacing.lg2,
+        vertical: RaahatSpacing.xl2,
+      ),
+      child: Column(
+        children: [
+          const CircularProgressIndicator(
+            color: RaahatColors.emergencyRed,
+            strokeWidth: 3,
+          ),
+          const SizedBox(height: RaahatSpacing.lg2),
+          Text(
+            'Analyzing Emergency Situation...',
+            style: RaahatTypography.mono(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: RaahatColors.darkText,
             ),
-          ],
-        ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: RaahatSpacing.sm),
+          Text(
+            'RAAHAT AI is calculating severity and assembling guidance...',
+            style: RaahatTypography.bodySmall(
+              color: RaahatColors.darkMuted,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildResponseCard(ThemeData theme, Map<String, dynamic> response) {
-    // Extract real backend fields
+  // ─── RESPONSE SECTIONS ─────────────────────────────────────────────────────
+
+  Widget _buildResponseSections(
+      ThemeData theme, Map<String, dynamic> response) {
     final incident = response['incident'] as Map<String, dynamic>? ?? {};
     final guidance = response['guidance'] as Map<String, dynamic>? ?? {};
     final ai = response['ai'] as Map<String, dynamic>? ?? {};
     final actions = response['recommended_actions'] as List<dynamic>? ?? [];
 
-    final String incidentType = incident['category'] as String? ?? 'UNKNOWN';
+    final String incidentType =
+        incident['category'] as String? ?? 'UNKNOWN';
     final String severity = incident['severity'] as String? ?? 'UNKNOWN';
-    final double confidence = (ai['confidence_score'] as num?)?.toDouble() ?? 0.0;
-    final String summary = guidance['summary'] as String? ?? (incident['description_summary'] as String? ?? 'Emergency reported.');
+    final double confidence =
+        (ai['confidence_score'] as num?)?.toDouble() ?? 0.0;
+    final String summary = guidance['summary'] as String? ??
+        (incident['description_summary'] as String? ?? 'Emergency reported.');
 
-    final List<dynamic> stepsRaw = guidance['steps'] as List<dynamic>? ?? [];
-    final List<String> guidanceSteps = stepsRaw.map((s) => (s['instruction'] as String?) ?? '').where((s) => s.isNotEmpty).toList();
+    final List<dynamic> stepsRaw =
+        guidance['steps'] as List<dynamic>? ?? [];
+    final List<String> guidanceSteps = stepsRaw
+        .map((s) => (s['instruction'] as String?) ?? '')
+        .where((s) => s.isNotEmpty)
+        .toList();
 
-    final List<dynamic> dontDoRaw = guidance['immediate_do_not_do'] as List<dynamic>? ?? [];
+    final List<dynamic> dontDoRaw =
+        guidance['immediate_do_not_do'] as List<dynamic>? ?? [];
     final String safetyNote = dontDoRaw.join('\n');
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        // Incident summary card
+        _buildIncidentSummaryCard(theme, incidentType, severity, summary, confidence),
+        const SizedBox(height: RaahatSpacing.base),
 
-        // Incident Overview Alert Card
-        Card(
-          color: const Color(0xFFFFF3E0),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.primary,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        incidentType,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13,
-                        ),
-                      ),
+        // Guidance card
+        if (guidanceSteps.isNotEmpty) ...[
+          _buildGuidanceCard(theme, guidanceSteps),
+          const SizedBox(height: RaahatSpacing.base),
+        ],
+
+        // Safety note
+        if (safetyNote.isNotEmpty || dontDoRaw.isEmpty) ...[
+          _buildSafetyNoteCard(theme, safetyNote),
+          const SizedBox(height: RaahatSpacing.base),
+        ],
+
+        // Recommended actions
+        if (actions.isNotEmpty) ...[
+          _buildRecommendedActionsCard(theme, actions),
+          const SizedBox(height: RaahatSpacing.base),
+        ],
+
+        // Error card if validation error persists
+        if (_validationError != null)
+          _buildErrorCard(theme, _validationError!),
+      ],
+    );
+  }
+
+  // ─── INCIDENT SUMMARY CARD ─────────────────────────────────────────────────
+
+  Widget _buildIncidentSummaryCard(
+    ThemeData theme,
+    String incidentType,
+    String severity,
+    String summary,
+    double confidence,
+  ) {
+    final Color severityColor = RaahatColors.severityColor(severity);
+
+    return RaahatLightCard(
+      borderColor: severityColor.withValues(alpha: 0.5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Wrap(
+            spacing: RaahatSpacing.sm,
+            runSpacing: RaahatSpacing.xs,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            alignment: WrapAlignment.spaceBetween,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: RaahatSpacing.sm2,
+                      vertical: RaahatSpacing.xs,
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE65100),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        'SEVERITY: $severity',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                        ),
-                      ),
+                    decoration: BoxDecoration(
+                      color: RaahatColors.primaryBlue.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(RaahatRadius.badge),
+                      border: Border.all(color: RaahatColors.primaryBlue.withValues(alpha: 0.3)),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 12),
+                    child: Text(
+                      incidentType.replaceAll('_', ' '),
+                      style: RaahatTypography.eyebrow(
+                        color: RaahatColors.primaryBlue,
+                      ).copyWith(fontSize: 11),
+                    ),
+                  ),
+                  const SizedBox(width: RaahatSpacing.sm),
+                  RaahatSeverityBadge(severity: severity),
+                ],
+              ),
+              if (confidence > 0)
                 Text(
-                  summary,
-                  style: theme.textTheme.headlineMedium?.copyWith(
-                    fontSize: 18,
+                  '${(confidence * 100).toStringAsFixed(0)}% CONFIDENCE',
+                  style: RaahatTypography.mono(
+                    fontSize: 11,
+                    color: RaahatColors.textMuted,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  'Confidence: ${(confidence * 100).toStringAsFixed(0)}%',
-                  style: theme.textTheme.bodyMedium,
-                ),
-              ],
-            ),
+            ],
           ),
-        ),
-        const SizedBox(height: 16),
+          const SizedBox(height: RaahatSpacing.base),
+          Text(
+            summary,
+            style: RaahatTypography.cardTitle(
+              color: RaahatColors.textPrimary,
+            ).copyWith(height: 1.4),
+          ),
+        ],
+      ),
+    );
+  }
 
-        // Guidance Title & Steps
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Icon(
-                      Icons.shield_outlined,
-                      color: theme.colorScheme.primary,
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        'Immediate Guidance',
-                        style: theme.textTheme.titleLarge,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                ...guidanceSteps.asMap().entries.map((entry) {
-                  final index = entry.key + 1;
-                  final step = entry.value;
-                  return Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.surfaceContainerHighest,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: theme.colorScheme.outlineVariant,
-                      ),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          radius: 14,
-                          backgroundColor: theme.colorScheme.primary,
-                          child: Text(
-                            '$index',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            step,
-                            style: theme.textTheme.bodyLarge,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
+  // ─── GUIDANCE CARD ─────────────────────────────────────────────────────────
 
-        // Safety Note Warning Card
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: const Color(0xFFFFEBEE),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: const Color(0xFFD32F2F),
-              width: 1.5,
-            ),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildGuidanceCard(ThemeData theme, List<String> steps) {
+    return RaahatLightCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
             children: [
-              const Icon(
-                Icons.warning_amber_rounded,
-                color: Color(0xFFD32F2F),
-                size: 26,
+              Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: RaahatColors.primaryBlue.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.shield_outlined,
+                  color: RaahatColors.primaryBlue,
+                  size: 20,
+                ),
               ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'SAFETY NOTE',
-                      style: TextStyle(
-                        color: Color(0xFFD32F2F),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      safetyNote.isEmpty ? 'Follow guidance steps carefully.' : safetyNote,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: const Color(0xFF5D4037),
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
+              const SizedBox(width: RaahatSpacing.sm2),
+              Text(
+                'Action Guidance',
+                style: RaahatTypography.cardTitle(
+                  color: RaahatColors.textPrimary,
                 ),
               ),
             ],
           ),
-        ),
-        const SizedBox(height: 16),
+          const SizedBox(height: RaahatSpacing.base),
+          ...steps.asMap().entries.map((entry) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: RaahatSpacing.md),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 26,
+                    height: 26,
+                    decoration: BoxDecoration(
+                      color: RaahatColors.primaryBlue,
+                      borderRadius: BorderRadius.circular(RaahatRadius.badge),
+                    ),
+                    child: Center(
+                      child: Text(
+                        '${entry.key + 1}',
+                        style: RaahatTypography.monoBadge(
+                          color: Colors.white,
+                        ).copyWith(fontSize: 12),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: RaahatSpacing.md),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 2.0),
+                      child: Text(
+                        entry.value,
+                        style: RaahatTypography.bodyRegular(
+                          color: RaahatColors.textPrimary,
+                        ).copyWith(fontSize: 15),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+        ],
+      ),
+    );
+  }
 
-        // Recommended Actions Section
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
+  // ─── SAFETY NOTE CARD ──────────────────────────────────────────────────────
+
+  Widget _buildSafetyNoteCard(ThemeData theme, String safetyNote) {
+    return Container(
+      padding: const EdgeInsets.all(RaahatSpacing.base),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFFBEB),
+        borderRadius: BorderRadius.circular(RaahatRadius.mainCard),
+        border: Border.all(color: RaahatColors.amberWarning.withValues(alpha: 0.4)),
+        boxShadow: RaahatShadows.card,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: RaahatColors.amberWarning.withValues(alpha: 0.2),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.warning_amber_rounded,
+              color: RaahatColors.amberWarning,
+              size: 20,
+            ),
+          ),
+          const SizedBox(width: RaahatSpacing.md),
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Recommended Actions',
-                  style: theme.textTheme.titleMedium,
+                  'SAFETY PRECAUTIONS',
+                  style: RaahatTypography.mono(
+                    fontSize: 11,
+                    color: const Color(0xFFB45309),
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-                const SizedBox(height: 12),
-                Row(
-                  children: actions.isEmpty
-                      ? [const Text('No immediate actions recommended.')]
-                      : actions.map((action) {
-                          final label = (action['label'] as String?) ?? 'ACTION';
-                          final actionType = (action['action_type'] as String?) ?? 'CALL';
-
-                          IconData iconData = Icons.call;
-                          if (actionType == 'NAVIGATE') iconData = Icons.navigation;
-                          if (actionType == 'CALL_TOWING') iconData = Icons.car_repair;
-                          if (actionType == 'CALL_POLICE') iconData = Icons.local_police;
-
-                          return Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: ElevatedButton.icon(
-                                onPressed: () {},
-                                icon: Icon(iconData),
-                                label: Text(label),
-                              ),
-                            ),
-                          );
-                        }).toList(),
+                const SizedBox(height: RaahatSpacing.xs),
+                Text(
+                  safetyNote.isEmpty
+                      ? 'Follow guidance steps carefully and remain in a safe location.'
+                      : safetyNote,
+                  style: RaahatTypography.bodySmall(
+                    color: const Color(0xFF92400E),
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ],
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
+  }
+
+  // ─── RECOMMENDED ACTIONS ───────────────────────────────────────────────────
+
+  Widget _buildRecommendedActionsCard(
+      ThemeData theme, List<dynamic> actions) {
+    return RaahatLightCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: RaahatColors.primaryBlue.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.bolt_rounded,
+                  color: RaahatColors.primaryBlue,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: RaahatSpacing.sm2),
+              Text(
+                'Recommended Actions',
+                style: RaahatTypography.cardTitle(
+                  color: RaahatColors.textPrimary,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: RaahatSpacing.base),
+          ...actions.map((action) {
+            final label = (action['label'] as String?) ?? 'ACTION';
+            final actionType = (action['action_type'] as String?) ?? 'CALL';
+            final (icon, color) = _actionStyle(actionType);
+
+            return Padding(
+              padding: const EdgeInsets.only(bottom: RaahatSpacing.sm2),
+              child: Material(
+                color: color.withValues(alpha: 0.06),
+                borderRadius: BorderRadius.circular(RaahatRadius.button),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(RaahatRadius.button),
+                  onTap: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Action selected: $label')),
+                    );
+                  },
+                  child: Container(
+                    constraints: const BoxConstraints(minHeight: 48),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: RaahatSpacing.base,
+                      vertical: RaahatSpacing.md,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(RaahatRadius.button),
+                      border: Border.all(color: color.withValues(alpha: 0.25)),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(RaahatSpacing.sm),
+                          decoration: BoxDecoration(
+                            color: color.withValues(alpha: 0.15),
+                            borderRadius: BorderRadius.circular(RaahatRadius.badge),
+                          ),
+                          child: Icon(icon, color: color, size: 20),
+                        ),
+                        const SizedBox(width: RaahatSpacing.md),
+                        Expanded(
+                          child: Text(
+                            label,
+                            style: RaahatTypography.cardTitle(
+                              color: RaahatColors.textPrimary,
+                            ).copyWith(fontSize: 15),
+                          ),
+                        ),
+                        const Icon(
+                          Icons.chevron_right,
+                          color: RaahatColors.textMuted,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }),
+        ],
+      ),
+    );
+  }
+
+  // ─── ERROR CARD ────────────────────────────────────────────────────────────
+
+  Widget _buildErrorCard(ThemeData theme, String error) {
+    return Container(
+      padding: const EdgeInsets.all(RaahatSpacing.base),
+      decoration: BoxDecoration(
+        color: RaahatColors.redLight,
+        borderRadius: BorderRadius.circular(RaahatRadius.mainCard),
+        border: Border.all(color: RaahatColors.redBorder),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Icon(
+            Icons.error_outline_rounded,
+            color: RaahatColors.emergencyRed,
+            size: 24,
+          ),
+          const SizedBox(width: RaahatSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Submission Issue',
+                  style: RaahatTypography.cardTitle(
+                    color: RaahatColors.emergencyRed,
+                  ).copyWith(fontSize: 15),
+                ),
+                const SizedBox(height: RaahatSpacing.xs),
+                Text(
+                  error,
+                  style: RaahatTypography.bodySmall(
+                    color: RaahatColors.textPrimary,
+                  ),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: RaahatSpacing.sm2),
+                TextButton.icon(
+                  onPressed: _handleSubmit,
+                  icon: const Icon(Icons.refresh, size: 16),
+                  label: const Text('Retry Submission'),
+                  style: TextButton.styleFrom(
+                    foregroundColor: RaahatColors.emergencyRed,
+                    padding: EdgeInsets.zero,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ─── HELPERS ───────────────────────────────────────────────────────────────
+
+  (IconData, Color) _actionStyle(String actionType) {
+    switch (actionType.toUpperCase()) {
+      case 'CALL_AMBULANCE':
+      case 'CALL':
+        return (Icons.local_hospital_outlined, RaahatColors.emergencyRed);
+      case 'NAVIGATE':
+        return (Icons.alt_route_rounded, RaahatColors.primaryBlue);
+      case 'CALL_TOWING':
+        return (Icons.car_repair_rounded, RaahatColors.amber);
+      case 'CALL_POLICE':
+        return (Icons.local_police_outlined, RaahatColors.textSecondary);
+      default:
+        return (Icons.phone_outlined, RaahatColors.primaryBlue);
+    }
   }
 }

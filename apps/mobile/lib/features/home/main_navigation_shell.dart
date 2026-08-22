@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:raahat/core/theme/design_tokens.dart';
 import 'package:raahat/features/emergency/emergency_screen.dart';
 import 'package:raahat/features/home/home_screen.dart';
 import 'package:raahat/features/offline/offline_screen.dart';
@@ -32,43 +33,56 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
+      backgroundColor: RaahatColors.canvasBackground,
       body: IndexedStack(
         index: _currentIndex,
         children: _screens,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: _onItemTapped,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: theme.colorScheme.primary,
-        unselectedItemColor: theme.colorScheme.onSurfaceVariant,
-        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal, fontSize: 12),
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          color: RaahatColors.whiteCard,
+          border: Border(
+            top: BorderSide(
+              color: RaahatColors.border,
+              width: 1.0,
+            ),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.emergency),
-            label: 'Emergency',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.location_on),
-            label: 'Services',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.route),
-            label: 'Route',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.offline_bolt),
-            label: 'Offline',
-          ),
-        ],
+        ),
+        child: NavigationBar(
+          selectedIndex: _currentIndex,
+          onDestinationSelected: _onItemTapped,
+          elevation: 0,
+          backgroundColor: RaahatColors.whiteCard,
+          indicatorColor: RaahatColors.primaryBlue.withValues(alpha: 0.12),
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(Icons.home_outlined),
+              selectedIcon: Icon(Icons.home_rounded, color: RaahatColors.primaryBlue),
+              label: 'Home',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.emergency_outlined),
+              selectedIcon: Icon(Icons.emergency_rounded, color: RaahatColors.emergencyRed),
+              label: 'Emergency',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.location_on_outlined),
+              selectedIcon: Icon(Icons.location_on_rounded, color: RaahatColors.primaryBlue),
+              label: 'Services',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.alt_route_outlined),
+              selectedIcon: Icon(Icons.alt_route_rounded, color: RaahatColors.primaryBlue),
+              label: 'Route',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.cloud_off_outlined),
+              selectedIcon: Icon(Icons.cloud_off_rounded, color: RaahatColors.primaryBlue),
+              label: 'Offline',
+            ),
+          ],
+        ),
       ),
     );
   }
