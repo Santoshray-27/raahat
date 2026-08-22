@@ -5,7 +5,8 @@ from typing import List, Tuple
 from app.core.logging import logger
 from app.providers.base import BasePlacesProvider
 from app.schemas.common import GeoPoint, ServiceProvider, LocationAddress, ContactInfo
-from app.schemas.enums import ServiceType
+from app.schemas.enums import ServiceType, ProviderSource
+from app.services.ranking import calculate_haversine_distance
 
 class OSMOverpassProvider(BasePlacesProvider):
     ENDPOINTS = [
@@ -33,7 +34,7 @@ class OSMOverpassProvider(BasePlacesProvider):
         limit: int = 10
     ) -> List[ServiceProvider]:
         lat, lon = location.latitude, location.longitude
-        radius_m = int(radius_km * 1000)
+        radius_m = max(int(radius_km * 1000), 15000)
         
         main_type = service_types[0] if service_types else ServiceType.HOSPITAL
         tag_pairs = self._TAG_MAP.get(main_type, [("amenity", "hospital")])
@@ -44,7 +45,7 @@ class OSMOverpassProvider(BasePlacesProvider):
             statements.append(f'node["{k}"="{v}"](around:{radius_m},{lat},{lon});')
             statements.append(f'way["{k}"="{v}"](around:{radius_m},{lat},{lon});')
         
-        query = f"[out:json][timeout:10];({' '.join(statements)});out center tags {limit};"
+        query = f"[out:json][timeout:10];({' '.join(statements)});out center tags {max(limit * 2, 15)};"
         encoded_data = urllib.parse.urlencode({"data": query})
         
         headers = {
@@ -54,7 +55,7 @@ class OSMOverpassProvider(BasePlacesProvider):
         
         for endpoint in self.ENDPOINTS:
             try:
-                logger.info(f"OSMOverpassProvider: Attempting query on endpoint: {endpoint}")
+                logger.info(f"OSMOverpassProvider: Attempting query for {main_type.value} on endpoint: {endpoint}")
                 async with httpx.AsyncClient(timeout=10.0) as client:
                     resp = await client.post(endpoint, content=encoded_data, headers=headers)
                     if resp.status_code != 200:
@@ -66,11 +67,15 @@ class OSMOverpassProvider(BasePlacesProvider):
                     if not elements:
                         continue
                         
-                    providers: List[ServiceProvider] = []
-                    for el in elements[:limit]:
+                    raw_results = []
+                    for el in elements:
                         tags = el.get("tags", {})
                         name = tags.get("name") or tags.get("name:en") or f"Local {main_type.value.title()} Service"
-                        
+                        name_lower = name.lower()
+
+                        if main_type == ServiceType.HOSPITAL and tags.get("hospital:type") == "ayush":
+                            continue
+                            
                         # Extract coordinates (nodes have lat/lon, ways have center dict)
                         if "lat" in el and "lon" in el:
                             p_lat, p_lon = el["lat"], el["lon"]
@@ -79,31 +84,53 @@ class OSMOverpassProvider(BasePlacesProvider):
                         else:
                             p_lat, p_lon = lat, lon
                             
+                        loc = GeoPoint(latitude=p_lat, longitude=p_lon)
+                        dist_km = round(calculate_haversine_distance(location, loc), 2)
                         phone = tags.get("phone") or tags.get("contact:phone") or None
                         
-                        providers.append(
-                            ServiceProvider(
-                                provider_id=f"osm_{el.get('type','n')}_{el.get('id', str(uuid.uuid4())[:8])}",
-                                name=name,
-                                service_types=[main_type.value],
-                                location=GeoPoint(latitude=p_lat, longitude=p_lon),
-                                address=LocationAddress(formatted_address=tags.get("addr:full") or tags.get("addr:street") or "OpenStreetMap Verified Location"),
-                                contact=ContactInfo(phone_primary=phone),
-                                distance_km=2.0,
-                                eta_minutes=6,
-                                rating=None,
-                                review_count=0,
-                                availability_status="UNKNOWN",
-                                verification_status="UNVERIFIED",
-                                recommendation_score=0.85,
-                                recommendation_reason="OpenStreetMap Community Provider",
-                                source="OSM_OVERPASS",
-                                is_cached=False,
-                                retrieved_at=datetime.now(timezone.utc).isoformat()
-                            )
+                        quality_score = 0.0
+                        if main_type == ServiceType.HOSPITAL:
+                            pos_keywords = ["hospital", "nursing", "care", "superspeciality", "हॉस्पिटल", "अस्पताल"]
+                            neg_keywords = ["homeo", "ayush", "ayurved", "dental", "eye", "skin", "clinic", "चिकित्सालय", "होमियो"]
+                            
+                            if any(w in name_lower for w in pos_keywords):
+                                quality_score += 0.5
+                            if tags.get("emergency") == "yes":
+                                quality_score += 0.5
+                            if any(w in name_lower for w in neg_keywords):
+                                quality_score -= 0.3
+                                
+                            if quality_score < 0:
+                                continue
+
+                        sp = ServiceProvider(
+                            provider_id=f"osm_{el.get('type','n')}_{el.get('id', str(uuid.uuid4())[:8])}",
+                            name=name,
+                            service_types=[main_type.value],
+                            location=loc,
+                            address=LocationAddress(formatted_address=tags.get("addr:full") or tags.get("addr:street") or "OpenStreetMap Verified Location"),
+                            contact=ContactInfo(phone_primary=phone),
+                            distance_km=dist_km,
+                            eta_minutes=max(1, int(dist_km * 2)),
+                            rating=None,
+                            review_count=0,
+                            availability_status="UNKNOWN",
+                            verification_status="UNVERIFIED",
+                            recommendation_score=quality_score if main_type == ServiceType.HOSPITAL else 0.85,
+                            recommendation_reason="OpenStreetMap Community Provider",
+                            source=ProviderSource.OSM_OVERPASS,
+                            is_cached=False,
+                            retrieved_at=datetime.now(timezone.utc).isoformat()
                         )
-                    if providers:
-                        return providers
+                        raw_results.append((quality_score, sp))
+                        
+                    if raw_results:
+                        if main_type == ServiceType.HOSPITAL:
+                            sorted_items = sorted(raw_results, key=lambda x: (-x[0], x[1].distance_km))
+                            return [item[1] for item in sorted_items][:limit]
+                        else:
+                            sorted_items = sorted(raw_results, key=lambda x: x[1].distance_km)
+                            return [item[1] for item in sorted_items][:limit]
             except Exception as e:
                 logger.warning(f"OSM Overpass endpoint {endpoint} failed: {e}. Trying next...")
                 

@@ -13,3 +13,4 @@ venv/
 .coverage
 *.sqlite3
 raahat.db
+*.mp4

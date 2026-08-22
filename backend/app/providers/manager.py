@@ -13,13 +13,11 @@ from app.providers.osrm import OSRMRoutingProvider
 from app.providers.geoapify import GeoapifyPlacesProvider, GeoapifyRoutingProvider, GeoapifyProviderError
 from app.providers.mock_provider import MockPlacesProvider, MockRoutingProvider
 from app.schemas.common import GeoPoint, ServiceProvider
-from app.schemas.enums import ServiceType
+from app.schemas.enums import ServiceType, ProviderSource
 from app.schemas.routes import RoutePlanResponseData
 
 class ProviderManager:
     def __init__(self):
-        self.google_places = GooglePlacesProvider()
-        self.google_routes = GoogleRoutesProvider()
         self.geoapify_places = GeoapifyPlacesProvider()
         self.geoapify_routing = GeoapifyRoutingProvider()
         self.osm_overpass = OSMOverpassProvider()
@@ -34,8 +32,8 @@ class ProviderManager:
         radius_km: float = 10.0,
         limit: int = 10
     ) -> Tuple[List[ServiceProvider], str]:
-        start_time = time.time()
-        category_name = service_types[0].value if service_types else "GENERAL"
+        main_type = service_types[0] if service_types else ServiceType.HOSPITAL
+        category_name = main_type.value
 
         # 1. Check if USE_MOCKS is explicitly enabled for offline dev
         if settings.USE_MOCKS:
@@ -46,73 +44,66 @@ class ProviderManager:
                 p.retrieved_at = datetime.now(timezone.utc).isoformat()
             return res[:limit], "MOCK"
 
-        # Check circuit breaker status
-        google_exhausted, expiry_time = google_circuit_breaker.is_exhausted()
-
-        # Build live chain order based on circuit breaker state
-        # If Google quota is exhausted, reorder live chain to Geoapify FIRST, then OSM, then Google.
-        if google_exhausted:
-            logger.info(f"ProviderManager: Google quota exhausted (until {expiry_time}). Reordering chain: [Geoapify, OSM, Google].")
-            chain = ["GEOAPIFY", "OSM", "GOOGLE"]
+        # Per-Category Preferred Order
+        if main_type in [ServiceType.POLICE, ServiceType.FIRE_BRIGADE, ServiceType.AMBULANCE]:
+            chain = ["OSM", "GEOAPIFY"]
         else:
-            chain = ["GOOGLE", "GEOAPIFY", "OSM"]
+            chain = ["GEOAPIFY", "OSM"]
 
         async def _execute_chain() -> Tuple[List[ServiceProvider], str]:
             last_source_used = "UNKNOWN"
             for provider_name in chain:
-                if provider_name == "GOOGLE" and settings.GOOGLE_PLACES_API_KEY:
-                    # Double check exhaustion before trying Google
-                    is_ex, _ = google_circuit_breaker.is_exhausted()
-                    if is_ex:
-                        continue
-                    try:
-                        logger.info("ProviderManager: Querying LIVE Google Places API...")
-                        res = await self.google_places.search_nearby(location, service_types, radius_km, limit)
-                        if res:
-                            for p in res:
-                                p.source = "GOOGLE_PLACES"
-                                p.retrieved_at = datetime.now(timezone.utc).isoformat()
-                            return res[:limit], "GOOGLE_PLACES"
-                        last_source_used = "GOOGLE_PLACES"
-                    except Exception as e:
-                        logger.warning(f"Google Places API call failed/skipped: {e}.")
-    
-                elif provider_name == "GEOAPIFY" and settings.GEOAPIFY_API_KEY:
+                if provider_name == "GEOAPIFY" and settings.GEOAPIFY_API_KEY:
                     try:
                         logger.info("ProviderManager: Querying LIVE Geoapify Places API...")
                         res = await self.geoapify_places.search_nearby(location, service_types, radius_km, limit)
                         if res:
                             for p in res:
-                                p.source = "GEOAPIFY"
+                                p.source = ProviderSource.GEOAPIFY
                                 p.retrieved_at = datetime.now(timezone.utc).isoformat()
                             return res[:limit], "GEOAPIFY"
                         last_source_used = "GEOAPIFY"
                     except Exception as e:
                         logger.warning(f"Geoapify Places API call failed: {e}.")
-    
+
                 elif provider_name == "OSM":
                     try:
                         logger.info("ProviderManager: Querying LIVE OSM Overpass API...")
                         res = await self.osm_overpass.search_nearby(location, service_types, radius_km, limit)
                         if res:
                             for p in res:
-                                p.source = "OSM_OVERPASS"
+                                p.source = ProviderSource.OSM_OVERPASS
                                 p.retrieved_at = datetime.now(timezone.utc).isoformat()
                             return res[:limit], "OSM_OVERPASS"
                         last_source_used = "OSM_OVERPASS"
                     except Exception as e:
                         logger.warning(f"OSM Overpass API call failed: {e}.")
-    
-            # If live queries completed without exception but returned 0 items, return empty list gracefully
-            logger.info(f"ProviderManager: All live providers queried. Zero results found for category {category_name}.")
+
+            # If live providers returned 0 items or failed, fall back to CURATED seed data
+            from app.services.curated_service import curated_provider_manager
+            logger.info(f"ProviderManager: Live providers returned 0 items for {category_name}. Falling back to CURATED seed data.")
+            curated_res = curated_provider_manager.get_fallback_providers(location, service_types, limit=limit)
+            if curated_res:
+                return curated_res, "CURATED"
+
             return [], last_source_used if last_source_used != "UNKNOWN" else "GEOAPIFY"
 
         try:
-            # 12.0 seconds global SLA for provider search
-            return await asyncio.wait_for(_execute_chain(), timeout=12.0)
+            results, source = await asyncio.wait_for(_execute_chain(), timeout=12.0)
         except asyncio.TimeoutError:
-            logger.error("ProviderManager: Global SLA timeout exceeded for get_nearby_services. Returning gracefully.")
-            return [], "TIMEOUT_FALLBACK"
+            logger.error("ProviderManager: Global SLA timeout exceeded for get_nearby_services. Returning curated fallback.")
+            from app.services.curated_service import curated_provider_manager
+            results = curated_provider_manager.get_fallback_providers(location, service_types, limit=limit)
+            source = "CURATED"
+
+        # Guarantee nearest-first sorting and non-null distance / ETA properties
+        from app.services.ranking import calculate_haversine_distance
+        for p in results:
+            p.distance_km = round(calculate_haversine_distance(location, p.location), 2)
+            p.eta_minutes = max(1, int(p.distance_km * 2))
+
+        sorted_results = sorted(results, key=lambda x: x.distance_km)
+        return sorted_results[:limit], source
 
     async def plan_route(
         self,
@@ -126,48 +117,31 @@ class ProviderManager:
             logger.info("ProviderManager: Using MockRoutingProvider (USE_MOCKS=True)")
             return await self.mock_routing.plan_route(origin, destination, avoid_highways, avoid_tolls)
 
-        google_exhausted, expiry_time = google_circuit_breaker.is_exhausted()
-
-        if google_exhausted:
-            chain = ["GEOAPIFY", "OSRM", "GOOGLE"]
-        else:
-            chain = ["GOOGLE", "GEOAPIFY", "OSRM"]
+        chain = ["GEOAPIFY", "OSRM"]
 
         async def _execute_route_chain() -> RoutePlanResponseData:
             for provider_name in chain:
-                if provider_name == "GOOGLE" and settings.GOOGLE_ROUTES_API_KEY:
-                    is_ex, _ = google_circuit_breaker.is_exhausted()
-                    if is_ex:
-                        continue
-                    try:
-                        logger.info("ProviderManager: Querying LIVE Google Routes API...")
-                        res = await self.google_routes.plan_route(origin, destination, avoid_highways, avoid_tolls)
-                        res.provider_source = "GOOGLE_ROUTES"
-                        return res
-                    except Exception as e:
-                        logger.warning(f"Google Routes API failed: {e}.")
-    
-                elif provider_name == "GEOAPIFY" and settings.GEOAPIFY_API_KEY:
+                if provider_name == "GEOAPIFY" and settings.GEOAPIFY_API_KEY:
                     try:
                         logger.info("ProviderManager: Querying LIVE Geoapify Routing API...")
                         res = await self.geoapify_routing.plan_route(origin, destination, avoid_highways, avoid_tolls)
-                        res.provider_source = "GEOAPIFY"
+                        res.provider_source = ProviderSource.GEOAPIFY
                         return res
                     except Exception as e:
                         logger.warning(f"Geoapify Routing failed: {e}.")
-    
+
                 elif provider_name == "OSRM":
                     try:
                         logger.info("ProviderManager: Querying LIVE OSRM Routing API...")
                         res = await self.osrm_routing.plan_route(origin, destination, avoid_highways, avoid_tolls)
-                        res.provider_source = "OSRM"
+                        res.provider_source = ProviderSource.OSRM
                         return res
                     except Exception as e:
                         logger.warning(f"OSRM Routing failed: {e}.")
-    
+
             raise HTTPException(
                 status_code=status.HTTP_502_BAD_GATEWAY,
-                detail="UPSTREAM_PROVIDER_ERROR: Unable to compute live navigation route via Google Routes, Geoapify, or OSRM."
+                detail="UPSTREAM_PROVIDER_ERROR: Unable to compute live navigation route via Geoapify or OSRM."
             )
 
         try:

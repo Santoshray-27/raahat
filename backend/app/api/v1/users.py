@@ -14,9 +14,13 @@ async def get_me(
     user: UserProfile = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
-    repo = UserRepository(db)
-    # Synchronize Firebase identity with PostgreSQL
-    db_user = await repo.sync_user(user)
+    try:
+        if db:
+            repo = UserRepository(db)
+            await repo.sync_user(user)
+    except Exception as e:
+        from app.core.logging import logger
+        logger.warning(f"Database sync skipped for /users/me: {e}")
     
     # We do not expose the internal UUID in the response currently, keeping the contract unchanged
     data = UserMeResponseData(user=user, auth_provider="firebase")

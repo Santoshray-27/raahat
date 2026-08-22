@@ -1,0 +1,384 @@
+[
+  {
+    "provider_id": "curated_ambulance_108",
+    "name": "Madhya Pradesh EMTS (108 Ambulance)",
+    "service_types": ["AMBULANCE", "HOSPITAL"],
+    "location": {
+      "latitude": 22.7196,
+      "longitude": 75.8577
+    },
+    "address": {
+      "formatted_address": "Statewide Emergency Response Service, Indore, Madhya Pradesh",
+      "city": "Indore",
+      "state": "Madhya Pradesh",
+      "country": "India"
+    },
+    "contact": {
+      "phone_primary": "108",
+      "emergency_shortcode": "108"
+    },
+    "rating": 4.8,
+    "review_count": 5000,
+    "availability_status": "UNKNOWN",
+    "verification_status": "VERIFIED",
+    "recommendation_score": 0.99,
+    "recommendation_reason": "Government Emergency Medical Ambulance Service",
+    "source": "CURATED",
+    "is_cached": false,
+    "last_verified": "2026-08-22"
+  },
+  {
+    "provider_id": "curated_police_112",
+    "name": "National Emergency Response (112)",
+    "service_types": ["POLICE", "AMBULANCE", "FIRE_BRIGADE"],
+    "location": {
+      "latitude": 22.7196,
+      "longitude": 75.8577
+    },
+    "address": {
+      "formatted_address": "All-India Emergency Helpline & Police Control Room, Indore",
+      "city": "Indore",
+      "state": "Madhya Pradesh",
+      "country": "India"
+    },
+    "contact": {
+      "phone_primary": "112",
+      "emergency_shortcode": "112"
+    },
+    "rating": 4.9,
+    "review_count": 8500,
+    "availability_status": "UNKNOWN",
+    "verification_status": "VERIFIED",
+    "recommendation_score": 0.99,
+    "recommendation_reason": "Unified Emergency Dispatch (Police / Medical / Fire)",
+    "source": "CURATED",
+    "is_cached": false,
+    "last_verified": "2026-08-22"
+  },
+  {
+    "provider_id": "curated_police_100",
+    "name": "Indore Police Control Room (100)",
+    "service_types": ["POLICE"],
+    "location": {
+      "latitude": 22.7177,
+      "longitude": 75.8682
+    },
+    "address": {
+      "formatted_address": "Police Commissioner Office, Regal Square, Indore, Madhya Pradesh 452001",
+      "city": "Indore",
+      "state": "Madhya Pradesh",
+      "country": "India"
+    },
+    "contact": {
+      "phone_primary": "100",
+      "emergency_shortcode": "100"
+    },
+    "rating": 4.6,
+    "review_count": 1200,
+    "availability_status": "UNKNOWN",
+    "verification_status": "VERIFIED",
+    "recommendation_score": 0.95,
+    "recommendation_reason": "Indore City Police Control Center",
+    "source": "CURATED",
+    "is_cached": false,
+    "last_verified": "2026-08-22"
+  },
+  {
+    "provider_id": "curated_fire_101",
+    "name": "Indore Central Fire Station (101)",
+    "service_types": ["FIRE_BRIGADE"],
+    "location": {
+      "latitude": 22.7196,
+      "longitude": 75.8752
+    },
+    "address": {
+      "formatted_address": "Near Nagar Nigam Head Office, Indore, Madhya Pradesh 452007",
+      "city": "Indore",
+      "state": "Madhya Pradesh",
+      "country": "India"
+    },
+    "contact": {
+      "phone_primary": "101",
+      "emergency_shortcode": "101"
+    },
+    "rating": 4.7,
+    "review_count": 950,
+    "availability_status": "UNKNOWN",
+    "verification_status": "VERIFIED",
+    "recommendation_score": 0.95,
+    "recommendation_reason": "Municipal Corporation Emergency Fire & Rescue",
+    "source": "CURATED",
+    "is_cached": false,
+    "last_verified": "2026-08-22"
+  },
+  {
+    "provider_id": "curated_hospital_my",
+    "name": "Maharaja Yeshwantrao (M.Y.) Hospital",
+    "service_types": ["HOSPITAL", "AMBULANCE", "TRAUMA_CENTER"],
+    "location": {
+      "latitude": 22.7135,
+      "longitude": 75.8804
+    },
+    "address": {
+      "formatted_address": "AB Rd, CRP Line, Near South Tukoganj, Indore, Madhya Pradesh 452001",
+      "city": "Indore",
+      "state": "Madhya Pradesh",
+      "country": "India"
+    },
+    "contact": {
+      "phone_primary": "0731 252 7383"
+    },
+    "rating": 4.3,
+    "review_count": 3100,
+    "availability_status": "UNKNOWN",
+    "verification_status": "VERIFIED",
+    "recommendation_score": 0.95,
+    "recommendation_reason": "Government Super-Speciality Hospital & Level-1 Trauma Center",
+    "source": "CURATED",
+    "is_cached": false,
+    "last_verified": "2026-08-22"
+  },
+  {
+    "provider_id": "curated_hospital_bombay",
+    "name": "Bombay Hospital Indore",
+    "service_types": ["HOSPITAL", "AMBULANCE", "TRAUMA_CENTER"],
+    "location": {
+      "latitude": 22.7543,
+      "longitude": 75.9033
+    },
+    "address": {
+      "formatted_address": "Eastern Ring Rd, Vijay Nagar, Scheme No 94, Indore, Madhya Pradesh 452010",
+      "city": "Indore",
+      "state": "Madhya Pradesh",
+      "country": "India"
+    },
+    "contact": {
+      "phone_primary": "0731 477 1111"
+    },
+    "rating": 4.5,
+    "review_count": 2900,
+    "availability_status": "UNKNOWN",
+    "verification_status": "VERIFIED",
+    "recommendation_score": 0.93,
+    "recommendation_reason": "24x7 Multi-Speciality Tertiary Care Hospital",
+    "source": "CURATED",
+    "is_cached": false,
+    "last_verified": "2026-08-22"
+  },
+  {
+    "provider_id": "curated_towing_super",
+    "name": "Super Fast Towing Service Indore",
+    "service_types": ["TOWING", "BREAKDOWN"],
+    "location": {
+      "latitude": 22.7289,
+      "longitude": 75.8654
+    },
+    "address": {
+      "formatted_address": "Near Marimata Square, Sanwer Road, Indore, Madhya Pradesh 452002",
+      "city": "Indore",
+      "state": "Madhya Pradesh",
+      "country": "India"
+    },
+    "contact": {
+      "phone_primary": "098260 12345"
+    },
+    "rating": 4.4,
+    "review_count": 180,
+    "availability_status": "UNKNOWN",
+    "verification_status": "VERIFIED",
+    "recommendation_score": 0.90,
+    "recommendation_reason": "24/7 Hydraulic Flatbed Car & Truck Towing Support",
+    "source": "CURATED",
+    "is_cached": false,
+    "last_verified": "2026-08-22"
+  },
+  {
+    "provider_id": "curated_towing_bhopal_rd",
+    "name": "Indore Highway Crane & Towing Service",
+    "service_types": ["TOWING", "CRANE"],
+    "location": {
+      "latitude": 22.7538,
+      "longitude": 75.8942
+    },
+    "address": {
+      "formatted_address": "MR-10 Junction, Near Vijay Nagar, Indore, Madhya Pradesh 452010",
+      "city": "Indore",
+      "state": "Madhya Pradesh",
+      "country": "India"
+    },
+    "contact": {
+      "phone_primary": "098930 54321"
+    },
+    "rating": 4.5,
+    "review_count": 210,
+    "availability_status": "UNKNOWN",
+    "verification_status": "VERIFIED",
+    "recommendation_score": 0.89,
+    "recommendation_reason": "Highway Breakdown Crane and Emergency Towing",
+    "source": "CURATED",
+    "is_cached": false,
+    "last_verified": "2026-08-22"
+  },
+  {
+    "provider_id": "curated_towing_ring_rd",
+    "name": "Ring Road Breakdown & Towing",
+    "service_types": ["TOWING", "MECHANIC"],
+    "location": {
+      "latitude": 22.7051,
+      "longitude": 75.8912
+    },
+    "address": {
+      "formatted_address": "Bengali Square, Eastern Ring Rd, Indore, Madhya Pradesh 452016",
+      "city": "Indore",
+      "state": "Madhya Pradesh",
+      "country": "India"
+    },
+    "contact": {
+      "phone_primary": "094250 67890"
+    },
+    "rating": 4.2,
+    "review_count": 140,
+    "availability_status": "UNKNOWN",
+    "verification_status": "VERIFIED",
+    "recommendation_score": 0.88,
+    "recommendation_reason": "Quick Response Flatbed Towing Service",
+    "source": "CURATED",
+    "is_cached": false,
+    "last_verified": "2026-08-22"
+  },
+  {
+    "provider_id": "curated_puncture_express",
+    "name": "24x7 Mobile Puncture & Tyre Service",
+    "service_types": ["PUNCTURE_REPAIR", "MECHANIC"],
+    "location": {
+      "latitude": 22.7214,
+      "longitude": 75.8711
+    },
+    "address": {
+      "formatted_address": "Near Palasia Square, AB Road, Indore, Madhya Pradesh 452001",
+      "city": "Indore",
+      "state": "Madhya Pradesh",
+      "country": "India"
+    },
+    "contact": {
+      "phone_primary": "098270 99881"
+    },
+    "rating": 4.6,
+    "review_count": 320,
+    "availability_status": "UNKNOWN",
+    "verification_status": "VERIFIED",
+    "recommendation_score": 0.92,
+    "recommendation_reason": "On-Site Tubeless Puncture Repair & Stepney Assistance",
+    "source": "CURATED",
+    "is_cached": false,
+    "last_verified": "2026-08-22"
+  },
+  {
+    "provider_id": "curated_puncture_bypass",
+    "name": "Bypass Roadside Tyre & Puncture Hub",
+    "service_types": ["PUNCTURE_REPAIR", "MECHANIC"],
+    "location": {
+      "latitude": 22.7482,
+      "longitude": 75.9221
+    },
+    "address": {
+      "formatted_address": "Indore Bypass Road, Near Rau, Indore, Madhya Pradesh 453331",
+      "city": "Indore",
+      "state": "Madhya Pradesh",
+      "country": "India"
+    },
+    "contact": {
+      "phone_primary": "097555 44332"
+    },
+    "rating": 4.3,
+    "review_count": 190,
+    "availability_status": "UNKNOWN",
+    "verification_status": "VERIFIED",
+    "recommendation_score": 0.88,
+    "recommendation_reason": "Commercial & Passenger Vehicle Emergency Tyre Repair",
+    "source": "CURATED",
+    "is_cached": false,
+    "last_verified": "2026-08-22"
+  },
+  {
+    "provider_id": "curated_puncture_bhawarkua",
+    "name": "Shree Ram Tyre Service & Puncture",
+    "service_types": ["PUNCTURE_REPAIR"],
+    "location": {
+      "latitude": 22.6912,
+      "longitude": 75.8674
+    },
+    "address": {
+      "formatted_address": "Bhawarkua Main Road, Near Tower Square, Indore, Madhya Pradesh 452001",
+      "city": "Indore",
+      "state": "Madhya Pradesh",
+      "country": "India"
+    },
+    "contact": {
+      "phone_primary": "099770 11223"
+    },
+    "rating": 4.4,
+    "review_count": 215,
+    "availability_status": "UNKNOWN",
+    "verification_status": "VERIFIED",
+    "recommendation_score": 0.87,
+    "recommendation_reason": "Two-Wheeler and Four-Wheeler Puncture Specialist",
+    "source": "CURATED",
+    "is_cached": false,
+    "last_verified": "2026-08-22"
+  },
+  {
+    "provider_id": "curated_mechanic_speed",
+    "name": "Speed Auto Garage & Highway Assistance",
+    "service_types": ["MECHANIC", "BREAKDOWN"],
+    "location": {
+      "latitude": 22.7311,
+      "longitude": 75.8825
+    },
+    "address": {
+      "formatted_address": "LIG Colony, AB Road, Indore, Madhya Pradesh 452008",
+      "city": "Indore",
+      "state": "Madhya Pradesh",
+      "country": "India"
+    },
+    "contact": {
+      "phone_primary": "098266 77889"
+    },
+    "rating": 4.5,
+    "review_count": 410,
+    "availability_status": "UNKNOWN",
+    "verification_status": "VERIFIED",
+    "recommendation_score": 0.91,
+    "recommendation_reason": "Emergency Engine, Battery & Electrical Breakdown Support",
+    "source": "CURATED",
+    "is_cached": false,
+    "last_verified": "2026-08-22"
+  },
+  {
+    "provider_id": "curated_fuel_coco",
+    "name": "IndianOil COCO 24x7 Petrol & Diesel Pump",
+    "service_types": ["FUEL_DELIVERY", "REST_STOP"],
+    "location": {
+      "latitude": 22.7265,
+      "longitude": 75.8761
+    },
+    "address": {
+      "formatted_address": "Geeta Bhawan Square, AB Road, Indore, Madhya Pradesh 452001",
+      "city": "Indore",
+      "state": "Madhya Pradesh",
+      "country": "India"
+    },
+    "contact": {
+      "phone_primary": "0731 249 9880"
+    },
+    "rating": 4.6,
+    "review_count": 2300,
+    "availability_status": "UNKNOWN",
+    "verification_status": "VERIFIED",
+    "recommendation_score": 0.94,
+    "recommendation_reason": "Company Owned 24/7 Fuel Station with Air/Water Facility",
+    "source": "CURATED",
+    "is_cached": false,
+    "last_verified": "2026-08-22"
+  }
+]

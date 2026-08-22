@@ -202,6 +202,7 @@ def chunk_canonical_record(
     embedding_text = _build_chunk_text(record)
     estimated_tokens = _estimate_tokens(embedding_text)
 
+    # Base provenance metadata — always present
     chunk_metadata: Dict[str, Any] = {
         "domain_id": record.domain_id,
         "version": record.version,
@@ -215,6 +216,14 @@ def chunk_canonical_record(
         "source_ids": record.source_ids,
     }
 
+    # Extended provenance from raw record — present in DOMAIN-001/002 schemas
+    # Safely pull fields from original_raw without fabricating values
+    raw = record.original_raw or {}
+    for extra_key in ("title", "severity", "verification_status", "languages", "applicability"):
+        val = raw.get(extra_key)
+        if val is not None:
+            chunk_metadata[extra_key] = val
+
     return EmbeddingReadyChunk(
         domain_id=record.domain_id,
         version=record.version,
@@ -225,6 +234,7 @@ def chunk_canonical_record(
         chunk_metadata=chunk_metadata,
         estimated_tokens=estimated_tokens,
     )
+
 
 
 def chunk_normalized_domain(domain: NormalizedDomain) -> List[EmbeddingReadyChunk]:

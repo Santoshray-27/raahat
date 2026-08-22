@@ -111,8 +111,18 @@ export const Dashboard: React.FC = () => {
   const [result, setResult] = useState<EmergencyResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const [location, setLocation] = useState<{ latitude: number; longitude: number; isManual: boolean; gpsAttempted: boolean }>({
-    latitude: 22.7196, longitude: 75.8577, isManual: false, gpsAttempted: false
+  const [location, setLocation] = useState<{
+    latitude: number;
+    longitude: number;
+    isManual: boolean;
+    gpsAttempted: boolean;
+    gpsSuccess: boolean;
+  }>({
+    latitude: 22.7196,
+    longitude: 75.8577,
+    isManual: false,
+    gpsAttempted: false,
+    gpsSuccess: false
   });
   const [manualLat, setManualLat] = useState('');
   const [manualLng, setManualLng] = useState('');
@@ -141,15 +151,16 @@ export const Dashboard: React.FC = () => {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
-          setLocation({ latitude: pos.coords.latitude, longitude: pos.coords.longitude, isManual: false, gpsAttempted: true });
+          setLocation({ latitude: pos.coords.latitude, longitude: pos.coords.longitude, isManual: false, gpsAttempted: true, gpsSuccess: true });
         },
         () => {
           setShowManual(true);
-          setLocation(prev => ({ ...prev, gpsAttempted: true }));
+          setLocation(prev => ({ ...prev, gpsAttempted: true, gpsSuccess: false }));
         }
       );
     } else {
       setShowManual(true);
+      setLocation(prev => ({ ...prev, gpsAttempted: true, gpsSuccess: false }));
     }
   };
 
@@ -157,7 +168,7 @@ export const Dashboard: React.FC = () => {
     const lat = parseFloat(manualLat);
     const lng = parseFloat(manualLng);
     if (!isNaN(lat) && !isNaN(lng)) {
-      setLocation({ latitude: lat, longitude: lng, isManual: true, gpsAttempted: true });
+      setLocation({ latitude: lat, longitude: lng, isManual: true, gpsAttempted: true, gpsSuccess: false });
       setShowManual(false);
     }
   };
@@ -231,14 +242,36 @@ export const Dashboard: React.FC = () => {
           Describe your situation in English, Hindi, or Hinglish. RAAHAT AI will analyze severity and find verified help nearby.
         </p>
 
+        {location.gpsAttempted && !location.gpsSuccess && !location.isManual && (
+          <div style={{
+            background: '#FFFBEB',
+            border: '1px solid #FDE68A',
+            borderRadius: '8px',
+            padding: '12px 16px',
+            color: '#B45309',
+            fontSize: '0.88rem',
+            margin: '0 auto 20px auto',
+            maxWidth: '600px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            justifyContent: 'center'
+          }}>
+            <span>📍 Location unavailable — showing Indore demo area (22.7196, 75.8577). Allow location or enter coordinates manually.</span>
+          </div>
+        )}
+
         {/* GPS indicator */}
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#F1F5F9', padding: '6px 14px', borderRadius: '9999px', border: '1px solid #E2E8F0', marginBottom: '20px', fontSize: '0.82rem' }}>
           <Crosshair size={14} color="#2563EB" />
           <span style={{ color: '#475569' }}>
             {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
           </span>
-          <span className={location.isManual ? 'badge badge-fallback' : 'badge badge-live'} style={{ fontSize: '0.7rem', padding: '2px 8px' }}>
-            {location.isManual ? 'MANUAL' : 'GPS'}
+          <span 
+            className={location.isManual ? 'badge badge-fallback' : location.gpsSuccess ? 'badge badge-live' : 'badge badge-cached'} 
+            style={{ fontSize: '0.7rem', padding: '2px 8px' }}
+          >
+            {location.isManual ? 'MANUAL' : location.gpsSuccess ? 'REAL GPS' : 'DEMO (INDORE)'}
           </span>
           <button onClick={handleDetectGPS} style={{ background: 'none', border: 'none', color: '#2563EB', fontSize: '0.78rem', cursor: 'pointer', fontWeight: 600, fontFamily: 'inherit' }}>
             Detect

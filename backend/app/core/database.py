@@ -22,10 +22,19 @@ Base = declarative_base()
 
 async def get_db():
     """
-    Dependency function that yields an async database session.
+    Dependency function that yields an async database session if DB is configured and online.
     """
-    async with AsyncSessionLocal() as session:
-        try:
-            yield session
-        finally:
-            await session.close()
+    if not settings.DATABASE_URL or not settings.DATABASE_URL.strip():
+        yield None
+        return
+
+    try:
+        async with AsyncSessionLocal() as session:
+            try:
+                yield session
+            finally:
+                await session.close()
+    except Exception as e:
+        from app.core.logging import logger
+        logger.warning(f"Database connection offline: {e}")
+        yield None
