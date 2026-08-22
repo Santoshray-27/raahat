@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:raahat/services/api_client.dart';
 import 'package:raahat/core/location/location_service.dart';
@@ -19,6 +20,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
   bool _isLoading = false;
   Map<String, dynamic>? _response;
   String? _validationError;
+  String? _conversationId;
 
   final EmergencyService _emergencyService = EmergencyService(
     apiClient: ApiClient.instance,
@@ -70,13 +72,21 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
     });
 
     try {
-      final responseMap =
-          await _emergencyService.submitEmergency(text, NetworkMode.ONLINE);
+      final userId = FirebaseAuth.instance.currentUser?.uid;
+      final responseMap = await _emergencyService.submitEmergency(
+        text, 
+        NetworkMode.ONLINE,
+        conversationId: _conversationId,
+        userId: userId,
+      );
 
       if (!mounted) return;
       setState(() {
         _isLoading = false;
         _response = responseMap;
+        if (responseMap.containsKey('conversation_id') && responseMap['conversation_id'] != null) {
+          _conversationId = responseMap['conversation_id'].toString();
+        }
       });
     } catch (e) {
       if (!mounted) return;
@@ -99,6 +109,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
       _inputController.clear();
       _response = null;
       _validationError = null;
+      _conversationId = null;
     });
   }
 
@@ -338,6 +349,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
     final List<dynamic> dontDoRaw =
         guidance['immediate_do_not_do'] as List<dynamic>? ?? [];
     final String safetyNote = dontDoRaw.join('\n');
+    final List<dynamic> services = response['services'] as List<dynamic>? ?? [];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -364,10 +376,151 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
           const SizedBox(height: RaahatSpacing.base),
         ],
 
+        // Nearby Services
+        if (services.isNotEmpty) ...[
+          _buildServicesCard(theme, services),
+          const SizedBox(height: RaahatSpacing.base),
+        ],
+
         // Error card if validation error persists
         if (_validationError != null)
           _buildErrorCard(theme, _validationError!),
       ],
+    );
+  }
+
+  // ─── SERVICES CARD ─────────────────────────────────────────────────────────
+
+  Widget _buildServicesCard(ThemeData theme, List<dynamic> services) {
+    return RaahatLightCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: RaahatColors.primaryBlue.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.local_hospital_rounded,
+                  color: RaahatColors.primaryBlue,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: RaahatSpacing.sm2),
+              Text(
+                'Nearby Services',
+                style: RaahatTypography.cardTitle(
+                  color: RaahatColors.textPrimary,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: RaahatSpacing.base),
+          ...services.map((service) {
+            final name = service['name']?.toString() ?? 'Unknown Service';
+            final type = service['service_type']?.toString() ?? '';
+            final distance = service['distance'] != null ? '${service['distance']} km' : '';
+            final address = service['address']?.toString() ?? '';
+            final phone = service['phone']?.toString() ?? '';
+            final eta = service['eta']?.toString() ?? '';
+            final provider = service['provider']?.toString() ?? '';
+
+            return Padding(
+              padding: const EdgeInsets.only(bottom: RaahatSpacing.md),
+              child: Container(
+                padding: const EdgeInsets.all(RaahatSpacing.md),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(RaahatRadius.button),
+                  border: Border.all(color: RaahatColors.borderLight),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            name,
+                            style: RaahatTypography.bodyRegular(
+                              color: RaahatColors.textPrimary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        if (distance.isNotEmpty)
+                          Text(
+                            distance,
+                            style: RaahatTypography.mono(
+                              fontSize: 12,
+                              color: RaahatColors.primaryBlue,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                      ],
+                    ),
+                    if (type.isNotEmpty || provider.isNotEmpty) ...[
+                      const SizedBox(height: RaahatSpacing.xs),
+                      Text(
+                        [if (type.isNotEmpty) type, if (provider.isNotEmpty) 'via $provider'].join(' • '),
+                        style: RaahatTypography.bodySmall(color: RaahatColors.textMuted),
+                      ),
+                    ],
+                    if (address.isNotEmpty) ...[
+                      const SizedBox(height: RaahatSpacing.sm),
+                      Row(
+                        children: [
+                          const Icon(Icons.location_on_outlined, size: 14, color: RaahatColors.textMuted),
+                          const SizedBox(width: 4),
+                          Expanded(
+                            child: Text(
+                              address,
+                              style: RaahatTypography.bodySmall(color: RaahatColors.textSecondary),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                    if (phone.isNotEmpty) ...[
+                      const SizedBox(height: RaahatSpacing.xs),
+                      Row(
+                        children: [
+                          const Icon(Icons.phone_outlined, size: 14, color: RaahatColors.textMuted),
+                          const SizedBox(width: 4),
+                          Text(
+                            phone,
+                            style: RaahatTypography.bodySmall(color: RaahatColors.textSecondary),
+                          ),
+                        ],
+                      ),
+                    ],
+                    if (eta.isNotEmpty) ...[
+                      const SizedBox(height: RaahatSpacing.xs),
+                      Row(
+                        children: [
+                          const Icon(Icons.timer_outlined, size: 14, color: RaahatColors.textMuted),
+                          const SizedBox(width: 4),
+                          Text(
+                            'ETA: $eta',
+                            style: RaahatTypography.bodySmall(color: RaahatColors.textSecondary),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            );
+          }),
+        ],
+      ),
     );
   }
 

@@ -41,6 +41,9 @@ class LocationService {
       'latitude': position.latitude,
       'longitude': position.longitude,
       'accuracy_meters': position.accuracy,
+      'altitude_meters': position.altitude,
+      'heading_degrees': position.heading,
+      'speed_mps': position.speed,
       'timestamp': DateTime.now().toUtc().toIso8601String(),
     };
   }

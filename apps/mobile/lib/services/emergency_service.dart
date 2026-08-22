@@ -34,8 +34,10 @@ class EmergencyService {
   /// Throws [ApiException] if backend returns an API error or network failure occurs.
   Future<Map<String, dynamic>> submitEmergency(
     String userMessage,
-    NetworkMode mode,
-  ) async {
+    NetworkMode mode, {
+    String? conversationId,
+    String? userId,
+  }) async {
     final trimmedMessage = userMessage.trim();
     if (trimmedMessage.isEmpty) {
       throw EmergencyServiceException(
@@ -53,12 +55,24 @@ class EmergencyService {
     }
 
     final Map<String, dynamic> requestBody = {
+      'user_query': trimmedMessage,
       'message': trimmedMessage,
       'language': 'en',
+      'user_id': userId ?? 'anonymous_flutter_user',
+      'conversation_id': conversationId,
+      'vehicle_info': {
+        'vehicle_type': 'FOUR_WHEELER',
+        'make': 'Unknown',
+        'model': 'Unknown',
+        'fuel_type': 'Unknown'
+      },
       'location': {
         'latitude': locationMap['latitude'],
         'longitude': locationMap['longitude'],
         'accuracy_meters': locationMap['accuracy_meters'],
+        'altitude_meters': locationMap['altitude_meters'] ?? 0.0,
+        'heading_degrees': locationMap['heading_degrees'] ?? 0.0,
+        'speed_mps': locationMap['speed_mps'] ?? 0.0,
       },
     };
 
