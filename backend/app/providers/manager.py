@@ -13,6 +13,22 @@ from app.schemas.common import GeoPoint, ServiceProvider
 from app.schemas.enums import ServiceType, ProviderSource
 from app.schemas.routes import RoutePlanResponseData
 
+
+def _is_usable_coordinate(lat: float, lon: float) -> bool:
+    """
+    Return False for coordinates that are technically valid range-wise but are
+    clearly placeholder / degenerate values:
+      - (0.0, 0.0)     null island
+      - (-90.0, -180.0) Swagger/OpenAPI default example placeholder
+    Both would cause a "nearby services" search in the middle of an ocean.
+    """
+    if lat == 0.0 and lon == 0.0:
+        return False
+    if lat == -90.0 and lon == -180.0:
+        return False
+    return True
+
+
 class ProviderManager:
     def __init__(self):
         self.geoapify_places = GeoapifyPlacesProvider()
@@ -41,6 +57,18 @@ class ProviderManager:
                 p.retrieved_at = datetime.now(timezone.utc).isoformat()
             return res[:limit], "MOCK"
 
+        # 2. Coordinate usability guard — reject null-island and Swagger placeholders
+        if not _is_usable_coordinate(location.latitude, location.longitude):
+            logger.warning(
+                f"ProviderManager: Degenerate coordinates ({location.latitude},{location.longitude}). "
+                "Falling back to curated data with CURATED_LOCATION_UNAVAILABLE flag."
+            )
+            from app.services.curated_service import curated_provider_manager
+            curated_res = curated_provider_manager.get_fallback_providers(
+                location, service_types, limit=limit
+            )
+            return curated_res, "CURATED_LOCATION_UNAVAILABLE"
+
         chain = ["GEOAPIFY", "OSM"]
 
         async def _execute_chain() -> Tuple[List[ServiceProvider], str]:
@@ -50,9 +78,10 @@ class ProviderManager:
                     try:
                         logger.info("ProviderManager: Querying LIVE Geoapify Places API...")
                         t0 = time.time()
+                        # Geoapify latency typically 1-5s; allow 14s
                         res = await asyncio.wait_for(
                             self.geoapify_places.search_nearby(location, service_types, radius_km, limit),
-                            timeout=4.0
+                            timeout=14.0
                         )
                         latency = int((time.time() - t0) * 1000)
                         if res:
@@ -64,7 +93,7 @@ class ProviderManager:
                         logger.info(f"Provider GEOAPIFY returned 0 results in {latency}ms.")
                         last_source_used = "GEOAPIFY"
                     except asyncio.TimeoutError:
-                        logger.warning(f"Provider GEOAPIFY timed out after 4.0s.")
+                        logger.warning("Provider GEOAPIFY timed out after 14.0s.")
                     except Exception as e:
                         logger.warning(f"Provider GEOAPIFY error: {e}")
 
@@ -72,9 +101,10 @@ class ProviderManager:
                     try:
                         logger.info("ProviderManager: Querying LIVE OSM Overpass API...")
                         t0 = time.time()
+                        # OSM Overpass latency can be 10-20s; allow 22s
                         res = await asyncio.wait_for(
                             self.osm_overpass.search_nearby(location, service_types, radius_km, limit),
-                            timeout=6.0
+                            timeout=22.0
                         )
                         latency = int((time.time() - t0) * 1000)
                         if res:
@@ -86,25 +116,36 @@ class ProviderManager:
                         logger.info(f"Provider OSM returned 0 results in {latency}ms.")
                         last_source_used = "OSM_OVERPASS"
                     except asyncio.TimeoutError:
-                        logger.warning(f"Provider OSM timed out after 6.0s.")
+                        logger.warning("Provider OSM timed out after 22.0s.")
                     except Exception as e:
                         logger.warning(f"Provider OSM error: {e}")
 
-            # If live providers returned 0 items or failed, fall back to CURATED seed data
+            # If live providers returned 0 items or all failed → CURATED fallback
             from app.services.curated_service import curated_provider_manager
-            logger.info(f"ProviderManager: Live providers returned 0 items for {category_name}. Falling back to CURATED seed data.")
-            curated_res = curated_provider_manager.get_fallback_providers(location, service_types, limit=limit)
+            logger.info(
+                f"ProviderManager: Live providers returned 0 items for {category_name}. "
+                "Falling back to CURATED seed data."
+            )
+            curated_res = curated_provider_manager.get_fallback_providers(
+                location, service_types, limit=limit
+            )
             if curated_res:
                 return curated_res, "CURATED"
 
             return [], last_source_used if last_source_used != "UNKNOWN" else "GEOAPIFY"
 
         try:
-            results, source = await asyncio.wait_for(_execute_chain(), timeout=12.0)
+            # Global SLA: Geoapify 14s + OSM 22s + buffer = 35s
+            results, source = await asyncio.wait_for(_execute_chain(), timeout=35.0)
         except asyncio.TimeoutError:
-            logger.error("ProviderManager: Global SLA timeout exceeded for get_nearby_services. Returning curated fallback.")
+            logger.error(
+                "ProviderManager: Global SLA timeout exceeded for get_nearby_services. "
+                "Returning curated fallback."
+            )
             from app.services.curated_service import curated_provider_manager
-            results = curated_provider_manager.get_fallback_providers(location, service_types, limit=limit)
+            results = curated_provider_manager.get_fallback_providers(
+                location, service_types, limit=limit
+            )
             source = "CURATED"
 
         # Guarantee nearest-first sorting and non-null distance / ETA properties
@@ -165,4 +206,3 @@ class ProviderManager:
             )
 
 provider_manager = ProviderManager()
-

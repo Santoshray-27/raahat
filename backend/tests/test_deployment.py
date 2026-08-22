@@ -12,7 +12,9 @@ def test_cors_origin_parsing():
     origins = settings.cors_origins_list
     assert "http://localhost:5173" in origins
     assert "http://localhost:3000" in origins
-    assert len(origins) == 2
+    assert "http://127.0.0.1:5173" in origins
+    assert "http://127.0.0.1:3000" in origins
+    assert len(origins) == 4
     
     # Production behavior
     settings = Settings(CORS_ORIGINS="https://myprod.com")
