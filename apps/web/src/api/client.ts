@@ -89,6 +89,7 @@ export interface EmergencyResponse {
     model_version?: string;
   };
   limitations?: string[];
+  conversation_id?: string;
 }
 
 export interface ProviderStatus {

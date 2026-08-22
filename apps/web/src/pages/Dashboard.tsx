@@ -118,7 +118,10 @@ const AIMessage: React.FC<{ turn: Turn }> = ({ turn }) => {
             {result.incident.severity}
           </span>
           <span style={{ fontWeight: 600, fontSize: '0.9rem', color: '#0F172A' }}>{result.incident.category}</span>
-          <span style={{ fontSize: '0.72rem', color: '#94A3B8' }}>· {result.ai.classifier_used} ({(result.ai.confidence_score * 100).toFixed(0)}%)</span>
+          <span style={{ fontSize: '0.72rem', color: '#94A3B8' }}>
+            · {result.ai.classifier_used} ({(result.ai.confidence_score * 100).toFixed(0)}%)
+            {result.conversation_id && ` · ID: ${result.conversation_id}`}
+          </span>
         </div>
 
         {/* Guidance */}
@@ -186,7 +189,7 @@ export const Dashboard: React.FC = () => {
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const [location, setLocation] = useState<{ latitude: number; longitude: number; isManual: boolean; gpsAttempted: boolean; gpsSuccess: boolean }>({
+  const [location, setLocation] = useState<{ latitude: number; longitude: number; accuracy_meters?: number; isManual: boolean; gpsAttempted: boolean; gpsSuccess: boolean }>({
     latitude: 22.7196, longitude: 75.8577, isManual: false, gpsAttempted: false, gpsSuccess: false
   });
   const [manualLat, setManualLat] = useState('');
@@ -201,7 +204,7 @@ export const Dashboard: React.FC = () => {
   useEffect(() => {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
-        (pos) => setLocation({ latitude: pos.coords.latitude, longitude: pos.coords.longitude, isManual: false, gpsAttempted: true, gpsSuccess: true }),
+        (pos) => setLocation({ latitude: pos.coords.latitude, longitude: pos.coords.longitude, accuracy_meters: pos.coords.accuracy, isManual: false, gpsAttempted: true, gpsSuccess: true }),
         () => setLocation(prev => ({ ...prev, gpsAttempted: true, gpsSuccess: false }))
       );
     } else {
@@ -268,7 +271,7 @@ export const Dashboard: React.FC = () => {
     try {
       const data = await requestApi<EmergencyResponse>('/emergency-assistance', 'POST', {
         user_query: q,
-        location: { latitude: location.latitude, longitude: location.longitude },
+        location: { latitude: location.latitude, longitude: location.longitude, accuracy_meters: location.accuracy_meters },
         language: 'hi'
       });
       setTurns(prev => prev.map(t => t.id === aiTurnId ? { ...t, loading: false, result: data } : t));

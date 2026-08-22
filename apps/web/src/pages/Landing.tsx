@@ -185,7 +185,7 @@ export const Landing: React.FC = () => {
         (pos) => {
           const lat = pos.coords.latitude.toFixed(4);
           const lng = pos.coords.longitude.toFixed(4);
-          setLocation({ latitude: pos.coords.latitude, longitude: pos.coords.longitude });
+          setLocation({ latitude: pos.coords.latitude, longitude: pos.coords.longitude, accuracy_meters: pos.coords.accuracy });
           setLocLabel(`${lat}, ${lng} (LIVE GPS)`);
           setCoordStr(`${lat}, ${lng}`);
         },
