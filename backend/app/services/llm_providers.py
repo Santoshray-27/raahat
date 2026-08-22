@@ -147,7 +147,10 @@ class SarvamProvider(BaseLLMProvider):
                 response.raise_for_status()
                 data = response.json()
                 
-                content = data["choices"][0]["message"]["content"]
+                content = data.get("choices", [{}])[0].get("message", {}).get("content")
+                if not content:
+                    raise ValueError("Empty or invalid content from Sarvam")
+                
                 guidance = self._validate_output(content)
                 latency = int((time.time() - start_time) * 1000)
                 return LLMResult(guidance=guidance, provider_name=self.provider_name, latency_ms=latency, success=True)
@@ -185,19 +188,23 @@ class GroqProvider(BaseLLMProvider):
             return LLMResult(provider_name=self.provider_name, latency_ms=0, success=False, error_message="Permanently disabled")
             
         try:
-            # Enforce 3.0s hard timeout on Groq
+            # Enforce dynamic timeout passed by the orchestrator
+            prompt_with_json = request.prompt + "\nIMPORTANT: You must return the output in JSON format."
+            
             response = await asyncio.wait_for(
                 self.client.chat.completions.create(
                     messages=[
-                        {"role": "user", "content": request.prompt}
+                        {"role": "user", "content": prompt_with_json}
                     ],
-                    model="llama3-8b-8192",
+                    model="qwen/qwen3.6-27b",
                     response_format={"type": "json_object"},
-                    timeout=3.0
+                    timeout=timeout
                 ),
-                timeout=3.5
+                timeout=timeout + 0.5
             )
             content = response.choices[0].message.content
+            if not content:
+                raise ValueError("Empty content from Groq")
             guidance = self._validate_output(content)
             latency = int((time.time() - start_time) * 1000)
             return LLMResult(guidance=guidance, provider_name=self.provider_name, latency_ms=latency, success=True)
