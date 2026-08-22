@@ -126,7 +126,8 @@ class RagContextBuilder:
         severity: str,
         life_threatening: bool,
         built_context: BuiltContext,
-        language: str = "english"
+        language: str = "english",
+        history: Optional[List[dict]] = None
     ) -> str:
         """
         Builds the strict generation prompt for the LLM Orchestrator.
@@ -134,9 +135,16 @@ class RagContextBuilder:
         """
         context_block = built_context.context_text if built_context.has_content else "No verified RAAHAT knowledge found for this query."
         
+        history_str = ""
+        if history:
+            history_str = "--- CONVERSATION HISTORY ---\n"
+            for msg in history[-5:]:
+                history_str += f"{msg['role']}: {msg['content']}\n"
+        
         prompt = f"""You are the RAAHAT emergency assistance AI.
 Your role is to provide safe, grounded emergency guidance based ONLY on the provided [RAAHAT VERIFIED KNOWLEDGE].
 
+{history_str}
 --- TRIAGE CONTEXT ---
 User Query: {query}
 Assigned Category: {category}

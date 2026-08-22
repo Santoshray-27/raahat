@@ -17,11 +17,10 @@ def init_gemini():
             
             # Model fall-through candidate list
             candidates = [
-                getattr(settings, "GEMINI_MODEL", "gemini-3.6-flash"),
-                "gemini-3.6-flash",
-                "gemini-3.5-flash-lite",
-                "gemini-1.5-flash",
-                "gemini-1.5-pro"
+                getattr(settings, "GEMINI_MODEL", "gemini-flash-latest"),
+                "gemini-flash-latest",
+                "gemini-2.5-flash",
+                "gemini-3.5-flash"
             ]
             
             # Remove duplicates preserving order
@@ -33,13 +32,10 @@ def init_gemini():
             for candidate in unique_candidates:
                 try:
                     model = genai.GenerativeModel(candidate)
-                    # Quick test generation
-                    test_resp = model.generate_content("ping")
-                    if test_resp:
-                        _gemini_model = model
-                        _active_model_name = candidate
-                        logger.info(f"Server-side Gemini AI model initialized successfully with '{candidate}'.")
-                        break
+                    _gemini_model = model
+                    _active_model_name = candidate
+                    logger.info(f"Server-side Gemini AI model initialized successfully with '{candidate}'.")
+                    break
                 except Exception as ex:
                     logger.info(f"Gemini candidate '{candidate}' failed: {ex}. Trying next candidate...")
             
@@ -57,7 +53,7 @@ class GeminiEnhancer:
         return _active_model_name if _gemini_model else "rule-fallback"
 
     async def analyze_emergency(
-        self, query: str
+        self, query: str, history: Optional[List[dict]] = None
     ) -> Tuple[IncidentCategory, SeverityLevel, float, List[ServiceType], str]:
         # Always use deterministic classifier as primary or fallback
         det_category, det_severity, det_confidence, det_services = fallback_classifier.classify(query)
@@ -65,8 +61,17 @@ class GeminiEnhancer:
         if not _gemini_model:
             return det_category, det_severity, det_confidence, det_services, "rule-fallback"
 
+        history_str = ""
+        if history:
+            history_str = "Prior Conversation History:\n"
+            for msg in history[-5:]: # last 5 exchanges
+                history_str += f"{msg['role']}: {msg['content']}\n"
+
         prompt = f"""
-        You are RAAHAT emergency triage AI. Analyze this roadside emergency query in Hindi/Hinglish/English: "{query}".
+        You are RAAHAT emergency triage AI.
+        {history_str}
+        
+        Analyze this roadside emergency query in Hindi/Hinglish/English: "{query}".
         Categorize into one of: ACCIDENT, MEDICAL, PUNCTURE, BREAKDOWN, FUEL_EMPTY, STRANDED, ANIMAL_STRIKE, FIRE, WEATHER_HAZARD, OTHER.
         Determine severity: CRITICAL, HIGH, MEDIUM, LOW.
         Return ONLY valid JSON matching:
@@ -74,7 +79,7 @@ class GeminiEnhancer:
         """
 
         try:
-            response = _gemini_model.generate_content(prompt)
+            response = await _gemini_model.generate_content_async(prompt)
             match = re.search(r'\{.*\}', response.text, re.DOTALL)
             if match:
                 data = json.loads(match.group(0))

@@ -4,6 +4,7 @@ import time
 import re
 from typing import Optional, Dict, Any, Type
 import httpx
+import asyncio
 
 from pydantic import BaseModel, ValidationError
 
@@ -64,18 +65,22 @@ class BaseLLMProvider(abc.ABC):
 
 
 class GeminiProvider(BaseLLMProvider):
+    _permanently_failed = False
+    
     def __init__(self):
         self.provider_name = "gemini"
         self.is_configured = bool(settings.GEMINI_API_KEY) and GEMINI_AVAILABLE
         if self.is_configured:
             genai.configure(api_key=settings.GEMINI_API_KEY)
-            # Using flash for generation tasks as requested
-            self.model = genai.GenerativeModel("models/gemini-1.5-flash")
+            self.model = genai.GenerativeModel("models/gemini-flash-latest")
 
     async def generate_guidance(self, request: GenerationRequest, timeout: float) -> LLMResult:
         start_time = time.time()
         if not self.is_configured:
             return LLMResult(provider_name=self.provider_name, latency_ms=0, success=False, error_message="Not configured")
+            
+        if self.__class__._permanently_failed:
+            return LLMResult(provider_name=self.provider_name, latency_ms=0, success=False, error_message="Permanently disabled due to 404/400")
             
         try:
             # We can't strictly enforce timeout on the google library natively through an async param,
@@ -95,12 +100,20 @@ class GeminiProvider(BaseLLMProvider):
             latency = int((time.time() - start_time) * 1000)
             return LLMResult(provider_name=self.provider_name, latency_ms=latency, success=False, error_message="Rate limit or Service Unavailable")
         except Exception as e:
-            logger.warning(f"GeminiProvider unexpected error: {str(e)}")
+            err_str = str(e)
+            if "404" in err_str or "400" in err_str or "not found" in err_str.lower():
+                logger.error(f"GeminiProvider permanent error: {err_str}. Disabling for process lifetime.")
+                self.__class__._permanently_failed = True
+            else:
+                logger.warning(f"GeminiProvider unexpected error: {err_str}")
+                
             latency = int((time.time() - start_time) * 1000)
-            return LLMResult(provider_name=self.provider_name, latency_ms=latency, success=False, error_message=str(e))
+            return LLMResult(provider_name=self.provider_name, latency_ms=latency, success=False, error_message=err_str)
 
 
 class SarvamProvider(BaseLLMProvider):
+    _cooldown_until = 0
+    
     def __init__(self):
         self.provider_name = "sarvam"
         self.is_configured = bool(settings.SARVAM_API_KEY)
@@ -110,6 +123,9 @@ class SarvamProvider(BaseLLMProvider):
         start_time = time.time()
         if not self.is_configured:
             return LLMResult(provider_name=self.provider_name, latency_ms=0, success=False, error_message="Not configured")
+            
+        if time.time() < self.__class__._cooldown_until:
+            return LLMResult(provider_name=self.provider_name, latency_ms=0, success=False, error_message="In cooldown")
             
         headers = {
             "api-subscription-key": settings.SARVAM_API_KEY,
@@ -125,7 +141,8 @@ class SarvamProvider(BaseLLMProvider):
         }
         
         try:
-            async with httpx.AsyncClient(timeout=timeout) as client:
+            # Enforce 3.0s hard timeout on Sarvam since it's a fallback
+            async with httpx.AsyncClient(timeout=3.0) as client:
                 response = await client.post(self.endpoint, headers=headers, json=payload)
                 response.raise_for_status()
                 data = response.json()
@@ -140,7 +157,8 @@ class SarvamProvider(BaseLLMProvider):
             latency = int((time.time() - start_time) * 1000)
             return LLMResult(provider_name=self.provider_name, latency_ms=latency, success=False, error_message=f"HTTP {e.response.status_code}")
         except httpx.RequestError as e:
-            logger.warning(f"SarvamProvider network error: {str(e)}")
+            logger.warning(f"SarvamProvider network error/timeout: {str(e)}")
+            self.__class__._cooldown_until = time.time() + 10.0 # 10s cooldown
             latency = int((time.time() - start_time) * 1000)
             return LLMResult(provider_name=self.provider_name, latency_ms=latency, success=False, error_message="Network error/Timeout")
         except Exception as e:
@@ -150,6 +168,8 @@ class SarvamProvider(BaseLLMProvider):
 
 
 class GroqProvider(BaseLLMProvider):
+    _permanently_failed = False
+    
     def __init__(self):
         self.provider_name = "groq"
         self.is_configured = bool(settings.GROQ_API_KEY) and GROQ_AVAILABLE
@@ -161,14 +181,21 @@ class GroqProvider(BaseLLMProvider):
         if not self.is_configured:
             return LLMResult(provider_name=self.provider_name, latency_ms=0, success=False, error_message="Not configured")
             
+        if self.__class__._permanently_failed:
+            return LLMResult(provider_name=self.provider_name, latency_ms=0, success=False, error_message="Permanently disabled")
+            
         try:
-            response = await self.client.chat.completions.create(
-                messages=[
-                    {"role": "user", "content": request.prompt}
-                ],
-                model="llama3-8b-8192",
-                response_format={"type": "json_object"},
-                timeout=timeout
+            # Enforce 3.0s hard timeout on Groq
+            response = await asyncio.wait_for(
+                self.client.chat.completions.create(
+                    messages=[
+                        {"role": "user", "content": request.prompt}
+                    ],
+                    model="llama3-8b-8192",
+                    response_format={"type": "json_object"},
+                    timeout=3.0
+                ),
+                timeout=3.5
             )
             content = response.choices[0].message.content
             guidance = self._validate_output(content)
@@ -176,6 +203,11 @@ class GroqProvider(BaseLLMProvider):
             return LLMResult(guidance=guidance, provider_name=self.provider_name, latency_ms=latency, success=True)
             
         except Exception as e:
-            logger.warning(f"GroqProvider error: {str(e)}")
+            err_str = str(e)
+            if "model_decommissioned" in err_str or "400" in err_str:
+                logger.error(f"GroqProvider permanent error: {err_str}. Disabling for process lifetime.")
+                self.__class__._permanently_failed = True
+            else:
+                logger.warning(f"GroqProvider error: {err_str}")
             latency = int((time.time() - start_time) * 1000)
             return LLMResult(provider_name=self.provider_name, latency_ms=latency, success=False, error_message=str(e))

@@ -47,21 +47,26 @@ async def test_database_startup_check():
     app = FastAPI()
     
     # Test successful DB connection
-    with patch("app.main.engine", new_callable=MagicMock) as mock_engine:
+    with patch("app.main.get_engine") as mock_get_engine:
+        mock_engine = MagicMock()
+        mock_get_engine.return_value = mock_engine
         mock_engine.dispose = AsyncMock()
         mock_conn = AsyncMock()
         mock_engine.connect.return_value.__aenter__.return_value = mock_conn
         
-        async with lifespan(app):
-            mock_conn.execute.assert_called_once()
-            args, _ = mock_conn.execute.call_args
-            assert "SELECT 1" in str(args[0])
+        with patch("app.main.create_all_tables", new_callable=AsyncMock):
+            async with lifespan(app):
+                mock_conn.execute.assert_called_once()
+                args, _ = mock_conn.execute.call_args
+                assert "SELECT 1" in str(args[0])
             
     # Test failed DB connection doesn't crash the app (graceful degradation)
-    with patch("app.main.engine", new_callable=MagicMock) as mock_engine:
+    with patch("app.main.get_engine") as mock_get_engine:
+        mock_engine = MagicMock()
+        mock_get_engine.return_value = mock_engine
         mock_engine.dispose = AsyncMock()
         mock_engine.connect.return_value.__aenter__.side_effect = Exception("DB Connection Refused")
-        with patch("app.main.logger.error") as mock_logger:
+        with patch("app.main.logger.error") as mock_logger, patch("app.main.create_all_tables", new_callable=AsyncMock):
             async with lifespan(app):
                 pass  # Should not raise exception
             mock_logger.assert_called_once()
