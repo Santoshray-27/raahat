@@ -1,0 +1,732 @@
+{
+  "domain": "Vehicle Breakdown",
+  "domain_id": "DOMAIN-004",
+  "knowledge_requirements": [
+    {
+      "requirement_id": "KR-001",
+      "requirement": "Safe stopping after vehicle breakdown",
+      "description": "Actions for safely stopping a disabled vehicle, moving out of moving traffic, and securing the vehicle to prevent secondary collisions or rolling.",
+      "priority": "Critical"
+    },
+    {
+      "requirement_id": "KR-002",
+      "requirement": "Hazard warning and vehicle visibility",
+      "description": "Using hazard lights, reflective warning triangles, and other visibility measures to warn approaching traffic of a stationary vehicle.",
+      "priority": "Critical"
+    },
+    {
+      "requirement_id": "KR-003",
+      "requirement": "Highway and expressway breakdown safety",
+      "description": "Specific protocols for breakdowns on high-speed roads, national highways, and expressways, including emergency contact systems like NHAI 1033.",
+      "priority": "Critical"
+    },
+    {
+      "requirement_id": "KR-004",
+      "requirement": "Deciding whether to stay inside or leave the vehicle",
+      "description": "Guidance on when it is safer to remain inside the vehicle versus evacuating to a safe roadside location, depending on traffic speed, road type, and available space.",
+      "priority": "Critical"
+    },
+    {
+      "requirement_id": "KR-005",
+      "requirement": "Warning signs requiring immediate stopping",
+      "description": "Recognizing mechanical or electrical warning signs (e.g., overheating, brake failure, smoke, fuel smell) that indicate continued driving is unsafe.",
+      "priority": "Critical"
+    },
+    {
+      "requirement_id": "KR-006",
+      "requirement": "Passenger safety and waiting for assistance",
+      "description": "Safe positioning of passengers, keeping away from moving traffic, and safe practices while awaiting roadside assistance.",
+      "priority": "High"
+    },
+    {
+      "requirement_id": "KR-007",
+      "requirement": "Breakdown in dangerous locations",
+      "description": "Special considerations for breakdowns at night, in live traffic lanes, near blind curves, in tunnels, or on roads with no shoulder.",
+      "priority": "High"
+    },
+    {
+      "requirement_id": "KR-008",
+      "requirement": "Hazardous breakdown symptoms and cross-domain escalation",
+      "description": "Identifying symptoms like smoke, fire risk, or fuel leaks that require immediate evacuation and escalation to vehicle fire protocols.",
+      "priority": "Critical"
+    }
+  ],
+  "knowledge_records": [
+    {
+      "record_id": "REC-001",
+      "knowledge_requirement_id": "KR-001",
+      "topic": "Safe stopping procedure",
+      "scenario": "My vehicle has broken down while I am driving. What should I do immediately?",
+      "answer": "Do not brake abruptly. Take your foot off the accelerator and decelerate smoothly. Turn on your hazard warning lights immediately. Steer the vehicle towards the left side of the road, ideally onto the shoulder or emergency lane. Once stopped, apply the handbrake, turn the steering wheel away from the road, and turn off the engine.",
+      "key_actions": [
+        "Turn on hazard warning lights immediately",
+        "Decelerate smoothly without sudden braking",
+        "Steer to the left shoulder or emergency lane",
+        "Apply the parking/hand brake",
+        "Turn the steering wheel away from the road",
+        "Turn off the engine"
+      ],
+      "do_not": [
+        "Do not make sudden maneuvers or abrupt braking",
+        "Do not stop in a live traffic lane if a shoulder is available",
+        "Do not leave the vehicle in gear without applying the handbrake"
+      ],
+      "escalation_criteria": [
+        "Vehicle stops in a live traffic lane with no safe path to the shoulder",
+        "Vehicle is struck by another vehicle while stopping"
+      ],
+      "source_ids": [
+        "SRC-001",
+        "SRC-002"
+      ],
+      "authority": "Official",
+      "india_specific": true,
+      "confidence": "High",
+      "notes": "Based on standard highway safety protocols and Indian traffic rules requiring movement to the leftmost side during emergencies."
+    },
+    {
+      "record_id": "REC-002",
+      "knowledge_requirement_id": "KR-002",
+      "topic": "Deploying warning devices",
+      "scenario": "My car has stopped on the side of the road. How do I warn other drivers?",
+      "answer": "Keep your hazard warning lights on at all times. If it is safe to exit the vehicle, place a reflective warning triangle at least 10 meters (or more on high-speed roads) behind your vehicle to warn approaching traffic. Indian law requires all motor vehicles to carry a reflective warning triangle.",
+      "key_actions": [
+        "Keep hazard warning lights continuously on",
+        "Carefully exit the vehicle on the non-traffic side if safe",
+        "Place a reflective warning triangle at least 10 meters behind the vehicle"
+      ],
+      "do_not": [
+        "Do not exit the vehicle into the live traffic lane",
+        "Do not use flares or unsafe burning markers",
+        "Do not stand behind the vehicle while placing the triangle"
+      ],
+      "escalation_criteria": [
+        "Unable to deploy the triangle safely due to fast-moving traffic"
+      ],
+      "source_ids": [
+        "SRC-002"
+      ],
+      "authority": "Official",
+      "india_specific": true,
+      "confidence": "High",
+      "notes": "Central Motor Vehicle Rules (CMVR) mandate the carrying of a reflective warning triangle (Rule 125-A)."
+    },
+    {
+      "record_id": "REC-003",
+      "knowledge_requirement_id": "KR-003",
+      "topic": "Highway breakdown protocol",
+      "scenario": "My vehicle has broken down on a national highway or expressway. What specific steps should I take?",
+      "answer": "Move to the extreme left shoulder or emergency lane immediately. Turn on hazard lights. If you are on a national highway, you can call the NHAI highway helpline at 1033 for emergency patrol assistance. Do not attempt to cross the highway on foot. Stay inside the vehicle with seatbelts fastened if the shoulder is narrow or traffic is very fast; otherwise, exit safely from the left side and stand behind the metal guardrail.",
+      "key_actions": [
+        "Move to the left shoulder",
+        "Activate hazard lights",
+        "Call NHAI 1033 for national highway assistance",
+        "Remain inside with seatbelts on if the shoulder is narrow or unsafe to exit",
+        "If exiting, use the left door and stand behind the guardrail"
+      ],
+      "do_not": [
+        "Do not cross the highway on foot",
+        "Do not stand between your vehicle and passing traffic",
+        "Do not walk along the highway shoulder seeking help"
+      ],
+      "escalation_criteria": [
+        "Vehicle is stopped in a live high-speed lane",
+        "Another vehicle is approaching rapidly and cannot change lanes"
+      ],
+      "source_ids": [
+        "SRC-001"
+      ],
+      "authority": "Official",
+      "india_specific": true,
+      "confidence": "High",
+      "notes": "NHAI operates the 1033 helpline for distressed commuters on national highways."
+    },
+    {
+      "record_id": "REC-004",
+      "knowledge_requirement_id": "KR-004",
+      "topic": "Stay inside vs. leave the vehicle",
+      "scenario": "After my car broke down on the highway, should I stay inside or get out?",
+      "answer": "The decision depends on the traffic and available safe space. If traffic is moving very fast, the shoulder is narrow, or there is no safe area behind a guardrail to stand, it is generally safer to stay inside the vehicle with seatbelts fastened and hazard lights on. If there is a wide shoulder and a safe area behind a guardrail or embankment, exit the vehicle from the side away from traffic (typically the left door in India) and wait there.",
+      "key_actions": [
+        "Assess the speed of traffic and width of the shoulder",
+        "Stay inside with seatbelts on if the shoulder is narrow or there is no safe refuge",
+        "Exit via the non-traffic side door if a safe area behind a barrier exists"
+      ],
+      "do_not": [
+        "Do not stand directly in front of or behind the vehicle",
+        "Do not stand on the shoulder adjacent to live traffic without a barrier"
+      ],
+      "escalation_criteria": [
+        "Signs of fire or fuel leak (evacuate immediately regardless of traffic)"
+      ],
+      "source_ids": [
+        "SRC-001",
+        "SRC-002"
+      ],
+      "authority": "Official",
+      "india_specific": true,
+      "confidence": "High",
+      "notes": "General roadside safety principle widely recognized by Indian highway authorities."
+    },
+    {
+      "record_id": "REC-005",
+      "knowledge_requirement_id": "KR-005",
+      "topic": "Mechanical warning signs requiring immediate stopping",
+      "scenario": "I am driving and my engine temperature gauge is in the red, or I smell fuel, or my brakes feel unresponsive. Should I keep driving to a mechanic?",
+      "answer": "No. If you experience severe overheating, brake failure, steering failure, strong fuel smell, or sudden heavy smoke, you must stop the vehicle immediately and safely. Continuing to drive can lead to a fire, complete loss of control, or a severe accident. Pull over to a safe spot, turn off the engine, and do not attempt to continue driving.",
+      "key_actions": [
+        "Pull over and stop the vehicle immediately",
+        "Turn off the engine",
+        "Activate hazard lights",
+        "Exit the vehicle if there is smoke or fuel smell (cross-reference DOMAIN-006)"
+      ],
+      "do_not": [
+        "Do not keep driving in the hopes of reaching a mechanic",
+        "Do not open the radiator cap if the engine is overheating (severe burn risk)",
+        "Do not ignore warning lights on the dashboard"
+      ],
+      "escalation_criteria": [
+        "Brake failure or steering failure",
+        "Smoke or strong fuel smell (Escalate to DOMAIN-006: Vehicle Fire)"
+      ],
+      "source_ids": [
+        "SRC-002"
+      ],
+      "authority": "Official",
+      "india_specific": true,
+      "confidence": "High",
+      "notes": "Basic vehicle safety guidelines issued by transport authorities globally and within India."
+    },
+    {
+      "record_id": "REC-006",
+      "knowledge_requirement_id": "KR-006",
+      "topic": "Passenger safety during breakdown",
+      "scenario": "My car has broken down and I have passengers, including children. What should I do?",
+      "answer": "Ensure all passengers remain calm. If it is safe to exit (wide shoulder, barrier present), have all passengers exit from the doors away from traffic (typically left doors in India). Ensure they move immediately behind a guardrail or up an embankment. Never let passengers stand near the vehicle on the traffic side. If it is unsafe to exit, keep passengers inside with seatbelts fastened.",
+      "key_actions": [
+        "Instruct passengers to remain calm",
+        "Exit from the non-traffic side doors only",
+        "Move passengers well away from the vehicle, behind a guardrail",
+        "Keep children under close supervision"
+      ],
+      "do_not": [
+        "Do not let passengers exit into the live traffic lane",
+        "Do not allow passengers to wait inside the vehicle if there is a fire or fuel smell hazard",
+        "Do not let children play near the roadside"
+      ],
+      "escalation_criteria": [
+        "Passengers are injured or the vehicle is in a dangerous position"
+      ],
+      "source_ids": [
+        "SRC-001"
+      ],
+      "authority": "Official",
+      "india_specific": true,
+      "confidence": "High",
+      "notes": "Standard passenger safety protocol during roadside emergencies."
+    },
+    {
+      "record_id": "REC-007",
+      "knowledge_requirement_id": "KR-007",
+      "topic": "Night breakdown safety",
+      "scenario": "My car broke down on a highway at night. What extra precautions should I take?",
+      "answer": "Visibility is severely reduced at night. Keep all hazard lights and parking lights on to make the vehicle visible to approaching traffic. If you have a flashlight, use it to warn oncoming traffic or to safely walk to place the reflective warning triangle further back (at least 50 meters on a highway). Do not stand on the road. Stay inside the vehicle if the shoulder is narrow, as other drivers may not see you standing on the side.",
+      "key_actions": [
+        "Keep hazard and parking lights on",
+        "Deploy reflective warning triangle at a greater distance (e.g., 50+ meters)",
+        "Use a flashlight if available",
+        "Strongly prefer staying inside the vehicle unless a well-lit safe zone behind a barrier exists"
+      ],
+      "do_not": [
+        "Do not stand on the road or shoulder where drivers cannot see you",
+        "Do not use your phone screen as a light source while standing near traffic"
+      ],
+      "escalation_criteria": [
+        "Vehicle lights are completely non-functional due to electrical failure",
+        "No reflective triangle available"
+      ],
+      "source_ids": [
+        "SRC-002"
+      ],
+      "authority": "Official",
+      "india_specific": true,
+      "confidence": "Medium",
+      "notes": "Based on CMVR requirements for reflective triangles and general night-breakdown safety. Exact distances for triangle placement on varying Indian road types are not explicitly standardized for the public in one single document, hence Medium confidence on exact distance."
+    },
+    {
+      "record_id": "REC-008",
+      "knowledge_requirement_id": "KR-008",
+      "topic": "Hazardous breakdown symptoms (Smoke/Fuel)",
+      "scenario": "My car has broken down and I see smoke coming from the engine or smell strong fuel. What should I do?",
+      "answer": "If you see smoke or smell fuel, treat this as a high-risk fire situation. Turn off the engine immediately. Evacuate all passengers from the vehicle quickly, moving away from the smoke and fuel smell. Do not open the hood if there is heavy smoke, as oxygen can feed a fire. Move to a safe distance away from traffic and the vehicle. This situation requires escalation to fire safety protocols.",
+      "key_actions": [
+        "Turn off the engine immediately",
+        "Evacuate all occupants quickly",
+        "Do not open the hood if smoke is present",
+        "Move to a safe distance (at least 30 meters away)",
+        "Call emergency services (fire brigade)"
+      ],
+      "do_not": [
+        "Do not open the hood to inspect the engine if smoke is billowing",
+        "Do not attempt to retrieve belongings from the vehicle",
+        "Do not re-enter the vehicle"
+      ],
+      "escalation_criteria": [
+        "Visible flames (Escalate to DOMAIN-006: Vehicle Fire)",
+        "Strong fuel spill (Escalate to DOMAIN-006: Vehicle Fire)"
+      ],
+      "source_ids": [
+        "SRC-002"
+      ],
+      "authority": "Official",
+      "india_specific": true,
+      "confidence": "High",
+      "notes": "Cross-domain escalation to DOMAIN-006. General safety principle for vehicle fire hazards."
+    }
+  ],
+  "knowledge_gaps": [
+    {
+      "gap_id": "GAP-001",
+      "topic": "Expressway-specific evacuation protocols",
+      "missing_information": "Specific public-facing evacuation protocols for major Indian expressways (e.g., Mumbai-Pune Expressway, Yamuna Expressway) which may have unique patrol systems or rules regarding stopping on the shoulder.",
+      "importance": "High",
+      "status": "Unresolved"
+    },
+    {
+      "gap_id": "GAP-002",
+      "topic": "Warning triangle placement distance",
+      "missing_information": "Precise, legally mandated distances for placing warning triangles behind a broken-down vehicle on different classes of Indian roads (city vs. highway vs. expressway) in the Central Motor Vehicle Rules.",
+      "importance": "Medium",
+      "status": "Unresolved"
+    },
+    {
+      "gap_id": "GAP-003",
+      "topic": "Tunnel breakdown procedure",
+      "missing_information": "Authoritative Indian guidance for passenger action when a vehicle breaks down inside a road tunnel, where evacuation rules may differ significantly from open highways.",
+      "importance": "High",
+      "status": "Unresolved"
+    }
+  ],
+  "source_coverage_matrix": [
+    {
+      "knowledge_requirement": "KR-001: Safe stopping after vehicle breakdown",
+      "source_ids": [
+        "SRC-001",
+        "SRC-002"
+      ],
+      "coverage": "Complete",
+      "authority": "Official",
+      "india_specific": true,
+      "notes": "MoRTH and NHAI guidelines cover safe stopping and moving to the shoulder."
+    },
+    {
+      "knowledge_requirement": "KR-002: Hazard warning and vehicle visibility",
+      "source_ids": [
+        "SRC-002"
+      ],
+      "coverage": "Partial",
+      "authority": "Official",
+      "india_specific": true,
+      "notes": "CMVR mandates carrying a triangle, but precise deployment distances on varying road types are not fully standardized in public guidelines (GAP-002)."
+    },
+    {
+      "knowledge_requirement": "KR-003: Highway and expressway breakdown safety",
+      "source_ids": [
+        "SRC-001"
+      ],
+      "coverage": "Partial",
+      "authority": "Official",
+      "india_specific": true,
+      "notes": "NHAI covers national highways (1033), but specific expressway protocols are missing (GAP-001)."
+    },
+    {
+      "knowledge_requirement": "KR-004: Deciding whether to stay inside or leave the vehicle",
+      "source_ids": [
+        "SRC-001"
+      ],
+      "coverage": "Partial",
+      "authority": "Official",
+      "india_specific": true,
+      "notes": "General guidance exists, but no single official document explicitly codifies the stay-in vs. exit decision for all Indian road types."
+    },
+    {
+      "knowledge_requirement": "KR-005: Warning signs requiring immediate stopping",
+      "source_ids": [
+        "SRC-002"
+      ],
+      "coverage": "Complete",
+      "authority": "Official",
+      "india_specific": true,
+      "notes": "Basic vehicle safety and maintenance guidelines from transport authorities cover these critical warning signs."
+    },
+    {
+      "knowledge_requirement": "KR-006: Passenger safety and waiting for assistance",
+      "source_ids": [
+        "SRC-001"
+      ],
+      "coverage": "Complete",
+      "authority": "Official",
+      "india_specific": true,
+      "notes": "Standard safety protocols for passengers exiting on the non-traffic side are well established."
+    },
+    {
+      "knowledge_requirement": "KR-007: Breakdown in dangerous locations",
+      "source_ids": [
+        "SRC-002"
+      ],
+      "coverage": "Insufficient",
+      "authority": "Official",
+      "india_specific": true,
+      "notes": "Night-time guidance is partially covered. Tunnel breakdown (GAP-003) and blind curve procedures are insufficiently documented in authoritative public Indian sources."
+    },
+    {
+      "knowledge_requirement": "KR-008: Hazardous breakdown symptoms and cross-domain escalation",
+      "source_ids": [
+        "SRC-002"
+      ],
+      "coverage": "Complete",
+      "authority": "Official",
+      "india_specific": true,
+      "notes": "Escalation to fire safety for smoke/fuel smell is standard in vehicle emergency guidelines."
+    }
+  ],
+  "recommended_rag_corpus": [
+    {
+      "source_id": "SRC-001",
+      "source_name": "National Highways Authority of India (NHAI)",
+      "source_url": "https://nhai.gov.in/",
+      "recommended_use": "Core",
+      "priority": "Core",
+      "authority_level": "Official",
+      "reason": "Official authority for national highways in India; provides the 1033 helpline and highway-specific breakdown safety protocols."
+    },
+    {
+      "source_id": "SRC-002",
+      "source_name": "Ministry of Road Transport and Highways (MoRTH) - Central Motor Vehicle Rules",
+      "source_url": "https://morth.nic.in/",
+      "recommended_use": "Core",
+      "priority": "Core",
+      "authority_level": "Official",
+      "reason": "Official regulatory body; CMVR mandates safety equipment (reflective triangles) and defines vehicle roadworthiness and stopping requirements."
+    }
+  ],
+  "query_coverage": [
+    {
+      "query_id": "Q-001",
+      "query": "What should I do if my car breaks down on the highway?",
+      "language": "English",
+      "topic": "Highway breakdown",
+      "intent": "Emergency",
+      "severity": "Critical",
+      "relevant_record_ids": [
+        "REC-001",
+        "REC-003"
+      ],
+      "expected_answer_points": [
+        "Move to the left shoulder",
+        "Turn on hazard lights",
+        "Call NHAI 1033",
+        "Stay inside or stand behind guardrail"
+      ]
+    },
+    {
+      "query_id": "Q-002",
+      "query": "My car stopped in the middle of the expressway, what do I do?",
+      "language": "English",
+      "topic": "Expressway breakdown",
+      "intent": "Emergency",
+      "severity": "Critical",
+      "relevant_record_ids": [
+        "REC-001",
+        "REC-004"
+      ],
+      "expected_answer_points": [
+        "Turn on hazard lights",
+        "Do not exit into live traffic",
+        "Stay inside with seatbelts if no safe exit"
+      ]
+    },
+    {
+      "query_id": "Q-003",
+      "query": "Should I stay inside my car after it breaks down?",
+      "language": "English",
+      "topic": "Stay vs. Exit",
+      "intent": "Roadside Safety",
+      "severity": "Critical",
+      "relevant_record_ids": [
+        "REC-004"
+      ],
+      "expected_answer_points": [
+        "Stay inside if shoulder is narrow or traffic is fast",
+        "Exit if there is a safe area behind a barrier"
+      ]
+    },
+    {
+      "query_id": "Q-004",
+      "query": "How do I warn other drivers if my car has broken down?",
+      "language": "English",
+      "topic": "Visibility",
+      "intent": "Roadside Safety",
+      "severity": "High",
+      "relevant_record_ids": [
+        "REC-002"
+      ],
+      "expected_answer_points": [
+        "Use hazard lights",
+        "Deploy reflective warning triangle"
+      ]
+    },
+    {
+      "query_id": "Q-005",
+      "query": "Can I keep driving if the engine is overheating?",
+      "language": "English",
+      "topic": "Warning signs",
+      "intent": "Vehicle Safety",
+      "severity": "Critical",
+      "relevant_record_ids": [
+        "REC-005"
+      ],
+      "expected_answer_points": [
+        "No, stop immediately",
+        "Turn off the engine"
+      ]
+    },
+    {
+      "query_id": "Q-006",
+      "query": "There is smoke coming from the hood and my car stopped, what should I do?",
+      "language": "English",
+      "topic": "Hazardous symptoms",
+      "intent": "Emergency",
+      "severity": "Critical",
+      "relevant_record_ids": [
+        "REC-008"
+      ],
+      "expected_answer_points": [
+        "Turn off engine",
+        "Do not open hood",
+        "Evacuate immediately",
+        "Call fire brigade"
+      ]
+    },
+    {
+      "query_id": "Q-007",
+      "query": "Where should my passengers wait while we wait for a tow truck?",
+      "language": "English",
+      "topic": "Passenger safety",
+      "intent": "Roadside Safety",
+      "severity": "High",
+      "relevant_record_ids": [
+        "REC-006"
+      ],
+      "expected_answer_points": [
+        "Behind a guardrail or away from traffic",
+        "Not inside the vehicle if on a busy highway without a barrier"
+      ]
+    },
+    {
+      "query_id": "Q-008",
+      "query": "My car broke down at night on the highway, what extra steps should I take?",
+      "language": "English",
+      "topic": "Night breakdown",
+      "intent": "Emergency",
+      "severity": "High",
+      "relevant_record_ids": [
+        "REC-007"
+      ],
+      "expected_answer_points": [
+        "Keep parking lights on",
+        "Place triangle further back",
+        "Prefer staying inside if narrow shoulder"
+      ]
+    },
+    {
+      "query_id": "Q-009",
+      "query": "Gaadi highway par band ho gayi hai, kya karun?",
+      "language": "Hinglish",
+      "topic": "Highway breakdown",
+      "intent": "Emergency",
+      "severity": "Critical",
+      "relevant_record_ids": [
+        "REC-001",
+        "REC-003"
+      ],
+      "expected_answer_points": [
+        "Left shoulder par gaadi kheencho",
+        "Hazard lights on karo",
+        "1033 call karo"
+      ]
+    },
+    {
+      "query_id": "Q-010",
+      "query": "Car breakdown ho gayi hai aur traffic bahut fast aa raha hai, kya karein?",
+      "language": "Hinglish",
+      "topic": "Stay vs. Exit",
+      "intent": "Emergency",
+      "severity": "Critical",
+      "relevant_record_ids": [
+        "REC-004"
+      ],
+      "expected_answer_points": [
+        "Gaadi ke andar seatbelt baandh ke baitho",
+        "Bahar mat niklo agar safe jagah nahi hai"
+      ]
+    },
+    {
+      "query_id": "Q-011",
+      "query": "Gaadi se smoke aa raha hai, kya main drive kar sakta hoon?",
+      "language": "Hinglish",
+      "topic": "Hazardous symptoms",
+      "intent": "Emergency",
+      "severity": "Critical",
+      "relevant_record_ids": [
+        "REC-008"
+      ],
+      "expected_answer_points": [
+        "Nahi, turant gaadi roko",
+        "Engine band karo aur bahar niklo"
+      ]
+    },
+    {
+      "query_id": "Q-012",
+      "query": "Raat mein highway par car breakdown ho gayi, passengers ko kahan rehna chahiye?",
+      "language": "Hinglish",
+      "topic": "Night breakdown",
+      "intent": "Roadside Safety",
+      "severity": "High",
+      "relevant_record_ids": [
+        "REC-006",
+        "REC-007"
+      ],
+      "expected_answer_points": [
+        "Guardrail ke peeche safe jagah mein",
+        "Gaadi ke andar agar shoulder chhota hai"
+      ]
+    },
+    {
+      "query_id": "Q-013",
+      "query": "अगर मेरी कार हाईवे पर ब्रेकडाउन हो जाए तो मुझे क्या करना चाहिए?",
+      "language": "Hindi",
+      "topic": "Highway breakdown",
+      "intent": "Emergency",
+      "severity": "Critical",
+      "relevant_record_ids": [
+        "REC-001",
+        "REC-003"
+      ],
+      "expected_answer_points": [
+        "हज़ार्ड लाइट ऑन करें",
+        "लेफ्ट शोल्डर पर खींचें",
+        "1033 पर कॉल करें"
+      ]
+    },
+    {
+      "query_id": "Q-014",
+      "query": "क्या ब्रेकडाउन के बाद कार के अंदर बैठना सुरक्षित है?",
+      "language": "Hindi",
+      "topic": "Stay vs. Exit",
+      "intent": "Roadside Safety",
+      "severity": "Critical",
+      "relevant_record_ids": [
+        "REC-004"
+      ],
+      "expected_answer_points": [
+        "यदि ट्रैफ़िक तेज़ है और शोल्डर छोटा है तो अंदर बैठें",
+        "यदि गार्डरेल के पीछे सुरक्षित जगह है तो बाहर निकलें"
+      ]
+    },
+    {
+      "query_id": "Q-015",
+      "query": "कार के इंजन से धुआं आ रहा है, मुझे क्या करना चाहिए?",
+      "language": "Hindi",
+      "topic": "Hazardous symptoms",
+      "intent": "Emergency",
+      "severity": "Critical",
+      "relevant_record_ids": [
+        "REC-008"
+      ],
+      "expected_answer_points": [
+        "इंजन बंद करें",
+        "हुड न खोलें",
+        "तुरंत सब लोगों को बाहर निकालें"
+      ]
+    },
+    {
+      "query_id": "Q-016",
+      "query": "Should I use a reflective triangle if my car breaks down?",
+      "language": "English",
+      "topic": "Visibility",
+      "intent": "Informational",
+      "severity": "High",
+      "relevant_record_ids": [
+        "REC-002"
+      ],
+      "expected_answer_points": [
+        "Yes, place it at least 10 meters behind the car",
+        "It is legally required to carry one in India"
+      ]
+    },
+    {
+      "query_id": "Q-017",
+      "query": "What if my car breaks down in a live lane and I cannot move it?",
+      "language": "English",
+      "topic": "Dangerous location",
+      "intent": "Emergency",
+      "severity": "Critical",
+      "relevant_record_ids": [
+        "REC-001"
+      ],
+      "expected_answer_points": [
+        "Keep hazard lights on",
+        "Do not exit into traffic",
+        "Stay inside with seatbelts fastened",
+        "Call emergency services immediately"
+      ]
+    },
+    {
+      "query_id": "Q-018",
+      "query": "Mere car ki braking fail ho gayi hai, kya karein?",
+      "language": "Hinglish",
+      "topic": "Warning signs",
+      "intent": "Emergency",
+      "severity": "Critical",
+      "relevant_record_ids": [
+        "REC-005"
+      ],
+      "expected_answer_points": [
+        "Turant gaadi roko",
+        "Engine band karo"
+      ]
+    },
+    {
+      "query_id": "Q-019",
+      "query": "Can I try to fix my car on the highway shoulder?",
+      "language": "English",
+      "topic": "Passenger safety",
+      "intent": "Informational",
+      "severity": "High",
+      "relevant_record_ids": [
+        "REC-006"
+      ],
+      "expected_answer_points": [
+        "Do not attempt repairs on the traffic side",
+        "Stay away from moving traffic"
+      ]
+    },
+    {
+      "query_id": "Q-020",
+      "query": "Where should I stand while waiting for a tow truck on the highway?",
+      "language": "English",
+      "topic": "Passenger safety",
+      "intent": "Roadside Safety",
+      "severity": "High",
+      "relevant_record_ids": [
+        "REC-006",
+        "REC-004"
+      ],
+      "expected_answer_points": [
+        "Behind the guardrail",
+        "Away from the vehicle and traffic"
+      ]
+    }
+  ]
+}

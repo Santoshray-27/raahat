@@ -1,0 +1,1934 @@
+{
+    "schema_version": "1.0",
+    "dataset_status": "rag_ready",
+    "domain": {
+        "domain_id": "DOMAIN-002",
+        "name": "Fire Emergency"
+    },
+    "scope_note": "This domain covers vehicle and roadside fire emergencies only.\nMedical treatment of burns is cross-referenced to DOMAIN-003 (First Aid).\nCrash-scene hazard assessment is cross-referenced to DOMAIN-001 (Road\nAccident). Mechanical breakdown symptoms are cross-referenced to DOMAIN-004\n(Vehicle Breakdown).",
+    "sources": [
+        {
+            "source_id": "SRC-001",
+            "title": "Emergency Response Support System (ERSS) — 112 India",
+            "organization": "Ministry of Home Affairs (MHA), Government of India",
+            "url": "https://112.gov.in/",
+            "source_type": "official_guidance",
+            "country": "India",
+            "authority_level": "official",
+            "accessed_date": "2026-08-22",
+            "verification_status": "pending",
+            "relevance": "Supports integrated emergency escalation, emergency contact\nselection, and emergency call reporting."
+        },
+        {
+            "source_id": "SRC-002",
+            "title": "Directorate General Fire Services, Civil Defence & Home Guards",
+            "organization": "Ministry of Home Affairs (MHA), Government of India",
+            "url": "https://dgfscdhg.gov.in/",
+            "source_type": "emergency_guidance",
+            "country": "India",
+            "authority_level": "official",
+            "accessed_date": "2026-08-22",
+            "verification_status": "pending",
+            "relevance": "Supports Indian fire-service public guidance, evacuation, fire\nescalation, and bystander safety."
+        },
+        {
+            "source_id": "SRC-003",
+            "title": "National Disaster Management Guidelines — Scaling, Type of Equipment and\nTraining of Fire Services / Public Fire Safety Awareness",
+            "organization": "National Disaster Management Authority (NDMA), Government of\nIndia",
+            "url": "https://ndma.gov.in/",
+            "source_type": "government_guidance",
+            "country": "India",
+            "authority_level": "official",
+            "accessed_date": "2026-08-22",
+            "verification_status": "pending",
+            "relevance": "Supports evacuation-first public guidance, safe perimeter management,\nand hazard awareness."
+        },
+        {
+            "source_id": "SRC-004",
+            "title": "Central Motor Vehicles Rules (CMVR) and Road Safety Guidance",
+            "organization": "Ministry of Road Transport and Highways (MoRTH), Government of\nIndia",
+            "url": "https://morth.nic.in/",
+            "source_type": "official_guidance",
+            "country": "India",
+            "authority_level": "official",
+            "accessed_date": "2026-08-22",
+            "verification_status": "pending",
+            "relevance": "Supports roadside stopping, vehicle-safety equipment context, and\nprevention-related vehicle requirements."
+        },
+        {
+            "source_id": "SRC-005",
+            "title": "Indian Standards for Portable Fire Extinguishers (IS 15683 and related\nstandards)",
+            "organization": "Bureau of Indian Standards (BIS)",
+            "url": "https://www.bis.gov.in/",
+            "source_type": "official_guidance",
+            "country": "India",
+            "authority_level": "official",
+            "accessed_date": "2026-08-22",
+            "verification_status": "pending",
+            "relevance": "Supports extinguisher type, specification, and marking used in Indian\nvehicle contexts."
+        },
+        {
+            "source_id": "SRC-006",
+            "title": "Alternative Fuel Vehicle Safety Training — Electric Vehicle Emergency\nResponse Guidance",
+            "organization": "National Fire Protection Association (NFPA)",
+            "url": "https://www.nfpa.org/education-and-research/emergency-responders/alternative-fue\nl-vehicle-safety-training",
+            "source_type": "emergency_guidance",
+            "country": "International",
+            "authority_level": "institutional",
+            "accessed_date": "2026-08-22",
+            "verification_status": "pending",
+            "relevance": "Supports EV thermal runaway, reignition risk, high-voltage hazards,\nand responder-only intervention limitations."
+        },
+        {
+            "source_id": "SRC-007",
+            "title": "Indian First Aid Manual — Burns, Smoke Inhalation and Casualty Care",
+            "organization": "Indian Red Cross Society & St. John Ambulance India",
+            "url": "https://indianredcross.org/",
+            "source_type": "medical_guidance",
+            "country": "India",
+            "authority_level": "official",
+            "accessed_date": "2026-08-22",
+            "verification_status": "pending",
+            "relevance": "Supports burn cooling, smoke inhalation response, and bystander\ncasualty-care limits."
+        },
+        {
+            "source_id": "SRC-008",
+            "title": "National Highways Helpline 1033 and Highway Incident Management",
+            "organization": "National Highways Authority of India (NHAI)",
+            "url": "https://nhai.gov.in/",
+            "source_type": "highway_authority",
+            "country": "India",
+            "authority_level": "official",
+            "accessed_date": "2026-08-22",
+            "verification_status": "pending",
+            "relevance": "Supports highway fire escalation, patrol/ambulance dispatch, and\nroadside safety positioning."
+        },
+        {
+            "source_id": "SRC-009",
+            "title": "Burns — Fact Sheet and First Response Guidance",
+            "organization": "World Health Organization (WHO)",
+            "url": "https://www.who.int/news-room/fact-sheets/detail/burns",
+            "source_type": "medical_guidance",
+            "country": "International",
+            "authority_level": "official",
+            "accessed_date": "2026-08-22",
+            "verification_status": "pending",
+            "relevance": "Supports cooling burns with running water, avoiding harmful\napplications, and escalation criteria."
+        },
+        {
+            "source_id": "SRC-010",
+            "title": "Petroleum and Explosives Safety Organisation — Compressed Gas and\nPetroleum Product Safety",
+            "organization": "PESO, Department for Promotion of Industry and Internal Trade,\nGovernment of India",
+            "url": "https://peso.gov.in/",
+            "source_type": "government_guidance",
+            "country": "India",
+            "authority_level": "official",
+            "accessed_date": "2026-08-22",
+            "verification_status": "pending",
+            "relevance": "Supports CNG/LPG cylinder hazard, gas behaviour, and fuel leak\nignition control."
+        }
+    ],
+    "knowledge_records": [
+        {
+            "record_id": "DOMAIN-002-KR-001-A",
+            "requirement_id": "KR-001",
+            "topic": "Early warning signs of a vehicle fire",
+            "title": "Treat smoke or a burning smell as a possible vehicle fire",
+            "content": "Smoke from the bonnet, dashboard, wheel area, or passenger cabin, or a\nstrong smell of burning rubber, plastic, oil, petrol, or wiring, should be treated as a\npossible developing vehicle fire. The safe response is to stop as soon as it is safe,\nswitch off the vehicle, and evacuate occupants rather than continuing to drive.",
+            "safe_actions": [
+                "Treat smoke, burning smell, or unexplained heat as a possible fire.",
+                "Stop the vehicle as soon as it is safe.",
+                "Switch off the engine and electrical systems.",
+                "Get all occupants out of the vehicle.",
+                "Move away from the vehicle and contact emergency services."
+            ],
+            "unsafe_actions": [
+                "Do not keep driving in the hope of reaching a workshop or fuel station.",
+                "Do not remain inside the vehicle while trying to identify the source of the smell."
+            ],
+            "escalation_criteria": [
+                "Visible smoke",
+                "Strong burning smell",
+                "Unusual heat from the cabin, floor, bonnet, or dashboard"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "vehicle_fire",
+                    "developing_vehicle_fire"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural"
+                ],
+                "conditions": [
+                    "day",
+                    "night",
+                    "heavy_traffic",
+                    "poor_visibility"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-002",
+                "SRC-003",
+                "SRC-004"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-001-B",
+            "requirement_id": "KR-001",
+            "topic": "Early warning signs of a vehicle fire",
+            "title": "Repeated electrical faults or sparks can indicate a developing fire",
+            "content": "Repeated electrical failure, blown fuses, flickering lights, visible sparks or\narcing, and unusual heat through the floor, pedals, or dashboard can indicate a\ndeveloping vehicle fire and justify immediate safe stopping and evacuation.",
+            "safe_actions": [
+                "Stop the vehicle safely when repeated electrical faults or sparks appear.",
+                "Switch off the ignition and evacuate occupants.",
+                "Report electrical symptoms to emergency responders."
+            ],
+            "unsafe_actions": [
+                "Do not ignore repeated electrical faults, sparking, or a burning-plastic smell.",
+                "Do not continue using electrical accessories after these signs appear."
+            ],
+            "escalation_criteria": [
+                "Visible sparks or arcing",
+                "Sudden total electrical failure",
+                "Repeated fuse failure",
+                "Heat radiating through the dashboard or floor"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "vehicle_fire",
+                    "electrical_fire_risk"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "High",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-002",
+                "SRC-004"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-002-A",
+            "requirement_id": "KR-002",
+            "topic": "Immediate actions when a vehicle catches fire while driving",
+            "title": "Stop, switch off, evacuate, and move away",
+            "content": "If a vehicle catches fire or produces heavy smoke while driving, the\nemergency sequence is to pull over safely, switch off the engine and ignition, apply\nthe parking brake, evacuate everyone immediately, move far away from the vehicle,\nand call the fire service or integrated emergency number.",
+            "safe_actions": [
+                "Indicate and pull over to the left shoulder or nearest safe stopping point.",
+                "Switch off the engine and ignition.",
+                "Apply the parking brake.",
+                "Release locking and evacuate all occupants immediately.",
+                "Move upwind and away from the vehicle.",
+                "Call emergency services from a safe distance."
+            ],
+            "unsafe_actions": [
+                "Do not continue driving with a burning or heavily smoking vehicle.",
+                "Do not delay evacuation while attempting repairs or filming the fire."
+            ],
+            "escalation_criteria": [
+                "Visible flame",
+                "Thick or increasing smoke",
+                "Fire near fuel tank, fuel lines, or gas cylinder"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "vehicle_fire"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural"
+                ],
+                "conditions": [
+                    "day",
+                    "night",
+                    "heavy_traffic",
+                    "poor_visibility"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-002",
+                "SRC-003",
+                "SRC-004"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-002-B",
+            "requirement_id": "KR-002",
+            "topic": "Immediate actions when a vehicle catches fire while driving",
+            "title": "Do not stop next to fuel stations, gas installations, dry grass, or other vehicles\nif avoidable",
+            "content": "When pulling over with a burning or heavily smoking vehicle, avoid\nstopping next to a fuel station, gas installation, dry vegetation, or another vehicle if it\ncan be avoided, because the fire can spread or trigger secondary hazards.",
+            "safe_actions": [
+                "Choose the safest available stopping point away from secondary fire hazards."
+            ],
+            "unsafe_actions": [
+                "Do not stop next to a fuel station, gas installation, dry vegetation, or another vehicle\nif a safer alternative is available."
+            ],
+            "escalation_criteria": [
+                "Vehicle is smoking or on fire near other flammable hazards"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "vehicle_fire"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "High",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-003"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-003-A",
+            "requirement_id": "KR-003",
+            "topic": "Safe evacuation of occupants",
+            "title": "Evacuate all occupants immediately and account for everyone",
+            "content": "Every occupant must leave a burning vehicle immediately. Children,\nelderly passengers, and people with reduced mobility should be helped out directly,\nand a headcount should be done once everyone is outside to confirm that no one\nremains in the vehicle.",
+            "safe_actions": [
+                "Release seatbelts and child restraints immediately.",
+                "Assist children, elderly passengers, and persons with disability first.",
+                "Do a headcount once outside.",
+                "Move everyone together to a single safe point away from the vehicle."
+            ],
+            "unsafe_actions": [
+                "Do not leave any occupant inside while assessing the fire.",
+                "Do not assume everyone has exited without checking."
+            ],
+            "escalation_criteria": [
+                "Any occupant unable to self-evacuate",
+                "Occupant unaccounted for after evacuation"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "vehicle_fire",
+                    "vehicle_smoke"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-002",
+                "SRC-003",
+                "SRC-007"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-003-B",
+            "requirement_id": "KR-003",
+            "topic": "Safe evacuation of occupants",
+            "title": "Use the side away from traffic if possible",
+            "content": "When evacuating a burning or smoking vehicle, occupants should exit\nthrough doors on the side away from moving traffic where possible, to reduce the\nrisk of being struck by passing vehicles.",
+            "safe_actions": [
+                "Use doors on the non-traffic side where possible.",
+                "Check for moving traffic before stepping out."
+            ],
+            "unsafe_actions": [
+                "Do not step directly into a live traffic lane without checking."
+            ],
+            "escalation_criteria": [
+                "Vehicle stopped near fast-moving traffic",
+                "Fire on a high-speed road or narrow shoulder"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "vehicle_fire"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban"
+                ],
+                "conditions": [
+                    "day",
+                    "night",
+                    "heavy_traffic"
+                ]
+            },
+            "severity": "High",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-002",
+                "SRC-003"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-003-C",
+            "requirement_id": "KR-003",
+            "topic": "Safe evacuation of occupants",
+            "title": "Do not re-enter for pets, luggage, or belongings",
+            "content": "Once a fire has started, no occupant should re-enter the vehicle to\nretrieve pets, luggage, or belongings, because smoke becomes disabling quickly and\nthe fire can spread rapidly into the cabin.",
+            "safe_actions": [
+                "Keep all occupants together at a safe point away from the vehicle.",
+                "Wait for professional responders."
+            ],
+            "unsafe_actions": [
+                "Do not re-enter the vehicle for pets, luggage, or belongings."
+            ],
+            "escalation_criteria": [
+                "Any person attempting to return to the vehicle after evacuation"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "vehicle_fire"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-003"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-004-A",
+            "requirement_id": "KR-004",
+            "topic": "Safe distance and perimeter management",
+            "title": "Move at least 30 metres away from a burning conventional vehicle",
+            "content": "A burning conventional vehicle can produce flying debris, bursting tyres,\nexploding gas struts, and intense toxic smoke. A practical public-safety rule is to\nmove at least 30 metres away from a burning petrol or diesel vehicle, and further if\nthe fire grows.",
+            "safe_actions": [
+                "Move at least 30 metres away from the vehicle.",
+                "Move further if the fire grows or conditions worsen.",
+                "Keep others back from the vehicle."
+            ],
+            "unsafe_actions": [
+                "Do not stand close to a burning vehicle.",
+                "Do not gather near the fire to watch or record it."
+            ],
+            "escalation_criteria": [
+                "Fire spreading to cabin or fuel-tank area",
+                "Crowd gathering near the burning vehicle"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "vehicle_fire"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural"
+                ],
+                "conditions": [
+                    "day",
+                    "night",
+                    "heavy_traffic",
+                    "poor_visibility"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-002",
+                "SRC-003",
+                "SRC-010"
+            ],
+            "verification_status": "pending",
+            "confidence": "medium",
+            "version": "1",
+            "notes": "Practical stand-off value; not confirmed as a statutory public distance in the\nsupplied dataset."
+        },
+        {
+            "record_id": "DOMAIN-002-KR-004-B",
+            "requirement_id": "KR-004",
+            "topic": "Safe distance and perimeter management",
+            "title": "Move 50 metres or more away from burning CNG, LPG, or electric vehicles",
+            "content": "For a burning CNG, LPG, or electric vehicle, the practical public-safety\nrule is to move at least 50 metres away, and further if the fire grows, because gas\ncylinders can vent or rupture and high-voltage battery fires can vent flammable\nvapour and reignite.",
+            "safe_actions": [
+                "Move at least 50 metres away from a burning CNG, LPG, or electric vehicle.",
+                "Increase distance further if the fire grows or cylinders vent.",
+                "Keep others away from the hazard zone."
+            ],
+            "unsafe_actions": [
+                "Do not stand close to a gas-fuelled or electric vehicle fire.",
+                "Do not remain near the vehicle because visible flames appear reduced."
+            ],
+            "escalation_criteria": [
+                "Hissing, whistling, or venting from a gas or battery system",
+                "Vehicle identified as CNG, LPG, electric, or hybrid"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "vehicle_fire",
+                    "ev_battery_fire",
+                    "cng_lpg_fire"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking"
+                ],
+                "conditions": [
+                    "day",
+                    "night",
+                    "poor_visibility"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-010",
+                "SRC-006"
+            ],
+            "verification_status": "pending",
+            "confidence": "medium",
+            "version": "1",
+            "notes": "Practical stand-off value; not confirmed as a statutory public distance in the\nsupplied dataset."
+        },
+        {
+            "record_id": "DOMAIN-002-KR-004-C",
+            "requirement_id": "KR-004",
+            "topic": "Safe distance and perimeter management",
+            "title": "Stand upwind and behind a barrier where possible",
+            "content": "When waiting near a vehicle fire, people should stand upwind so smoke\nblows away from them and stay behind a solid barrier such as a crash barrier, wall,\nor embankment where one is available.",
+            "safe_actions": [
+                "Stand upwind of the smoke.",
+                "Use a crash barrier, wall, or embankment for protection where available.",
+                "Keep bystanders back from the scene."
+            ],
+            "unsafe_actions": [
+                "Do not stand downwind in the smoke plume.",
+                "Do not remain exposed between the fire and moving traffic."
+            ],
+            "escalation_criteria": [
+                "Smoke drifting toward evacuees",
+                "No protected standing area available"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "vehicle_fire"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural"
+                ],
+                "conditions": [
+                    "day",
+                    "night",
+                    "poor_visibility",
+                    "heavy_traffic"
+                ]
+            },
+            "severity": "High",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-002",
+                "SRC-003"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-004-D",
+            "requirement_id": "KR-004",
+            "topic": "Safe distance and perimeter management",
+            "title": "Do not stand directly in front of or behind a burning vehicle",
+            "content": "People should not stand directly in front of or behind a burning vehicle,\nbecause bursting tyres, gas struts, and other pressurised components may project\noutward in those directions.",
+            "safe_actions": [
+                "Move to the side and further away from the vehicle.",
+                "Use distance and barriers to protect yourself."
+            ],
+            "unsafe_actions": [
+                "Do not stand directly in front of a burning vehicle.",
+                "Do not stand directly behind a burning vehicle."
+            ],
+            "escalation_criteria": [
+                "Tyres heating, bursting, or visible under-inflation during fire",
+                "Pressurised components exposed to heat"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "vehicle_fire"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "High",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-002",
+                "SRC-003"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-005-A",
+            "requirement_id": "KR-005",
+            "topic": "When to use and when NOT to use a fire extinguisher",
+            "title": "Only a very small, just-started fire may be tackled by an untrained person",
+            "content": "An untrained person may only consider using a portable fire extinguisher\non a vehicle fire when the fire is very small and has just started, everyone is already\nout of the vehicle, a suitable extinguisher is immediately available, and there is a\nclear escape route behind them.",
+            "safe_actions": [
+                "Ensure everyone is already out and at a safe distance before considering\nextinguisher use.",
+                "Use an extinguisher only for a very small, just-started fire.",
+                "Keep a clear escape route behind you."
+            ],
+            "unsafe_actions": [
+                "Do not fight the fire while occupants are still inside.",
+                "Do not attempt extinguisher use without a clear escape route."
+            ],
+            "escalation_criteria": [
+                "Any uncertainty about extinguisher suitability",
+                "Occupants not fully evacuated"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "small_vehicle_fire"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-002",
+                "SRC-003"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-005-B",
+            "requirement_id": "KR-005",
+            "topic": "When to use and when NOT to use a fire extinguisher",
+            "title": "Never fight a spreading, fuel-fed, gas, or EV battery fire yourself",
+            "content": "A bystander must not attempt to fight a vehicle fire that has spread to the\npassenger cabin, involves fuel leakage or fuel-fed flames, involves a CNG or LPG\ncylinder, or involves an electric-vehicle battery. In all of these situations, the correct\naction is immediate withdrawal and fire-service escalation.",
+            "safe_actions": [
+                "Withdraw to a safe distance.",
+                "Call 112 and report the vehicle type and hazard type.",
+                "Keep bystanders away from the fire."
+            ],
+            "unsafe_actions": [
+                "Do not attempt to fight a cabin fire.",
+                "Do not attempt to fight a fuel-fed fire.",
+                "Do not attempt to fight a gas-cylinder fire.",
+                "Do not attempt to fight an EV battery fire."
+            ],
+            "escalation_criteria": [
+                "Cabin involvement",
+                "Fuel-fed flames",
+                "Gas cylinder involvement",
+                "Electric-vehicle battery involvement"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "vehicle_fire",
+                    "cabin_fire",
+                    "fuel_fire",
+                    "ev_battery_fire",
+                    "cng_lpg_fire"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-002",
+                "SRC-003",
+                "SRC-006"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-005-C",
+            "requirement_id": "KR-005",
+            "topic": "When to use and when NOT to use a fire extinguisher",
+            "title": "Abandon extinguishing if the fire does not go out immediately",
+            "content": "If a vehicle fire does not go out immediately with the first extinguisher\ndischarge, or if smoke thickens or flames grow, the attempt should be abandoned\nand the person should withdraw to a safe distance and wait for the fire service.",
+            "safe_actions": [
+                "Withdraw immediately if the fire persists after the first discharge.",
+                "Move to a safe distance and wait for responders."
+            ],
+            "unsafe_actions": [
+                "Do not continue after the fire grows or the extinguisher is exhausted.",
+                "Do not remain between the fire and your only exit route."
+            ],
+            "escalation_criteria": [
+                "Fire not extinguished at once",
+                "Smoke thickening",
+                "Flames growing",
+                "Extinguisher exhausted"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "vehicle_fire"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-003"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-006-A",
+            "requirement_id": "KR-006",
+            "topic": "Correct fire extinguisher type and technique",
+            "title": "Use a BIS-marked ABC dry powder extinguisher for vehicle use",
+            "content": "A multi-purpose ABC dry chemical powder extinguisher conforming to\nIndian Standards is the type most commonly specified for vehicle use in India\nbecause vehicle fires may involve solids, flammable liquids, and live electrical\nequipment together.",
+            "safe_actions": [
+                "Use a BIS-marked ABC dry powder extinguisher suitable for vehicle use.",
+                "Keep the extinguisher accessible inside the cabin rather than locked in the boot.",
+                "Service and refill it as required."
+            ],
+            "unsafe_actions": [
+                "Do not rely on an expired, unmarked, discharged, or unsuitable extinguisher."
+            ],
+            "escalation_criteria": [
+                "No suitable extinguisher available"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "small_vehicle_fire"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "High",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-005",
+                "SRC-004"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "medium",
+            "version": "1",
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-006-B",
+            "requirement_id": "KR-006",
+            "topic": "Correct fire extinguisher type and technique",
+            "title": "Basic extinguisher technique: pull, aim at the base, squeeze, sweep",
+            "content": "The standard technique for a portable extinguisher on a very small\nvehicle fire is to pull the safety pin, aim the nozzle at the base of the flames rather\nthan the flame tips, squeeze the lever, and sweep side to side across the base of the\nfire.",
+            "safe_actions": [
+                "Pull the safety pin.",
+                "Aim at the base of the fire.",
+                "Squeeze the lever.",
+                "Sweep side to side across the base of the flames."
+            ],
+            "unsafe_actions": [
+                "Do not aim at the top of the flames instead of the base."
+            ],
+            "escalation_criteria": [
+                "Fire not controlled immediately after discharge"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "small_vehicle_fire"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "High",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-002",
+                "SRC-005"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "medium",
+            "version": "1",
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-006-C",
+            "requirement_id": "KR-006",
+            "topic": "Correct fire extinguisher type and technique",
+            "title": "Do not use water on fuel or live electrical vehicle fires",
+            "content": "Water must not be used on petrol, diesel, oil, or live electrical vehicle fires\nbecause it can spread burning fuel and creates electrocution risk.",
+            "safe_actions": [
+                "Use only an appropriate extinguisher for a very small fire.",
+                "Withdraw and call the fire service for anything larger or riskier."
+            ],
+            "unsafe_actions": [
+                "Do not throw water on petrol, diesel, oil, or live electrical fires."
+            ],
+            "escalation_criteria": [
+                "Fuel fire",
+                "Live electrical involvement",
+                "No suitable extinguisher available"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "fuel_fire",
+                    "electrical_fire",
+                    "vehicle_fire"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "High",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-002"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-007-A",
+            "requirement_id": "KR-007",
+            "topic": "Danger of opening the bonnet or hood",
+            "title": "Do not fully open the bonnet of a burning or heavily smoking vehicle",
+            "content": "Fully opening the bonnet during an engine-compartment fire admits a\nrush of oxygen that can cause a sudden flare-up or flashback, and the bonnet, catch,\nand nearby metal can be extremely hot. The default safe action is to leave the\nbonnet closed, evacuate, and call the fire service.",
+            "safe_actions": [
+                "Leave the bonnet closed.",
+                "Evacuate occupants.",
+                "Call the fire service."
+            ],
+            "unsafe_actions": [
+                "Do not fully open or raise the bonnet of a burning or heavily smoking vehicle.",
+                "Do not touch a hot bonnet or catch with bare hands."
+            ],
+            "escalation_criteria": [
+                "Smoke or fire in the engine bay",
+                "Bonnet too hot to touch",
+                "Flames visible around bonnet edges"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "engine_bay_fire",
+                    "vehicle_fire"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-002",
+                "SRC-003"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "medium",
+            "version": "1",
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-007-B",
+            "requirement_id": "KR-007",
+            "topic": "Danger of opening the bonnet or hood",
+            "title": "Catch-gap extinguisher use is conditional and should not override the\nclosed-bonnet default",
+            "content": "Some guidance permits releasing the bonnet catch only and discharging\nan extinguisher through the narrow gap for a very small engine fire, without raising\nthe bonnet. Because this sits beside the stronger default instruction to leave the\nbonnet closed and call the fire service, it should be treated as conditional rather than\ngeneral public advice.",
+            "safe_actions": [
+                "Use the closed-bonnet-and-call-fire-service approach as the default answer.",
+                "If this conditional method is ever presented, limit it to a very small fire with a suitable\nextinguisher and immediate withdrawal if flames flare."
+            ],
+            "unsafe_actions": [
+                "Do not present conditional catch-gap discharge as the standard response to an\nengine fire."
+            ],
+            "escalation_criteria": [
+                "Any uncertainty about the size of the fire",
+                "Heavy smoke",
+                "Heat or flames already escaping from the bonnet gap"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "engine_bay_fire"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "High",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-002",
+                "SRC-003"
+            ],
+            "verification_status": "conflict",
+            "confidence": "medium",
+            "version": "1",
+            "notes": "Supplied material preserves a conflict between strict closed-bonnet\nguidance and a limited catch-gap discharge technique."
+        },
+        {
+            "record_id": "DOMAIN-002-KR-008-A",
+            "requirement_id": "KR-008",
+            "topic": "Fuel-related fire and explosion hazards",
+            "title": "Petrol vapour can spread along the ground and ignite from a spark",
+            "content": "Petrol vapour is heavier than air, spreads along the ground, and can be\nignited by a spark, hot surface, or cigarette. Any fuel leak at a fire or crash scene\nrequires immediate withdrawal, ignition-source control, and fire-service escalation.",
+            "safe_actions": [
+                "Move away from the spill and stay upwind and uphill if possible.",
+                "Call emergency services and report fuel leakage."
+            ],
+            "unsafe_actions": [
+                "Do not smoke or use flame or spark sources near a fuel leak.",
+                "Do not walk through pooled fuel."
+            ],
+            "escalation_criteria": [
+                "Visible fuel pooling",
+                "Strong petrol smell",
+                "Fuel fire or fuel near heat source"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "fuel_leak",
+                    "vehicle_fire",
+                    "road_accident_with_fire_risk"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking"
+                ],
+                "conditions": [
+                    "day",
+                    "night",
+                    "poor_visibility"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-010",
+                "SRC-002"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-008-B",
+            "requirement_id": "KR-008",
+            "topic": "Fuel-related fire and explosion hazards",
+            "title": "Do not restart a fuel-leaking vehicle or create ignition sources nearby",
+            "content": "A vehicle that is leaking fuel should not be restarted, and people should\nkeep all ignition sources away, including cigarettes, lighters, matches, or hot\nequipment. Other vehicles should be prevented from driving through or stopping in\nthe spill area if it is safe to manage the scene.",
+            "safe_actions": [
+                "Switch off the engine.",
+                "Keep other vehicles away from the spill if it is safe to do so.",
+                "Report the leak to emergency responders."
+            ],
+            "unsafe_actions": [
+                "Do not restart the engine of a vehicle that is leaking fuel.",
+                "Do not smoke or use lighters or matches near the leak.",
+                "Do not try to wash away or mop up spilled fuel yourself."
+            ],
+            "escalation_criteria": [
+                "Fuel leak after a crash",
+                "Fuel leak with fire risk",
+                "Fuel spill near a drain, fuel station, or built-up area"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "fuel_leak",
+                    "vehicle_fire",
+                    "road_accident_with_fire_risk"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-010",
+                "SRC-003"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "cross_domain_escalation": {
+                "target_domain": "DOMAIN-001",
+                "condition": "Fuel leakage occurring after a collision with casualties",
+                "action": "Use road-accident casualty and scene-safety guidance alongside fire\nguidance."
+            },
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-009-A",
+            "requirement_id": "KR-009",
+            "topic": "Electric vehicle battery fire (thermal runaway)",
+            "title": "Recognise thermal runaway signs in an electric vehicle",
+            "content": "Possible lithium-ion battery thermal runaway signs include hissing,\npopping, crackling or whistling from under the floor, white or grey vapour venting\nfrom the battery area, rapid heat build-up, or smoke from the underbody after a crash\nor charging fault.",
+            "safe_actions": [
+                "Treat these signs as a battery emergency and evacuate immediately.",
+                "Move everyone a long distance away and stay upwind.",
+                "Call emergency services and state that an electric vehicle battery may be involved."
+            ],
+            "unsafe_actions": [
+                "Do not assume the vehicle is safe because there are no visible external flames.",
+                "Do not stay close to the underbody area to inspect the battery."
+            ],
+            "escalation_criteria": [
+                "Hissing, popping, or whistling from battery area",
+                "White or grey vapour venting",
+                "Smoke from underbody",
+                "Heat or smoke after charging or collision"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "ev_battery_fire",
+                    "ev_thermal_runaway",
+                    "ev_post_collision_hazard"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking",
+                    "charging"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-006"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "medium",
+            "version": "1",
+            "notes": "International source used because India-specific EV battery fire SOPs are\nunresolved in the supplied dataset."
+        },
+        {
+            "record_id": "DOMAIN-002-KR-009-B",
+            "requirement_id": "KR-009",
+            "topic": "Electric vehicle battery fire (thermal runaway)",
+            "title": "Do not touch orange cables, the battery pack, or damaged battery\nenclosures",
+            "content": "After a crash or fire involving an electric vehicle, no untrained person\nshould touch orange high-voltage cables, the battery pack, or damaged battery\nenclosures because of electric shock, arc-flash, and reignition risk.",
+            "safe_actions": [
+                "Keep clear of high-voltage components.",
+                "Warn others not to touch the vehicle's damaged electrical parts.",
+                "Tell responders that the vehicle is electric or hybrid."
+            ],
+            "unsafe_actions": [
+                "Do not touch orange high-voltage cables.",
+                "Do not touch the battery pack or damaged battery enclosure."
+            ],
+            "escalation_criteria": [
+                "Visible battery or cable damage",
+                "Electric or hybrid vehicle involved in crash or fire"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "ev_battery_fire",
+                    "ev_post_collision_hazard"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking",
+                    "charging"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-006"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "medium",
+            "version": "1",
+            "notes": "International source; not Indian statutory guidance."
+        },
+        {
+            "record_id": "DOMAIN-002-KR-009-C",
+            "requirement_id": "KR-009",
+            "topic": "Electric vehicle battery fire (thermal runaway)",
+            "title": "Do not attempt to extinguish an EV traction battery fire with a portable\nextinguisher",
+            "content": "A traction battery fire in an electric vehicle should not be tackled by an\nuntrained person with a portable extinguisher. These fires require trained fire-service\nintervention and can reignite even after visible flames stop.",
+            "safe_actions": [
+                "Evacuate and move far away.",
+                "Call 112 and state that an electric vehicle battery is involved.",
+                "Keep the area cordoned until responders arrive."
+            ],
+            "unsafe_actions": [
+                "Do not attempt to extinguish a traction battery fire with a portable extinguisher.",
+                "Do not sit in, re-enter, move, or tow the vehicle yourself after a battery fire or\nsuspected thermal runaway."
+            ],
+            "escalation_criteria": [
+                "Fire or heavy smoke on an electric or hybrid vehicle",
+                "Battery pack physically damaged after impact",
+                "Reignition or recurring smoke after flames reduce"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "ev_battery_fire",
+                    "ev_thermal_runaway"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking",
+                    "charging"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-006",
+                "SRC-002"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "medium",
+            "version": "1",
+            "cross_domain_escalation": {
+                "target_domain": "DOMAIN-007",
+                "condition": "Burned EV requires recovery or relocation",
+                "action": "Professional recovery only; do not move or tow the vehicle yourself."
+            },
+            "notes": "International source; India-specific operational SOPs remain a gap."
+        },
+        {
+            "record_id": "DOMAIN-002-KR-010-A",
+            "requirement_id": "KR-010",
+            "topic": "CNG and LPG vehicle fire hazards",
+            "title": "A burning CNG or LPG vehicle can vent gas or rupture a cylinder",
+            "content": "When a CNG or LPG vehicle is exposed to fire, cylinder pressure rises\nand safety devices may vent gas with a loud hiss or whistle and a long jet flame. If\npressure relief fails, catastrophic cylinder rupture is possible.",
+            "safe_actions": [
+                "Treat a burning gas-fuelled vehicle as extremely dangerous.",
+                "Move far away and keep others away.",
+                "Call emergency services and clearly state that a CNG or LPG vehicle is involved."
+            ],
+            "unsafe_actions": [
+                "Do not approach a gas-fuelled vehicle that is on fire, hissing, or whistling."
+            ],
+            "escalation_criteria": [
+                "Loud hissing or whistling",
+                "Jet flame from the vehicle",
+                "Cylinder exposed to direct flame"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "cng_lpg_fire",
+                    "gas_fuel_vehicle_fire"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking",
+                    "tunnel"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-010",
+                "SRC-002"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "medium",
+            "version": "1",
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-010-B",
+            "requirement_id": "KR-010",
+            "topic": "CNG and LPG vehicle fire hazards",
+            "title": "Stay out of the cylinder-end line and avoid low-lying areas if LPG may be\nleaking",
+            "content": "People should move away from the line of the cylinder ends, which is the\ndirection of greatest rupture hazard, and if LPG may be leaking they should also\navoid pits, drains, ditches, and basements because LPG is heavier than air and can\naccumulate there.",
+            "safe_actions": [
+                "Move away from the line of the cylinder ends.",
+                "Stay upwind.",
+                "Avoid low-lying spaces where LPG may collect."
+            ],
+            "unsafe_actions": [
+                "Do not shelter in pits, drains, ditches, or basements near a suspected LPG leak."
+            ],
+            "escalation_criteria": [
+                "LPG leak suspected",
+                "Gas smell near the vehicle",
+                "Fire inside enclosed or low-lying space"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "cng_lpg_fire",
+                    "gas_leak"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking",
+                    "tunnel"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-010"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "medium",
+            "version": "1",
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-010-C",
+            "requirement_id": "KR-010",
+            "topic": "CNG and LPG vehicle fire hazards",
+            "title": "Do not attempt to close valves, cool cylinders, or fight a burning gas vehicle\nyourself",
+            "content": "Untrained people should not try to close valves, cool cylinders, or fight a\nfire involving a burning gas-fuelled vehicle. These actions require trained fire-service\nresponders and specialised equipment.",
+            "safe_actions": [
+                "Withdraw and wait for the fire service.",
+                "Keep bystanders and traffic far back."
+            ],
+            "unsafe_actions": [
+                "Do not attempt to close valves.",
+                "Do not attempt to cool cylinders.",
+                "Do not attempt to fight the fire yourself."
+            ],
+            "escalation_criteria": [
+                "Any CNG or LPG vehicle fire",
+                "Gas leak with fire risk"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "cng_lpg_fire",
+                    "gas_leak"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-002",
+                "SRC-010"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "medium",
+            "version": "1",
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-011-A",
+            "requirement_id": "KR-011",
+            "topic": "Trapped occupants and rescue limitations",
+            "title": "Call 112 immediately when a person is trapped in a burning vehicle",
+            "content": "A person trapped in a burning vehicle is a life-threatening emergency.\nThe first action is to call 112 and clearly state that a person is trapped in a burning\nvehicle so that fire and rescue services with cutting equipment can be dispatched\nimmediately.",
+            "safe_actions": [
+                "Call 112 immediately.",
+                "State clearly that a person is trapped in a burning vehicle.",
+                "Guide arriving responders to the exact location."
+            ],
+            "unsafe_actions": [
+                "Do not delay calling while attempting rescue on your own."
+            ],
+            "escalation_criteria": [
+                "Any trapped or pinned person",
+                "Child restrained inside",
+                "Unconscious person inside a burning vehicle"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "vehicle_fire_with_entrapment"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-001",
+                "SRC-002"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-011-B",
+            "requirement_id": "KR-011",
+            "topic": "Trapped occupants and rescue limitations",
+            "title": "Only attempt outside-access help such as opening a door or cutting a\nreachable seatbelt",
+            "content": "A bystander may attempt assistance only where it can be done from\noutside the vehicle without entering flames or heavy smoke, such as opening an\nunlocked door, cutting a jammed seatbelt that can be safely reached from outside, or\nhelping a partially free person out.",
+            "safe_actions": [
+                "Try doors from outside if they are not jammed and flames are not blocking access.",
+                "Cut a jammed seatbelt only if it can be reached safely from outside.",
+                "Move a partially free person well away from the vehicle."
+            ],
+            "unsafe_actions": [
+                "Do not enter flames or heavy smoke to reach the person."
+            ],
+            "escalation_criteria": [
+                "Doors jammed",
+                "Smoke already entering the cabin",
+                "Victim cannot be reached safely from outside"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "vehicle_fire_with_entrapment"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "High",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-002"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-011-C",
+            "requirement_id": "KR-011",
+            "topic": "Trapped occupants and rescue limitations",
+            "title": "Do not enter a burning cabin or try to free a person pinned by vehicle\nstructure",
+            "content": "A bystander must not enter a burning vehicle cabin or try to free a person\npinned by vehicle structure without proper rescue equipment, because these actions\nare likely to create additional casualties and require trained fire and rescue\nresponders.",
+            "safe_actions": [
+                "Wait for rescue crews with proper cutting equipment.",
+                "Keep talking to the trapped person if possible from a safe position."
+            ],
+            "unsafe_actions": [
+                "Do not enter a burning cabin.",
+                "Do not attempt to free a structurally pinned person without rescue equipment.",
+                "Do not drag a trapped person forcefully against jammed structure."
+            ],
+            "escalation_criteria": [
+                "Vehicle structure pinning the occupant",
+                "Fire or heavy smoke inside cabin",
+                "Entrapment after collision and fire"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "vehicle_fire_with_entrapment",
+                    "post_collision_vehicle_fire"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-002",
+                "SRC-003"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "cross_domain_escalation": {
+                "target_domain": "DOMAIN-001",
+                "condition": "Trapped occupant following a collision with suspected serious injury",
+                "action": "Use road-accident casualty guidance, especially non-movement where\nthere is no immediate fire threat."
+            },
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-012-A",
+            "requirement_id": "KR-012",
+            "topic": "Smoke inhalation and burn injury response",
+            "title": "Move smoke-exposed people to fresh air and get medical help",
+            "content": "Smoke from a burning vehicle contains toxic gases from plastics, foam,\nwiring, and fuel. Anyone who has inhaled smoke from a vehicle fire should be moved\ninto clean fresh air and should receive medical assessment, even if they have no\nvisible burns.",
+            "safe_actions": [
+                "Move the person into clean fresh air away from the smoke.",
+                "Call 112 or 108 for medical help.",
+                "Monitor for breathing difficulty, coughing, hoarseness, confusion, or drowsiness."
+            ],
+            "unsafe_actions": [
+                "Do not assume a person is unharmed because there are no visible burns.",
+                "Do not send someone back into smoke to retrieve items."
+            ],
+            "escalation_criteria": [
+                "Any smoke inhalation",
+                "Coughing or hoarseness",
+                "Breathing difficulty",
+                "Soot around nose or mouth",
+                "Confusion, drowsiness, or loss of consciousness"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "vehicle_fire",
+                    "smoke_inhalation"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking",
+                    "tunnel"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-007",
+                "SRC-001"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "cross_domain_escalation": {
+                "target_domain": "DOMAIN-003",
+                "condition": "Smoke inhalation, breathing difficulty, or unconsciousness after a fire",
+                "action": "Use first-aid breathing and unconsciousness guidance."
+            },
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-012-B",
+            "requirement_id": "KR-012",
+            "topic": "Smoke inhalation and burn injury response",
+            "title": "Cool a thermal burn with cool running water for about 20 minutes",
+            "content": "Standard first aid for a thermal burn from a vehicle fire is to cool the burn\nwith cool running water for about 20 minutes as soon as possible.",
+            "safe_actions": [
+                "Cool the burn under cool running water for about 20 minutes.",
+                "Start cooling as soon as possible."
+            ],
+            "unsafe_actions": [
+                "Do not use iced water or ice directly on the burn."
+            ],
+            "escalation_criteria": [
+                "Any burn after a vehicle fire"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "burn_injury",
+                    "vehicle_fire"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-007",
+                "SRC-009"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "cross_domain_escalation": {
+                "target_domain": "DOMAIN-003",
+                "condition": "Burn first aid required",
+                "action": "Use first-aid domain for complete burns protocol."
+            },
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-012-C",
+            "requirement_id": "KR-012",
+            "topic": "Smoke inhalation and burn injury response",
+            "title": "Remove jewellery and loose clothing unless stuck, then cover loosely",
+            "content": "After cooling a thermal burn, rings, watches, and loose clothing near the\nburn should be removed before swelling starts, unless the material is stuck to the\nskin, and the burn should then be covered loosely with a clean, non-fluffy cloth or\ncling film.",
+            "safe_actions": [
+                "Remove rings, watches, and loose clothing near the burn before swelling starts.",
+                "Leave clothing in place if it is stuck to the skin.",
+                "Cover the cooled burn loosely with a clean non-fluffy cloth or cling film."
+            ],
+            "unsafe_actions": [
+                "Do not pull off clothing stuck to burned skin."
+            ],
+            "escalation_criteria": [
+                "Any burn requiring dressing before transport"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "burn_injury"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "High",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-007",
+                "SRC-009"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "cross_domain_escalation": {
+                "target_domain": "DOMAIN-003",
+                "condition": "Burn dressing and escalation needed",
+                "action": "Use first-aid domain for complete burns guidance."
+            },
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-012-D",
+            "requirement_id": "KR-012",
+            "topic": "Smoke inhalation and burn injury response",
+            "title": "Do not apply ice, oils, butter, toothpaste, ash, or traditional remedies to\nburns",
+            "content": "After a vehicle-fire burn, ice, iced water, butter, oil, ghee, toothpaste, ash,\nand traditional remedies must not be applied, blisters must not be burst, and stuck\nclothing must not be pulled off.",
+            "safe_actions": [
+                "Use cool running water and a clean loose covering instead.",
+                "Seek medical help for significant burns."
+            ],
+            "unsafe_actions": [
+                "Do not apply ice or iced water.",
+                "Do not apply butter, oil, ghee, toothpaste, ash, or traditional remedies.",
+                "Do not burst blisters.",
+                "Do not pull off stuck clothing."
+            ],
+            "escalation_criteria": [
+                "Any facial, hand, foot, genital, or major-joint burn",
+                "Large or deep burns",
+                "Any burn with smoke inhalation"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "burn_injury"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-009",
+                "SRC-007"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "cross_domain_escalation": {
+                "target_domain": "DOMAIN-003",
+                "condition": "Further burn care needed",
+                "action": "Use first-aid domain for continued burn management."
+            },
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-012-E",
+            "requirement_id": "KR-012",
+            "topic": "Smoke inhalation and burn injury response",
+            "title": "Burn and smoke-inhalation escalation criteria after a vehicle fire",
+            "content": "Urgent medical care is required after a vehicle fire for any smoke\ninhalation, coughing, hoarseness, breathing difficulty, soot around the nose or mouth,\nburns to the face, hands, feet, genitals, or major joints, burns larger than the person's\npalm, deep burns, confusion, drowsiness, or loss of consciousness.",
+            "safe_actions": [
+                "Call 112 or 108 urgently when these signs are present.",
+                "Tell the dispatcher that the person has burns, smoke inhalation, or both."
+            ],
+            "unsafe_actions": [
+                "Do not delay medical care for facial burns or smoke exposure."
+            ],
+            "escalation_criteria": [
+                "Smoke inhalation",
+                "Soot around nose or mouth",
+                "Burns to face, hands, feet, genitals, or major joints",
+                "Burns larger than the person's palm",
+                "Deep burns",
+                "Confusion, drowsiness, or loss of consciousness"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "burn_injury",
+                    "smoke_inhalation"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural",
+                    "parking",
+                    "tunnel"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-009",
+                "SRC-007",
+                "SRC-001"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "cross_domain_escalation": {
+                "target_domain": "DOMAIN-003",
+                "condition": "Medical first aid and serious breathing problems after a fire",
+                "action": "Use first-aid domain for detailed burn, breathing, and unconsciousness\nhandling."
+            },
+            "notes": ""
+        },
+        {
+            "record_id": "DOMAIN-002-KR-013-A",
+            "requirement_id": "KR-013",
+            "topic": "Emergency escalation and Indian fire-service contacts",
+            "title": "Call 112 for a vehicle fire in India",
+            "content": "In India, 112 is the integrated emergency number under the Emergency\nResponse Support System and connects the caller to police, fire and rescue, and\nambulance services. Any vehicle fire should be reported, even if it appears small,\nbecause vehicle fires can escalate quickly and spread to other vehicles or property.",
+            "safe_actions": [
+                "Call 112 from a safe distance for any vehicle fire."
+            ],
+            "unsafe_actions": [
+                "Do not delay calling 112 while attempting to search for alternative numbers or fight a large fire."
+            ],
+            "escalation_criteria": [
+                "Any active vehicle fire or developing fire situation"
+            ],
+            "applicability": {
+                "incident_types": [
+                    "vehicle_fire"
+                ],
+                "road_types": [
+                    "highway",
+                    "expressway",
+                    "urban",
+                    "rural"
+                ],
+                "conditions": [
+                    "day",
+                    "night"
+                ]
+            },
+            "severity": "Critical",
+            "languages": [
+                "English"
+            ],
+            "source_ids": [
+                "SRC-001"
+            ],
+            "verification_status": "source_backed",
+            "confidence": "high",
+            "version": "1",
+            "notes": ""
+        }
+    ]
+}
