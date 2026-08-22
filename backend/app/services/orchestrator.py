@@ -185,12 +185,17 @@ class EmergencyOrchestrator:
             return result, b_context
 
         # 3. & 4. Run LLM Guidance Generation AND Service Lookup CONCURRENTLY
-        provider_coro = provider_manager.get_nearby_services(
-            location=req.location,
-            service_types=req_services,
-            radius_km=15.0 if severity == SeverityLevel.CRITICAL else 10.0,
-            limit=6
-        )
+        async def fetch_providers():
+            if not req.location:
+                return [], "NONE"
+            return await provider_manager.get_nearby_services(
+                location=req.location,
+                service_types=req_services,
+                radius_km=15.0 if severity == SeverityLevel.CRITICAL else 10.0,
+                limit=6
+            )
+            
+        provider_coro = fetch_providers()
         
         t_gather_start = time.time()
         guidance_result, (raw_providers, provider_source) = await asyncio.gather(
@@ -200,7 +205,7 @@ class EmergencyOrchestrator:
         t_gather_end = time.time()
         
         # 5. Rank Services with human-readable rationale
-        ranked_services = service_ranker.rank_providers(raw_providers, req.location, category)
+        ranked_services = service_ranker.rank_providers(raw_providers, req.location, category) if req.location else []
         
         # 6. Build Recommended Actions (Dial 112 for critical/accident, call towing/mechanic, navigate)
         actions: List[RecommendedAction] = []
@@ -261,11 +266,13 @@ class EmergencyOrchestrator:
         print(f"PROFILE: Classify: {(t_classify_end - t_classify_start)*1000:.2f}ms, RAG: (Concurrent), DB: {(t_db_end - t_classify_end)*1000:.2f}ms, Gather(LLM+Provider): {(t_gather_end - t_gather_start)*1000:.2f}ms, Assemble: {(t_end - t_gather_end)*1000:.2f}ms, Total: {(t_end - t_start)*1000:.2f}ms")
         
         limitations = []
-        if provider_source != "google_places":
+        if provider_source != "google_places" and provider_source != "NONE":
             limitations.extend([
                 f"Service directory served via {provider_source} fallback.",
                 "Vendor availability status is UNKNOWN — please call to confirm opening hours."
             ])
+        if not req.location:
+            limitations.append("Exact location is required to identify nearby services.")
         if not persisted_incident:
             limitations.append("Database is offline. Incident history persistence is unavailable.")
         if severity == SeverityLevel.CRITICAL or category.value in ["ACCIDENT", "MEDICAL", "FIRE"]:

@@ -12,7 +12,7 @@ class VehicleInfo(BaseModel):
 class EmergencyRequest(BaseModel):
     user_query: Optional[str] = None
     message: Optional[str] = None
-    location: GeoPoint
+    location: Optional[GeoPoint] = None
     user_id: Optional[str] = "anonymous"
     language: Optional[str] = "en"
     vehicle_info: Optional[VehicleInfo] = None

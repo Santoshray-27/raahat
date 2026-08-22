@@ -6,7 +6,8 @@ from app.schemas.emergency import EmergencyResponseData
 class VoiceAssistRequest(BaseModel):
     audio_base64: Optional[str] = None
     transcript_text: Optional[str] = None
-    location: GeoPoint
+    location: Optional[GeoPoint] = None
+    user_id: Optional[str] = None
     language: str = "hi-IN"
 
 class VoiceAssistResponseData(BaseModel):
