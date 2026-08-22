@@ -9,7 +9,7 @@ from fastapi.encoders import jsonable_encoder
 from app.core.config import settings
 from app.core.logging import logger
 from app.core.response import error_response
-from app.core.database import engine
+from app.core.database import get_engine, create_all_tables
 from sqlalchemy import text
 
 from app.api.v1 import (
@@ -18,14 +18,20 @@ from app.api.v1 import (
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    try:
-        async with engine.connect() as conn:
-            await conn.execute(text("SELECT 1"))
-            logger.info("Startup check: Database connected successfully.")
-    except Exception as e:
-        logger.error(f"Startup check: Database connection failed. Service may be degraded. Error: {e}")
+    await create_all_tables()
+    engine = get_engine()
+    if engine is not None:
+        try:
+            async with engine.connect() as conn:
+                await conn.execute(text("SELECT 1"))
+                logger.info("Startup check: Database connected successfully.")
+        except Exception as e:
+            logger.error(f"Startup check: Database connection failed. Service may be degraded. Error: {e}")
+    else:
+        logger.warning("Startup check: Running in degraded no-DB mode (engine is None).")
     yield
-    await engine.dispose()
+    if engine is not None:
+        await engine.dispose()
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -79,6 +85,8 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 @app.exception_handler(Exception)
 async def generic_exception_handler(request: Request, exc: Exception):
     req_id = getattr(request.state, "request_id", str(uuid.uuid4()))
+    import traceback
+    traceback.print_exc()
     logger.error(f"Unhandled Exception on {request.url.path}: {exc}", exc_info=True)
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

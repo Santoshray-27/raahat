@@ -5,9 +5,6 @@ from typing import List, Tuple, Dict, Any
 from fastapi import HTTPException, status
 from app.core.config import settings
 from app.core.logging import logger
-from app.core.circuit_breaker import google_circuit_breaker
-from app.providers.google_places import GooglePlacesProvider
-from app.providers.google_routes import GoogleRoutesProvider
 from app.providers.osm_overpass import OSMOverpassProvider
 from app.providers.osrm import OSRMRoutingProvider
 from app.providers.geoapify import GeoapifyPlacesProvider, GeoapifyRoutingProvider, GeoapifyProviderError
@@ -44,11 +41,7 @@ class ProviderManager:
                 p.retrieved_at = datetime.now(timezone.utc).isoformat()
             return res[:limit], "MOCK"
 
-        # Per-Category Preferred Order
-        if main_type in [ServiceType.POLICE, ServiceType.FIRE_BRIGADE, ServiceType.AMBULANCE]:
-            chain = ["OSM", "GEOAPIFY"]
-        else:
-            chain = ["GEOAPIFY", "OSM"]
+        chain = ["GEOAPIFY", "OSM"]
 
         async def _execute_chain() -> Tuple[List[ServiceProvider], str]:
             last_source_used = "UNKNOWN"
@@ -56,28 +49,46 @@ class ProviderManager:
                 if provider_name == "GEOAPIFY" and settings.GEOAPIFY_API_KEY:
                     try:
                         logger.info("ProviderManager: Querying LIVE Geoapify Places API...")
-                        res = await self.geoapify_places.search_nearby(location, service_types, radius_km, limit)
+                        t0 = time.time()
+                        res = await asyncio.wait_for(
+                            self.geoapify_places.search_nearby(location, service_types, radius_km, limit),
+                            timeout=4.0
+                        )
+                        latency = int((time.time() - t0) * 1000)
                         if res:
+                            logger.info(f"Provider GEOAPIFY returned {len(res)} results in {latency}ms.")
                             for p in res:
                                 p.source = ProviderSource.GEOAPIFY
                                 p.retrieved_at = datetime.now(timezone.utc).isoformat()
                             return res[:limit], "GEOAPIFY"
+                        logger.info(f"Provider GEOAPIFY returned 0 results in {latency}ms.")
                         last_source_used = "GEOAPIFY"
+                    except asyncio.TimeoutError:
+                        logger.warning(f"Provider GEOAPIFY timed out after 4.0s.")
                     except Exception as e:
-                        logger.warning(f"Geoapify Places API call failed: {e}.")
+                        logger.warning(f"Provider GEOAPIFY error: {e}")
 
                 elif provider_name == "OSM":
                     try:
                         logger.info("ProviderManager: Querying LIVE OSM Overpass API...")
-                        res = await self.osm_overpass.search_nearby(location, service_types, radius_km, limit)
+                        t0 = time.time()
+                        res = await asyncio.wait_for(
+                            self.osm_overpass.search_nearby(location, service_types, radius_km, limit),
+                            timeout=6.0
+                        )
+                        latency = int((time.time() - t0) * 1000)
                         if res:
+                            logger.info(f"Provider OSM returned {len(res)} results in {latency}ms.")
                             for p in res:
                                 p.source = ProviderSource.OSM_OVERPASS
                                 p.retrieved_at = datetime.now(timezone.utc).isoformat()
                             return res[:limit], "OSM_OVERPASS"
+                        logger.info(f"Provider OSM returned 0 results in {latency}ms.")
                         last_source_used = "OSM_OVERPASS"
+                    except asyncio.TimeoutError:
+                        logger.warning(f"Provider OSM timed out after 6.0s.")
                     except Exception as e:
-                        logger.warning(f"OSM Overpass API call failed: {e}.")
+                        logger.warning(f"Provider OSM error: {e}")
 
             # If live providers returned 0 items or failed, fall back to CURATED seed data
             from app.services.curated_service import curated_provider_manager
