@@ -156,7 +156,7 @@ export async function requestApi<T>(
   endpoint: string, 
   method: string = 'GET', 
   body?: any,
-  timeoutMs: number = 15000
+  timeoutMs: number = 45000
 ): Promise<T> {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
