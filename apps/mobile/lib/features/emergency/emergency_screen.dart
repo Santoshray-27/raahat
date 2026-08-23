@@ -436,7 +436,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(RaahatRadius.button),
-                  border: Border.all(color: RaahatColors.borderLight),
+                  border: Border.all(color: RaahatColors.border),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
